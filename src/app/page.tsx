@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Phone, MapPin, Mail, Star, MessageCircle, 
-  Menu, X, Image as ImageIcon, ChevronDown, CheckCircle2
+  Menu, X, Play, Image as ImageIcon, ChevronDown, CheckCircle2
 } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
@@ -25,42 +25,84 @@ type BookingFormData = {
   message: string;
 };
 
-// 11 dropdown category items mapped to dynamic slugs
-const SERVICES_LIST = [
-  { title: "iPhone Repair", slug: "iphone-repair" },
-  { title: "Android Repair", slug: "android-repair" },
-  { title: "Display Replacement", slug: "display-replacement" },
-  { title: "Battery Replacement", slug: "battery-replacement" },
-  { title: "Camera Repair", slug: "camera-repair" },
-  { title: "Charging Port Repair", slug: "charging-port-repair" },
-  { title: "Water Damage Repair", slug: "water-damage-repair" },
-  { title: "Motherboard Repair", slug: "motherboard-repair" },
-  { title: "Software Solutions", slug: "software-solutions" },
-  { title: "Mobile Accessories", slug: "mobile-accessories" },
-  { title: "Doorstep Mobile Repair", slug: "doorstep-mobile-repair" }
-];
-
-// Simplified Services List (10 core items - text only, no icons or illustrations) - Card size scaled by 30%
+// 11 services mapped to dynamic slugs, descriptions, and premium Unsplash photos
 const SERVICES_DATA = [
-  { title: "iPhone Repair", desc: "Face ID sensor alignment, logic board micro-soldering, casing repairs." },
-  { title: "Android Repair", desc: "Motherboard diagnostics and screen calibrations for Samsung and Pixel." },
-  { title: "Display Replacement", desc: "TrueTone matched premium displays with high color accuracy layers." },
-  { title: "Battery Replacement", desc: "OEM-grade battery cells with safety chips and capacity analytics." },
-  { title: "Camera Repair", desc: "Restore autofocus engines, OIS stabilizers, and cracked lens glass." },
-  { title: "Charging Port Repair", desc: "Lightning and Type-C dock flex swaps for stable current flow." },
-  { title: "Chip-Level Repair", desc: "IC replacements, board track jumps, and detailed short diagnostics." },
-  { title: "Water Damage Repair", desc: "De-scaling board layers and ultrasonic cleaning under microscope benches." },
-  { title: "Software Solutions", desc: "OS restores, secure data backup solutions, and system upgrades." },
-  { title: "Mobile Accessories", desc: "Certified BIS adapters, premium tempered shields, MagSafe components." }
+  { 
+    title: "iPhone Repair", 
+    slug: "iphone-repair",
+    desc: "Face ID sensor alignment, logic board micro-soldering, casing repairs.",
+    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=800"
+  },
+  { 
+    title: "Android Repair", 
+    slug: "android-repair",
+    desc: "Motherboard diagnostics and screen calibrations for Samsung and Pixel.",
+    image: "https://images.unsplash.com/photo-1596524430615-b46475ddff6e?q=80&w=800"
+  },
+  { 
+    title: "Display Replacement", 
+    slug: "display-replacement",
+    desc: "TrueTone matched premium displays with high color accuracy layers.",
+    image: "https://images.unsplash.com/photo-1601524909162-be87252be298?q=80&w=800"
+  },
+  { 
+    title: "Battery Replacement", 
+    slug: "battery-replacement",
+    desc: "OEM-grade battery cells with safety chips and capacity analytics.",
+    image: "https://images.unsplash.com/photo-1597733336794-12d05021d510?q=80&w=800"
+  },
+  { 
+    title: "Camera Repair", 
+    slug: "camera-repair",
+    desc: "Restore autofocus engines, OIS stabilizers, and cracked lens glass.",
+    image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?q=80&w=800"
+  },
+  { 
+    title: "Charging Port Repair", 
+    slug: "charging-port-repair",
+    desc: "Lightning and Type-C dock flex swaps for stable current flow.",
+    image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800"
+  },
+  { 
+    title: "Chip-Level Repair", 
+    slug: "motherboard-repair",
+    desc: "IC replacements, board track jumps, and detailed short diagnostics.",
+    image: "https://images.unsplash.com/photo-1597733336794-12d05021d510?q=80&w=800"
+  },
+  { 
+    title: "Water Damage Repair", 
+    slug: "water-damage-repair",
+    desc: "De-scaling board layers and ultrasonic cleaning under microscope benches.",
+    image: "https://images.unsplash.com/photo-1563206767-5b18f218e8de?q=80&w=800"
+  },
+  { 
+    title: "Software Solutions", 
+    slug: "software-solutions",
+    desc: "OS restores, secure data backup solutions, and system upgrades.",
+    image: "https://images.unsplash.com/photo-1596524430615-b46475ddff6e?q=80&w=800"
+  },
+  { 
+    title: "Mobile Accessories", 
+    slug: "mobile-accessories",
+    desc: "Certified BIS adapters, premium tempered shields, MagSafe components.",
+    image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?q=80&w=800"
+  },
+  { 
+    title: "Doorstep Mobile Repair", 
+    slug: "doorstep-mobile-repair",
+    desc: "We come to your location for safe, fast, on-site device diagnostics.",
+    image: "https://images.unsplash.com/photo-1596524430615-b46475ddff6e?q=80&w=800"
+  }
 ];
 
-const GALLERY_PHOTOS = [
-  "https://images.unsplash.com/photo-1601524909162-be87252be298?q=80&w=800",
-  "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=800",
-  "https://images.unsplash.com/photo-1596524430615-b46475ddff6e?q=80&w=800",
-  "https://images.unsplash.com/photo-1597733336794-12d05021d510?q=80&w=800",
-  "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800",
-  "https://images.unsplash.com/photo-1563206767-5b18f218e8de?q=80&w=800"
+// Mixed media gallery items: images and loop MP4 clips
+const GALLERY_ITEMS = [
+  { type: "image", url: "https://images.unsplash.com/photo-1601524909162-be87252be298?q=80&w=800" },
+  { type: "video", url: "https://assets.mixkit.co/videos/preview/mixkit-close-up-of-microchip-repair-41270-large.mp4" },
+  { type: "image", url: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=800" },
+  { type: "video", url: "https://assets.mixkit.co/videos/preview/mixkit-close-up-of-microchip-repair-41270-large.mp4" },
+  { type: "image", url: "https://images.unsplash.com/photo-1596524430615-b46475ddff6e?q=80&w=800" },
+  { type: "image", url: "https://images.unsplash.com/photo-1597733336794-12d05021d510?q=80&w=800" }
 ];
 
 const REVIEWS = [
@@ -73,7 +115,7 @@ export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
-  const [activeLightboxImage, setActiveLightboxImage] = useState<string | null>(null);
+  const [activeLightboxItem, setActiveLightboxItem] = useState<{ type: string; url: string } | null>(null);
   const [bookingSuccess, setBookingSuccess] = useState(false);
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm<BookingFormData>();
@@ -98,7 +140,7 @@ export default function Home() {
   return (
     <div className="relative w-full overflow-hidden bg-bg-light text-text-charcoal selection:bg-accent-green/20 selection:text-accent-green">
       
-      {/* Navigation Bar (Increased navbar height, Circular Profile Logo, dropdown Services, Centered Menu, Far-right Button) */}
+      {/* Navigation Bar (Clean circular logo crop, no UI ornaments, Services Dropdown mega-menu) */}
       <header className={`fixed top-0 left-0 right-0 z-40 w-full transition-all duration-500 h-28 flex items-center ${
         scrolled ? "glass-nav shadow-sm" : "bg-transparent"
       }`}>
@@ -115,7 +157,7 @@ export default function Home() {
                 iPhonix
               </span>
               <span className="text-[9px] tracking-widest text-text-muted uppercase font-bold mt-1.5">
-                MOBILE & SERVICE CENTRE
+                Mobile & Service Centre
               </span>
             </div>
           </Link>
@@ -127,7 +169,7 @@ export default function Home() {
             <a href="#home" className="hover:text-accent-green transition-colors">Home</a>
             <a href="#about" className="hover:text-accent-green transition-colors">About</a>
             
-            {/* Services Dropdown menu (Hover state) */}
+            {/* Services Mega Dropdown menu (Hover state, wider, larger font, rounded, comfortable padding) */}
             <div 
               className="relative group py-2"
               onMouseEnter={() => setServicesDropdownOpen(true)}
@@ -143,13 +185,13 @@ export default function Home() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
-                    className="absolute top-full left-1/2 -translate-x-1/2 w-64 bg-white border border-black/5 rounded-2xl shadow-xl py-4 text-left flex flex-col font-sans normal-case text-text-charcoal z-50"
+                    className="absolute top-full left-1/2 -translate-x-1/2 w-[360px] bg-white border border-black/5 rounded-[24px] shadow-2xl py-6 text-left flex flex-col font-sans normal-case text-text-charcoal z-50 overflow-hidden"
                   >
-                    {SERVICES_LIST.map((srv, index) => (
+                    {SERVICES_DATA.map((srv, index) => (
                       <Link 
                         key={index} 
                         href={`/services/${srv.slug}`}
-                        className="px-6 py-2.5 hover:bg-bg-light-grey hover:text-accent-green transition-all duration-200 text-sm font-semibold block"
+                        className="px-8 py-3 hover:bg-bg-light-grey hover:text-accent-green transition-all duration-200 text-[18px] font-bold block"
                       >
                         {srv.title}
                       </Link>
@@ -168,7 +210,7 @@ export default function Home() {
           <div className="flex items-center gap-6 flex-shrink-0">
             <a 
               href="#contact" 
-              className="hidden sm:inline-flex items-center justify-center py-[18px] px-[40px] rounded-[12px] text-[18px] font-bold uppercase tracking-wider transition-all duration-300 shadow-md bg-accent-green text-white hover:bg-accent-green/90 hover:shadow-[0_10px_25px_-5px_rgba(34,197,94,0.4)] h-[56px] w-[200px]"
+              className="hidden sm:inline-flex items-center justify-center rounded-[12px] text-[18px] font-bold uppercase tracking-wider transition-all duration-300 shadow-md bg-accent-green text-white hover:bg-accent-green/90 h-[56px] w-[200px]"
             >
               Book Repair
             </a>
@@ -196,7 +238,7 @@ export default function Home() {
               {/* Mobile Services List expanded */}
               <div className="flex flex-col gap-2 pl-4 border-l-2 border-accent-green/30">
                 <span className="text-[10px] tracking-widest text-text-muted font-bold block uppercase mb-1">Services</span>
-                {SERVICES_LIST.map((srv, idx) => (
+                {SERVICES_DATA.map((srv, idx) => (
                   <Link key={idx} href={`/services/${srv.slug}`} onClick={() => setMobileMenuOpen(false)} className="text-xs font-semibold py-1.5 hover:text-accent-green">
                     {srv.title}
                   </Link>
@@ -247,17 +289,16 @@ export default function Home() {
             Expert iPhone & Android Repairs with Genuine Parts, Chip-Level Expertise, Fast Turnaround & Doorstep Service.
           </motion.p>
 
-          {/* 35-45px Spacing below description & 30px gap between the two CTAs (rounded-[12px] h-[56px] w-[200px]) */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-col sm:flex-row gap-[30px] w-full sm:w-auto mt-[40px] justify-center items-center"
           >
-            {/* Primary Rectangular CTA (1 of 2 CTA buttons on site) */}
+            {/* Primary Rectangular CTA */}
             <a 
               href="#contact" 
-              className="inline-flex items-center justify-center rounded-[12px] text-[18px] font-bold uppercase tracking-wider bg-accent-green text-white hover:bg-accent-green/90 hover:shadow-[0_10px_25px_-5px_rgba(34,197,94,0.4)] shadow-md transition-all duration-300 h-[56px] w-[200px]"
+              className="inline-flex items-center justify-center rounded-[12px] text-[18px] font-bold uppercase tracking-wider bg-accent-green text-white hover:bg-accent-green/90 shadow-md transition-all duration-300 h-[56px] w-[200px]"
             >
               Book Repair
             </a>
@@ -294,7 +335,7 @@ export default function Home() {
               />
             </div>
 
-            {/* Content Right (40px spacing between paragraphs, high-contrast readable copy) */}
+            {/* Content Right */}
             <div className="lg:col-span-6 flex flex-col items-start text-left space-y-[40px]">
               <p className="text-[#2B2B2B] leading-[1.8] text-[20px] font-medium">
                 iPhonix Mobile Service Centre is a trusted destination for professional smartphone repair solutions. With experienced technicians, advanced repair equipment, and genuine spare parts, we specialize in repairing iPhones and Android smartphones with precision and care.
@@ -330,7 +371,7 @@ export default function Home() {
               />
             </div>
 
-            {/* Door-to-Door Highlights Content Right (40px paragraph/list spacings) */}
+            {/* Door-to-Door Highlights Content Right */}
             <div className="lg:col-span-6 flex flex-col items-start text-left space-y-[40px]">
               <div>
                 <h3 className="font-display text-[26px] font-semibold text-text-charcoal mb-6">
@@ -361,7 +402,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services Section (bg: #FFFFFF, 240px vertical gaps, 80px below heading) */}
+      {/* Homepage Services Section Redesigned: Large cards with images, name, desc, Learn More CTA, clicking navigates to subpages */}
       <section id="services" className="relative z-10 w-full pt-[240px] pb-[240px] bg-white border-b border-black/5">
         <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
@@ -371,27 +412,47 @@ export default function Home() {
             </h2>
           </div>
 
-          {/* Clean text-only service cards grid, expanded by 30% */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             {SERVICES_DATA.map((service, idx) => (
-              <div 
+              <Link 
                 key={idx}
-                className="bg-[#F8F8F8] p-12 md:p-14 rounded-[24px] border border-black/5 shadow-sm hover:border-accent-green/20 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-center min-h-[180px]"
+                href={`/services/${service.slug}`}
+                className="group flex flex-col bg-[#F8F8F8] rounded-[32px] overflow-hidden border border-black/5 shadow-sm hover:border-accent-green/20 hover:-translate-y-1 transition-all duration-300 cursor-pointer"
               >
-                <h3 className="font-display text-2xl font-bold text-text-charcoal mb-4">
-                  {service.title}
-                </h3>
-                <p className="text-[#2B2B2B] leading-[1.8] text-[20px] font-medium">
-                  {service.desc}
-                </p>
-              </div>
+                {/* High-quality Dummy Image */}
+                <div className="relative w-full aspect-video overflow-hidden">
+                  <Image 
+                    src={service.image} 
+                    alt={service.title} 
+                    fill 
+                    className="object-cover group-hover:scale-103 transition-transform duration-500"
+                  />
+                </div>
+
+                {/* Card Content */}
+                <div className="p-10 flex flex-col flex-grow justify-between min-h-[220px]">
+                  <div>
+                    <h3 className="font-display text-2.5xl font-bold text-text-charcoal mb-4 group-hover:text-accent-green transition-colors">
+                      {service.title}
+                    </h3>
+                    <p className="text-[#2B2B2B] leading-[1.8] text-[18px] font-medium mb-6">
+                      {service.desc}
+                    </p>
+                  </div>
+
+                  {/* Clean Learn More button */}
+                  <span className="inline-flex items-center justify-center rounded-[12px] text-base font-bold uppercase tracking-wider bg-accent-green text-white hover:bg-accent-green/90 shadow-sm h-[48px] w-full mt-auto transition-all duration-300">
+                    Learn More &rarr;
+                  </span>
+                </div>
+              </Link>
             ))}
           </div>
 
         </div>
       </section>
 
-      {/* Gallery Section (bg: #F8F8F8, 240px vertical gaps, 80px below headings) */}
+      {/* Gallery Section supporting both Images and Videos (Autoplay muted videos inside masonry cards and fullscreen lightboxes) */}
       <section id="gallery" className="relative z-10 w-full pt-[240px] pb-[240px] bg-[#F8F8F8] border-b border-black/5">
         <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
@@ -401,23 +462,44 @@ export default function Home() {
             </h2>
           </div>
 
-          {/* Masonry image layout with larger gap coordinates */}
+          {/* Masonry media layout with eager/lazy visibility guarantees */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12">
-            {GALLERY_PHOTOS.map((url, idx) => (
+            {GALLERY_ITEMS.map((item, idx) => (
               <div 
                 key={idx} 
-                onClick={() => setActiveLightboxImage(url)}
+                onClick={() => setActiveLightboxItem(item)}
                 className="relative overflow-hidden rounded-[32px] border border-black/5 group aspect-video cursor-pointer shadow-sm bg-white"
               >
-                <Image 
-                  src={url} 
-                  alt="Gallery repair snap" 
-                  fill 
-                  className="object-cover group-hover:scale-105 transition-transform duration-500" 
-                />
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <ImageIcon className="w-10 h-10 text-white animate-pulse" />
-                </div>
+                {item.type === "video" ? (
+                  // Autoplay inline muted loops for videos inside masonry grid
+                  <div className="w-full h-full relative">
+                    <video 
+                      src={item.url} 
+                      muted 
+                      loop 
+                      playsInline 
+                      autoPlay 
+                      className="w-full h-full object-cover" 
+                    />
+                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/40 transition-colors">
+                      <Play className="w-12 h-12 text-white fill-white animate-pulse" />
+                    </div>
+                  </div>
+                ) : (
+                  // Image
+                  <div className="w-full h-full relative">
+                    <Image 
+                      src={item.url} 
+                      alt="Gallery repair photo" 
+                      fill 
+                      priority={idx === 0} // Eager load first image to guarantee visibility
+                      className="object-cover group-hover:scale-105 transition-transform duration-500" 
+                    />
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <ImageIcon className="w-10 h-10 text-white" />
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -427,35 +509,46 @@ export default function Home() {
 
       {/* Lightbox Modal */}
       <AnimatePresence>
-        {activeLightboxImage && (
+        {activeLightboxItem && (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setActiveLightboxImage(null)}
+            onClick={() => setActiveLightboxItem(null)}
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-6"
           >
             <button 
-              onClick={() => setActiveLightboxImage(null)}
+              onClick={() => setActiveLightboxItem(null)}
               className="absolute top-8 right-8 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white"
               title="Close Lightbox"
             >
               <X className="w-6 h-6" />
             </button>
             <div className="relative w-full max-w-4xl h-[70vh]" onClick={(e) => e.stopPropagation()}>
-              <Image 
-                src={activeLightboxImage} 
-                alt="Enlarged gallery snap" 
-                fill 
-                className="object-contain" 
-              />
+              {activeLightboxItem.type === "video" ? (
+                <video 
+                  src={activeLightboxItem.url} 
+                  controls 
+                  autoPlay 
+                  muted 
+                  playsInline 
+                  className="w-full h-full object-contain" 
+                />
+              ) : (
+                <Image 
+                  src={activeLightboxItem.url} 
+                  alt="Enlarged gallery snap" 
+                  fill 
+                  className="object-contain" 
+                />
+              )}
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Testimonials Section (bg: #FFFFFF, 240px vertical gaps, 80px below headings) */}
-      <section id="testimonials" className="relative z-10 w-full pt-[240px] pb-[240px] bg-white border-b border-black/5">
+      {/* Testimonials Section Redesigned: Independent section with py-200px and spacious layout */}
+      <section id="testimonials" className="relative z-10 w-full pt-[200px] pb-[200px] bg-white border-b border-black/5">
         <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
           <div className="mb-[80px] text-left">
@@ -467,7 +560,7 @@ export default function Home() {
           <div className="max-w-4xl mx-auto">
             <Swiper
               modules={[Pagination, Autoplay]}
-              spaceBetween={30}
+              spaceBetween={40}
               slidesPerView={1}
               pagination={{ clickable: true }}
               autoplay={{ delay: 6500 }}
@@ -475,8 +568,8 @@ export default function Home() {
             >
               {REVIEWS.map((rev, idx) => (
                 <SwiperSlide key={idx}>
-                  <div className="bg-[#F8F8F8] p-14 md:p-20 relative flex flex-col items-center text-center rounded-[32px] border border-black/5 shadow-sm">
-                    <div className="flex gap-1 text-yellow-500 mb-6">
+                  <div className="bg-[#F8F8F8] p-16 md:p-24 relative flex flex-col items-center text-center rounded-[32px] border border-black/5 shadow-sm">
+                    <div className="flex gap-1 text-yellow-500 mb-8">
                       {Array.from({ length: rev.rating }).map((_, i) => (
                         <Star key={i} className="w-6 h-6 fill-yellow-500" />
                       ))}
@@ -495,8 +588,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact & Booking Section (bg: #F8F8F8, 240px gaps, 80px below heading) */}
-      <section id="contact" className="relative z-10 w-full pt-[240px] pb-[240px] bg-[#F8F8F8]">
+      {/* Contact & Booking Section Redesigned: Independent section with py-200px, enlarged booking input controls */}
+      <section id="contact" className="relative z-10 w-full pt-[200px] pb-[200px] bg-[#F8F8F8]">
         <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
           <div className="mb-[80px] text-left">
@@ -564,8 +657,8 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Booking Form Right */}
-            <div className="bg-white p-10 md:p-12 rounded-[32px] border border-black/5 shadow-sm">
+            {/* Booking Form Right - enlarged padding, input sizes, and taller textarea */}
+            <div className="bg-white p-12 md:p-14 rounded-[32px] border border-black/5 shadow-sm w-full max-w-2xl mx-auto">
               <h3 className="font-display text-2xl font-bold text-text-charcoal mb-8">
                 Request Diagnostics Slot
               </h3>
@@ -579,72 +672,72 @@ export default function Home() {
                   </p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit(onSubmitBooking)} className="flex flex-col gap-6">
-                  <div className="flex flex-col gap-2">
+                <form onSubmit={handleSubmit(onSubmitBooking)} className="flex flex-col gap-8">
+                  <div className="flex flex-col gap-3">
                     <label className="text-xs font-bold uppercase tracking-wider text-text-muted">Your Name</label>
                     <input 
                       type="text" 
                       placeholder="e.g. Aditya Verma" 
-                      className="px-4 py-3.5 rounded-xl bg-bg-light-grey border border-black/5 text-sm focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300"
+                      className="px-6 py-5 rounded-2xl bg-bg-light-grey border border-black/5 text-base focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300"
                       {...register("name", { required: "Name is required" })}
                     />
                     {errors.name && <span className="text-xs text-red-500">{errors.name.message}</span>}
                   </div>
 
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-3">
                     <label className="text-xs font-bold uppercase tracking-wider text-text-muted">Phone Number</label>
                     <input 
                       type="tel" 
                       placeholder="e.g. +91 73062 43424" 
-                      className="px-4 py-3.5 rounded-xl bg-bg-light-grey border border-black/5 text-sm focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300"
+                      className="px-6 py-5 rounded-2xl bg-bg-light-grey border border-black/5 text-base focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300"
                       {...register("phone", { required: "Phone is required" })}
                     />
                     {errors.phone && <span className="text-xs text-red-500">{errors.phone.message}</span>}
                   </div>
 
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-3">
                     <label className="text-xs font-bold uppercase tracking-wider text-text-muted">Device Model</label>
                     <input 
                       type="text" 
                       placeholder="e.g. iPhone 15 Pro" 
-                      className="px-4 py-3.5 rounded-xl bg-bg-light-grey border border-black/5 text-sm focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300"
+                      className="px-6 py-5 rounded-2xl bg-bg-light-grey border border-black/5 text-base focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300"
                       {...register("deviceModel", { required: "Model is required" })}
                     />
                     {errors.deviceModel && <span className="text-xs text-red-500">{errors.deviceModel.message}</span>}
                   </div>
 
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-3">
                     <label className="text-xs font-bold uppercase tracking-wider text-text-muted">Problem / Issue</label>
                     <input 
                       type="text" 
                       placeholder="e.g. Flickering screen, charging loop error" 
-                      className="px-4 py-3.5 rounded-xl bg-bg-light-grey border border-black/5 text-sm focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300"
+                      className="px-6 py-5 rounded-2xl bg-bg-light-grey border border-black/5 text-base focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300"
                       {...register("problemDescription", { required: "Issue is required" })}
                     />
                     {errors.problemDescription && <span className="text-xs text-red-500">{errors.problemDescription.message}</span>}
                   </div>
 
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-3">
                     <label className="text-xs font-bold uppercase tracking-wider text-text-muted">Preferred Date</label>
                     <input 
                       type="date" 
-                      className="px-4 py-3.5 rounded-xl bg-bg-light-grey border border-black/5 text-sm focus:outline-none focus:border-accent-green text-text-charcoal transition-all duration-300"
+                      className="px-6 py-5 rounded-2xl bg-bg-light-grey border border-black/5 text-base focus:outline-none focus:border-accent-green text-text-charcoal transition-all duration-300"
                       {...register("preferredDate", { required: "Preferred Date is required" })}
                     />
                     {errors.preferredDate && <span className="text-xs text-red-500">{errors.preferredDate.message}</span>}
                   </div>
 
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-3">
                     <label className="text-xs font-bold uppercase tracking-wider text-text-muted">Additional Message</label>
                     <textarea 
-                      rows={3} 
+                      rows={5} 
                       placeholder="Any specific requests or detail tags." 
-                      className="px-4 py-3.5 rounded-xl bg-bg-light-grey border border-black/5 text-sm focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300 resize-none"
+                      className="px-6 py-5 rounded-2xl bg-bg-light-grey border border-black/5 text-base focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300 resize-none animate-none"
                       {...register("message")}
                     />
                   </div>
 
-                  {/* Form submit button (Book My Repair is the final submit element) */}
+                  {/* Form submit button */}
                   <button 
                     type="submit"
                     className="w-full py-5 rounded-[12px] text-[18px] font-bold uppercase tracking-wider bg-accent-green text-white hover:bg-accent-green/90 transition-all duration-300 h-[56px]"
@@ -660,7 +753,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer (bg: #050505, perfect circle logo crop, no rectangular margins, border-2 white, stacked title) */}
+      {/* Footer (bg: #050505, perfect circle logo crop, no rectangular margins, border-2 white) */}
       <footer className="relative z-10 w-full bg-[#050505] text-white pt-24 pb-12 dark-mode-scrollbar">
         <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
@@ -754,7 +847,7 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* Floating Animated WhatsApp Icon-Only CTA Button (Bottom-Right, no popup text labels, glowing scale pulse) */}
+      {/* Floating Animated WhatsApp Icon-Only CTA Button (Bottom-Right, glowing scale pulse) */}
       <motion.a 
         href="https://wa.me/917306243424"
         target="_blank"
