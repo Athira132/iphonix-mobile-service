@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Phone, MapPin, Mail, Star, MessageCircle, 
-  Menu, X, Image as ImageIcon, CheckCircle2
+  Menu, X, Image as ImageIcon, ChevronDown, CheckCircle2
 } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
@@ -25,7 +25,22 @@ type BookingFormData = {
   message: string;
 };
 
-// Simplified Services List (10 core items - text only, no icons or illustrations)
+// 11 dropdown category items mapped to dynamic slugs
+const SERVICES_LIST = [
+  { title: "iPhone Repair", slug: "iphone-repair" },
+  { title: "Android Repair", slug: "android-repair" },
+  { title: "Display Replacement", slug: "display-replacement" },
+  { title: "Battery Replacement", slug: "battery-replacement" },
+  { title: "Camera Repair", slug: "camera-repair" },
+  { title: "Charging Port Repair", slug: "charging-port-repair" },
+  { title: "Water Damage Repair", slug: "water-damage-repair" },
+  { title: "Motherboard Repair", slug: "motherboard-repair" },
+  { title: "Software Solutions", slug: "software-solutions" },
+  { title: "Mobile Accessories", slug: "mobile-accessories" },
+  { title: "Doorstep Mobile Repair", slug: "doorstep-mobile-repair" }
+];
+
+// Simplified Services List (10 core items - text only, no icons or illustrations) - Card size scaled by 30%
 const SERVICES_DATA = [
   { title: "iPhone Repair", desc: "Face ID sensor alignment, logic board micro-soldering, casing repairs." },
   { title: "Android Repair", desc: "Motherboard diagnostics and screen calibrations for Samsung and Pixel." },
@@ -49,7 +64,7 @@ const GALLERY_PHOTOS = [
 ];
 
 const REVIEWS = [
-  { name: "Aditya Verma", type: "iPhone 14 Pro Screen Replacement", text: "Truly Apple-level service! They mapped the serial chip data to the new screen, and TrueTone works perfectly. Replaced in under two hours while I waited in Pallikaranai.", rating: 5 },
+  { name: "Aditya Verma", type: "iPhone 14 Pro Screen Replacement", text: "Truly Apple-level service! They mapped the serial chip data to the new screen, and TrueTone works perfectly. Replaced in under two hours while I waited in Karamana.", rating: 5 },
   { name: "Priya Sundar", type: "MacBook Pro Motherboard Repair", text: "My MacBook had fluid contact and wouldn't start. Other shops insisted on a full logic board replacement. iPhonix repaired it at micro-level for a fraction of the cost.", rating: 5 },
   { name: "Rajesh Kannan", type: "Apple Watch Battery Swap", text: "Excellent and honest service. They analyzed battery health analytics right in front of me, and swapped it with OEM parts. Highly recommended.", rating: 5 }
 ];
@@ -57,6 +72,7 @@ const REVIEWS = [
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
   const [activeLightboxImage, setActiveLightboxImage] = useState<string | null>(null);
   const [bookingSuccess, setBookingSuccess] = useState(false);
 
@@ -82,14 +98,14 @@ export default function Home() {
   return (
     <div className="relative w-full overflow-hidden bg-bg-light text-text-charcoal selection:bg-accent-green/20 selection:text-accent-green">
       
-      {/* Navigation Bar (Increased navbar height, Brand size, Circular Logo, Center Menu, Far-right Button) */}
+      {/* Navigation Bar (Increased navbar height, Circular Logo, dropdown Services, Centered Menu, Far-right Button) */}
       <header className={`fixed top-0 left-0 right-0 z-40 w-full transition-all duration-500 h-28 flex items-center ${
         scrolled ? "glass-nav shadow-sm" : "bg-transparent"
       }`}>
         <div className="mx-auto w-full max-w-[1440px] px-8 md:px-12 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-4 flex-shrink-0">
-            {/* Circular Logo Container (visible, no cropping) */}
-            <div className="relative w-14 h-14 rounded-full border border-white/20 shadow bg-black flex items-center justify-center p-2 overflow-visible">
+            {/* Circular Logo Container (Subtle white border & soft shadow, visible) */}
+            <div className="relative w-14 h-14 rounded-full border-2 border-white/80 shadow-md bg-black flex items-center justify-center p-2 overflow-visible">
               <Image src="/logo.png" alt="Logo" width={38} height={38} className="object-contain" />
             </div>
             <div className="flex flex-col">
@@ -110,7 +126,39 @@ export default function Home() {
           }`}>
             <a href="#home" className="hover:text-accent-green transition-colors">Home</a>
             <a href="#about" className="hover:text-accent-green transition-colors">About</a>
-            <a href="#services" className="hover:text-accent-green transition-colors">Services</a>
+            
+            {/* Services Dropdown menu (Hover state) */}
+            <div 
+              className="relative group py-2"
+              onMouseEnter={() => setServicesDropdownOpen(true)}
+              onMouseLeave={() => setServicesDropdownOpen(false)}
+            >
+              <button className="hover:text-accent-green flex items-center gap-1.5 transition-colors uppercase tracking-wider font-bold">
+                Services <ChevronDown className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform duration-300" />
+              </button>
+              
+              <AnimatePresence>
+                {servicesDropdownOpen && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="absolute top-full left-1/2 -translate-x-1/2 w-64 bg-white border border-black/5 rounded-2xl shadow-xl py-4 text-left flex flex-col font-sans normal-case text-text-charcoal z-50"
+                  >
+                    {SERVICES_LIST.map((srv, index) => (
+                      <Link 
+                        key={index} 
+                        href={`/services/${srv.slug}`}
+                        className="px-6 py-2.5 hover:bg-bg-light-grey hover:text-accent-green transition-all duration-200 text-sm font-semibold block"
+                      >
+                        {srv.title}
+                      </Link>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             <a href="#gallery" className="hover:text-accent-green transition-colors">Gallery</a>
             <a href="#testimonials" className="hover:text-accent-green transition-colors">Reviews</a>
             <a href="#contact" className="hover:text-accent-green transition-colors">Contact</a>
@@ -120,7 +168,7 @@ export default function Home() {
           <div className="flex items-center gap-6 flex-shrink-0">
             <a 
               href="#contact" 
-              className="hidden sm:inline-flex items-center justify-center py-[18px] px-[40px] rounded-[16px] text-[18px] font-bold uppercase tracking-wider transition-all duration-300 shadow-md bg-accent-green text-white hover:bg-accent-green/90 hover:shadow-[0_10px_25px_-5px_rgba(34,197,94,0.4)]"
+              className="hidden sm:inline-flex items-center justify-center py-[18px] px-[40px] rounded-[12px] text-[18px] font-bold uppercase tracking-wider transition-all duration-300 shadow-md bg-accent-green text-white hover:bg-accent-green/90 hover:shadow-[0_10px_25px_-5px_rgba(34,197,94,0.4)] h-[56px] w-[200px]"
             >
               Book Repair
             </a>
@@ -145,23 +193,24 @@ export default function Home() {
             >
               <a href="#home" onClick={() => setMobileMenuOpen(false)} className="hover:text-accent-green py-2">Home</a>
               <a href="#about" onClick={() => setMobileMenuOpen(false)} className="hover:text-accent-green py-2">About</a>
-              <a href="#services" onClick={() => setMobileMenuOpen(false)} className="hover:text-accent-green py-2">Services</a>
+              {/* Mobile Services List expanded */}
+              <div className="flex flex-col gap-2 pl-4 border-l-2 border-accent-green/30">
+                <span className="text-[10px] tracking-widest text-text-muted font-bold block uppercase mb-1">Services</span>
+                {SERVICES_LIST.map((srv, idx) => (
+                  <Link key={idx} href={`/services/${srv.slug}`} onClick={() => setMobileMenuOpen(false)} className="text-xs font-semibold py-1.5 hover:text-accent-green">
+                    {srv.title}
+                  </Link>
+                ))}
+              </div>
               <a href="#gallery" onClick={() => setMobileMenuOpen(false)} className="hover:text-accent-green py-2">Gallery</a>
               <a href="#testimonials" onClick={() => setMobileMenuOpen(false)} className="hover:text-accent-green py-2">Reviews</a>
               <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="hover:text-accent-green py-2">Contact</a>
-              <a 
-                href="#contact"
-                onClick={() => setMobileMenuOpen(false)}
-                className="w-full py-5 rounded-[16px] text-center bg-accent-green text-white block mt-4 text-[18px]"
-              >
-                Book Repair
-              </a>
             </motion.div>
           )}
         </AnimatePresence>
       </header>
 
-      {/* Hero Section (No bottom gradient overlay, 40px gap below copy, 25px gap between CTAs) */}
+      {/* Hero Section (No bottom gradient overlay, 40px gap below copy, 30px gap between rectangular CTAs) */}
       <section id="home" className="relative w-full min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden">
         
         {/* Background Video */}
@@ -198,24 +247,24 @@ export default function Home() {
             Expert iPhone & Android Repairs with Genuine Parts, Chip-Level Expertise, Fast Turnaround & Doorstep Service.
           </motion.p>
 
-          {/* 35-45px Spacing below description & 25px gap between the two CTAs */}
+          {/* 35-45px Spacing below description & 30px gap between the two CTAs (rounded-[12px] h-[56px] w-[200px]) */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col sm:flex-row gap-[25px] w-full sm:w-auto mt-[40px]"
+            className="flex flex-col sm:flex-row gap-[30px] w-full sm:w-auto mt-[40px] justify-center items-center"
           >
             {/* Primary Rectangular CTA (1 of 2 CTA buttons on site) */}
             <a 
               href="#contact" 
-              className="inline-flex items-center justify-center py-[18px] px-[40px] rounded-[16px] text-[18px] font-bold uppercase tracking-wider bg-accent-green text-white hover:bg-accent-green/90 hover:shadow-[0_10px_25px_-5px_rgba(34,197,94,0.4)] shadow-md transition-all duration-300"
+              className="inline-flex items-center justify-center rounded-[12px] text-[18px] font-bold uppercase tracking-wider bg-accent-green text-white hover:bg-accent-green/90 hover:shadow-[0_10px_25px_-5px_rgba(34,197,94,0.4)] shadow-md transition-all duration-300 h-[56px] w-[200px]"
             >
               Book Repair
             </a>
             {/* Secondary Rectangular Outline CTA */}
             <a 
               href="tel:7306243424" 
-              className="inline-flex items-center justify-center py-[18px] px-[40px] rounded-[16px] text-[18px] font-bold uppercase tracking-wider bg-transparent text-white border border-white/20 hover:bg-white/10 shadow-md transition-all duration-300"
+              className="inline-flex items-center justify-center rounded-[12px] text-[18px] font-bold uppercase tracking-wider bg-transparent text-white border border-white/20 hover:bg-white/10 shadow-md transition-all duration-300 h-[56px] w-[200px]"
             >
               Call Now
             </a>
@@ -224,8 +273,8 @@ export default function Home() {
 
       </section>
 
-      {/* About Section (bg: #FFFFFF, 220px vertical padding gaps, large section heading) */}
-      <section id="about" className="relative z-10 w-full pt-[160px] pb-[160px] bg-white border-b border-black/5">
+      {/* About Section (bg: #FFFFFF, 200px vertical gaps, large section heading, dark readable body text) */}
+      <section id="about" className="relative z-10 w-full pt-[200px] pb-[200px] bg-white border-b border-black/5">
         <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
           <div className="mb-[60px] text-left">
@@ -245,9 +294,9 @@ export default function Home() {
               />
             </div>
 
-            {/* Content Right (No extra badges or floating icons) */}
+            {/* Content Right (No extra badges or floating icons, high-contrast medium weight paragraphs) */}
             <div className="lg:col-span-6 flex flex-col items-start text-left">
-              <p className="text-text-muted leading-relaxed text-lg md:text-[20px] mb-8">
+              <p className="text-[#2B2B2B] leading-[1.8] text-[20px] font-medium mb-8">
                 iPhonix Mobile Service Centre is a trusted destination for professional smartphone repair solutions. With experienced technicians, advanced repair equipment, and genuine spare parts, we specialize in repairing iPhones and Android smartphones with precision and care. From minor issues to complex chip-level motherboard repairs, we are committed to delivering fast, reliable, and affordable services while ensuring complete customer satisfaction.
               </p>
             </div>
@@ -256,8 +305,59 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services Section (bg: #F8F8F8, Simplified Clean cards without icons or drawings) */}
-      <section id="services" className="relative z-10 w-full pt-[160px] pb-[160px] bg-[#F8F8F8] border-b border-black/5">
+      {/* Doorstep Mobile Phone Repair Service Section (bg: #F8F8F8, 220px vertical padding gap) */}
+      <section className="relative z-10 w-full pt-[200px] pb-[200px] bg-[#F8F8F8] border-b border-black/5">
+        <div className="mx-auto max-w-[1440px] px-8 md:px-12">
+          
+          <div className="mb-[60px] text-left">
+            <span className="text-[13px] uppercase font-bold tracking-widest text-accent-green mb-4 block">Convenience At Your Door</span>
+            <h2 className="font-display text-[38px] md:text-[48px] lg:text-[60px] font-bold tracking-tight text-text-charcoal">
+              Door-to-Door Mobile Phone Repair Service
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-[80px] items-center">
+            {/* Image Left */}
+            <div className="lg:col-span-6 relative h-[450px] md:h-[580px] rounded-[32px] overflow-hidden border border-black/5 shadow-sm bg-white">
+              <Image 
+                src="https://images.unsplash.com/photo-1596524430615-b46475ddff6e?q=80&w=800" 
+                alt="Mobile technician repairing device on-site" 
+                fill
+                className="object-cover hover:scale-102 transition-transform duration-700"
+              />
+            </div>
+
+            {/* Door-to-Door Highlights Content Right */}
+            <div className="lg:col-span-6 flex flex-col items-start text-left">
+              <h3 className="font-display text-[26px] font-semibold text-text-charcoal mb-6">
+                Fast & Affordable Mobile Repair Services at Your Home or Office
+              </h3>
+              <p className="text-[#2B2B2B] leading-[1.8] text-[20px] font-medium mb-8">
+                Cannot visit our service center? No worries! Our expert technician comes straight to your location to perform on-site diagnoses and repairs securely.
+              </p>
+              
+              <ul className="flex flex-col gap-4 text-[#2B2B2B] font-medium text-[20px] leading-[1.8]">
+                <li className="flex items-center gap-3">
+                  <span className="text-accent-green text-2xl">✓</span> We come to your location.
+                </li>
+                <li className="flex items-center gap-3">
+                  <span className="text-accent-green text-2xl">✓</span> Professional doorstep repairs.
+                </li>
+                <li className="flex items-center gap-3">
+                  <span className="text-accent-green text-2xl">✓</span> Safe handling & diagnostic protocols.
+                </li>
+                <li className="flex items-center gap-3">
+                  <span className="text-accent-green text-2xl">✓</span> Convenient home and office visits.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* Services Section (bg: #FFFFFF, Simplified Clean cards without icons or illustrations) */}
+      <section id="services" className="relative z-10 w-full pt-[200px] pb-[200px] bg-white border-b border-black/5">
         <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
           <div className="mb-[60px] text-left">
@@ -271,12 +371,12 @@ export default function Home() {
             {SERVICES_DATA.map((service, idx) => (
               <div 
                 key={idx}
-                className="bg-white p-10 md:p-12 rounded-[24px] border border-black/5 shadow-sm hover:border-accent-green/20 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-center min-h-[160px]"
+                className="bg-[#F8F8F8] p-12 md:p-14 rounded-[24px] border border-black/5 shadow-sm hover:border-accent-green/20 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-center min-h-[180px]"
               >
                 <h3 className="font-display text-2xl font-bold text-text-charcoal mb-4">
                   {service.title}
                 </h3>
-                <p className="text-base sm:text-lg text-text-muted leading-relaxed">
+                <p className="text-[#2B2B2B] leading-[1.8] text-[20px] font-medium">
                   {service.desc}
                 </p>
               </div>
@@ -286,8 +386,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Gallery Section (bg: #FFFFFF, masonry with spacing, no descriptors, lightbox) */}
-      <section id="gallery" className="relative z-10 w-full pt-[160px] pb-[160px] bg-white border-b border-black/5">
+      {/* Gallery Section (bg: #F8F8F8, masonry with spacing, no descriptors, lightbox) */}
+      <section id="gallery" className="relative z-10 w-full pt-[200px] pb-[200px] bg-[#F8F8F8] border-b border-black/5">
         <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
           <div className="mb-[60px] text-left">
@@ -302,7 +402,7 @@ export default function Home() {
               <div 
                 key={idx} 
                 onClick={() => setActiveLightboxImage(url)}
-                className="relative overflow-hidden rounded-[32px] border border-black/5 group aspect-video cursor-pointer shadow-sm bg-[#F8F8F8]"
+                className="relative overflow-hidden rounded-[32px] border border-black/5 group aspect-video cursor-pointer shadow-sm bg-white"
               >
                 <Image 
                   src={url} 
@@ -349,8 +449,8 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* Testimonials Section (bg: #F8F8F8, spacious cards, no decorative icons) */}
-      <section id="testimonials" className="relative z-10 w-full pt-[160px] pb-[160px] bg-[#F8F8F8] border-b border-black/5">
+      {/* Testimonials Section (bg: #FFFFFF, spacious cards, no decorative icons) */}
+      <section id="testimonials" className="relative z-10 w-full pt-[200px] pb-[200px] bg-white border-b border-black/5">
         <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
           <div className="mb-[60px] text-left">
@@ -370,7 +470,7 @@ export default function Home() {
             >
               {REVIEWS.map((rev, idx) => (
                 <SwiperSlide key={idx}>
-                  <div className="bg-white p-12 md:p-16 relative flex flex-col items-center text-center rounded-[32px] border border-black/5 shadow-sm">
+                  <div className="bg-[#F8F8F8] p-14 md:p-20 relative flex flex-col items-center text-center rounded-[32px] border border-black/5 shadow-sm">
                     <div className="flex gap-1 text-yellow-500 mb-6">
                       {Array.from({ length: rev.rating }).map((_, i) => (
                         <Star key={i} className="w-6 h-6 fill-yellow-500" />
@@ -390,8 +490,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact & Booking Section (bg: #FFFFFF, new location link coordinates, booking form) */}
-      <section id="contact" className="relative z-10 w-full pt-[160px] pb-[160px] bg-white">
+      {/* Contact & Booking Section (bg: #F8F8F8, Karamana Thiruvananthapuram Kerala location details) */}
+      <section id="contact" className="relative z-10 w-full pt-[200px] pb-[200px] bg-[#F8F8F8]">
         <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
           <div className="mb-[60px] text-left">
@@ -404,7 +504,7 @@ export default function Home() {
             
             {/* Contact Details Left */}
             <div className="flex flex-col gap-8">
-              <div className="bg-[#F8F8F8] p-10 rounded-[32px] border border-black/5 shadow-sm">
+              <div className="bg-white p-12 rounded-[32px] border border-black/5 shadow-sm">
                 <h3 className="font-display text-2xl font-bold text-text-charcoal mb-8">
                   Support Coordinates
                 </h3>
@@ -430,13 +530,12 @@ export default function Home() {
                     <MapPin className="w-8 h-8 text-accent-green mt-1 flex-shrink-0" />
                     <div>
                       <h4 className="text-xs font-bold uppercase tracking-wider text-text-muted">Address Location</h4>
-                      <p className="text-lg font-bold text-text-charcoal mt-1 leading-relaxed">
-                        Velachery Main Road, Pallikaranai, Chennai - 600100<br/>
-                        (Next to Daikin Showroom)
+                      <p className="text-lg font-bold text-[#2B2B2B] font-medium mt-1 leading-relaxed">
+                        Near Karamana Airtel Office, Karamana, Thiruvananthapuram, Kerala
                       </p>
-                      {/* Google Maps redirect button to maps.app.goo.gl link */}
+                      {/* Google Maps redirect button */}
                       <a 
-                        href="https://maps.app.goo.gl/shS9G2woJJwLkfzq7"
+                        href="https://maps.google.com/maps?q=Iphonix%20Mobile%20Service%20Karamana%20Thiruvananthapuram"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 mt-4 text-sm font-bold text-accent-green hover:underline"
@@ -448,10 +547,10 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Map Iframe */}
+              {/* Map Iframe (Karamana location embedded query) */}
               <div className="w-full h-[320px] rounded-[32px] overflow-hidden border border-black/5 relative shadow-sm">
                 <iframe 
-                  src="https://maps.google.com/maps?q=Iphonix%20Mobile%20Service%20Pallikaranai%20Chennai&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  src="https://maps.google.com/maps?q=Iphonix%20Mobile%20Service%20Karamana%20Thiruvananthapuram&t=&z=15&ie=UTF8&iwloc=&output=embed"
                   className="w-full h-full border-0 opacity-90"
                   allowFullScreen
                   loading="lazy"
@@ -461,7 +560,7 @@ export default function Home() {
             </div>
 
             {/* Booking Form Right */}
-            <div className="bg-[#F8F8F8] p-10 md:p-12 rounded-[32px] border border-black/5 shadow-sm">
+            <div className="bg-white p-10 md:p-12 rounded-[32px] border border-black/5 shadow-sm">
               <h3 className="font-display text-2xl font-bold text-text-charcoal mb-8">
                 Request Diagnostics Slot
               </h3>
@@ -481,7 +580,7 @@ export default function Home() {
                     <input 
                       type="text" 
                       placeholder="e.g. Aditya Verma" 
-                      className="px-4 py-3.5 rounded-xl bg-white border border-black/5 text-sm focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300"
+                      className="px-4 py-3.5 rounded-xl bg-bg-light-grey border border-black/5 text-sm focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300"
                       {...register("name", { required: "Name is required" })}
                     />
                     {errors.name && <span className="text-xs text-red-500">{errors.name.message}</span>}
@@ -492,7 +591,7 @@ export default function Home() {
                     <input 
                       type="tel" 
                       placeholder="e.g. +91 73062 43424" 
-                      className="px-4 py-3.5 rounded-xl bg-white border border-black/5 text-sm focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300"
+                      className="px-4 py-3.5 rounded-xl bg-bg-light-grey border border-black/5 text-sm focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300"
                       {...register("phone", { required: "Phone is required" })}
                     />
                     {errors.phone && <span className="text-xs text-red-500">{errors.phone.message}</span>}
@@ -503,7 +602,7 @@ export default function Home() {
                     <input 
                       type="text" 
                       placeholder="e.g. iPhone 15 Pro" 
-                      className="px-4 py-3.5 rounded-xl bg-white border border-black/5 text-sm focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300"
+                      className="px-4 py-3.5 rounded-xl bg-bg-light-grey border border-black/5 text-sm focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300"
                       {...register("deviceModel", { required: "Model is required" })}
                     />
                     {errors.deviceModel && <span className="text-xs text-red-500">{errors.deviceModel.message}</span>}
@@ -514,7 +613,7 @@ export default function Home() {
                     <input 
                       type="text" 
                       placeholder="e.g. Flickering screen, charging loop error" 
-                      className="px-4 py-3.5 rounded-xl bg-white border border-black/5 text-sm focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300"
+                      className="px-4 py-3.5 rounded-xl bg-bg-light-grey border border-black/5 text-sm focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300"
                       {...register("problemDescription", { required: "Issue is required" })}
                     />
                     {errors.problemDescription && <span className="text-xs text-red-500">{errors.problemDescription.message}</span>}
@@ -524,7 +623,7 @@ export default function Home() {
                     <label className="text-xs font-bold uppercase tracking-wider text-text-muted">Preferred Date</label>
                     <input 
                       type="date" 
-                      className="px-4 py-3.5 rounded-xl bg-white border border-black/5 text-sm focus:outline-none focus:border-accent-green text-text-charcoal transition-all duration-300"
+                      className="px-4 py-3.5 rounded-xl bg-bg-light-grey border border-black/5 text-sm focus:outline-none focus:border-accent-green text-text-charcoal transition-all duration-300"
                       {...register("preferredDate", { required: "Preferred Date is required" })}
                     />
                     {errors.preferredDate && <span className="text-xs text-red-500">{errors.preferredDate.message}</span>}
@@ -535,7 +634,7 @@ export default function Home() {
                     <textarea 
                       rows={3} 
                       placeholder="Any specific requests or detail tags." 
-                      className="px-4 py-3.5 rounded-xl bg-white border border-black/5 text-sm focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300 resize-none"
+                      className="px-4 py-3.5 rounded-xl bg-bg-light-grey border border-black/5 text-sm focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300 resize-none"
                       {...register("message")}
                     />
                   </div>
@@ -543,7 +642,7 @@ export default function Home() {
                   {/* Form submit button (Book My Repair is the final submit element) */}
                   <button 
                     type="submit"
-                    className="w-full py-5 rounded-[16px] text-[18px] font-bold uppercase tracking-wider bg-accent-green text-white hover:bg-accent-green/90 transition-all duration-300"
+                    className="w-full py-5 rounded-[12px] text-[18px] font-bold uppercase tracking-wider bg-accent-green text-white hover:bg-accent-green/90 transition-all duration-300 h-[56px]"
                   >
                     Book My Repair
                   </button>
@@ -556,7 +655,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer (bg: #050505, Circular Logo, Google Maps redirect updates) */}
+      {/* Footer (bg: #050505, Circular Logo, Karamana Thiruvananthapuram Kerala location details) */}
       <footer className="relative z-10 w-full bg-[#050505] text-white pt-24 pb-12 dark-mode-scrollbar">
         <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
@@ -564,7 +663,8 @@ export default function Home() {
             
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-3">
-                <div className="relative w-12 h-12 rounded-full border border-white/20 bg-black flex items-center justify-center p-2 shadow-md">
+                {/* Circular logo frame */}
+                <div className="relative w-12 h-12 rounded-full border-2 border-white/20 bg-black flex items-center justify-center p-2 shadow-md">
                   <Image src="/logo.png" alt="Logo" width={28} height={28} className="object-contain" />
                 </div>
                 <span className="font-display text-lg font-bold text-white leading-none">iPhonix</span>
@@ -609,7 +709,7 @@ export default function Home() {
             <div>
               <h4 className="font-display text-xs font-bold text-white uppercase tracking-wider mb-6">Services</h4>
               <ul className="flex flex-col gap-3 text-xs text-white/50">
-                <li><Link href="/services/screen-replacement" className="hover:text-accent-green transition-colors">Screen Replacement</Link></li>
+                <li><Link href="/services/display-replacement" className="hover:text-accent-green transition-colors">Screen Replacement</Link></li>
                 <li><Link href="/services/battery-replacement" className="hover:text-accent-green transition-colors">Battery Replacement</Link></li>
                 <li><Link href="/services/charging-port-repair" className="hover:text-accent-green transition-colors">Port Repairs</Link></li>
                 <li><Link href="/services/water-damage-repair" className="hover:text-accent-green transition-colors">Water damage recovery</Link></li>
@@ -620,12 +720,12 @@ export default function Home() {
               <h4 className="font-display text-xs font-bold text-white uppercase tracking-wider mb-6">Store Location</h4>
               <p className="text-xs text-white/50 leading-relaxed">
                 iPhonix Mobile Service Centre<br/>
-                Velachery Main Road, Pallikaranai,<br/>
-                Chennai - 600100 (Near Daikin Showroom)
+                Near Karamana Airtel Office, Karamana,<br/>
+                Thiruvananthapuram, Kerala
               </p>
-              {/* Google Maps link redirection to maps.app.goo.gl */}
+              {/* Google Maps link redirection */}
               <a 
-                href="https://maps.app.goo.gl/shS9G2woJJwLkfzq7"
+                href="https://maps.google.com/maps?q=Iphonix%20Mobile%20Service%20Karamana%20Thiruvananthapuram"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 mt-4 text-[10px] font-bold text-accent-green uppercase tracking-wider hover:underline"
