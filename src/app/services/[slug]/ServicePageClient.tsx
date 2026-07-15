@@ -11,7 +11,6 @@ import {
   LucideIcon
 } from "lucide-react";
 
-// Form input types
 type BookingFormData = {
   name: string;
   phone: string;
@@ -31,7 +30,7 @@ const SERVICES_DATA: Record<string, {
   "screen-replacement": {
     title: "Screen Replacement",
     tagline: "TrueTone Matched Display Restoration",
-    desc: "We replace cracked glass and failed OLED panels on iPhones and premium Android flagships. All replacements maintain original refresh rates, haptic touch layers, and active color values.",
+    desc: "We replace cracked glass and failed OLED panels on iPhones and premium Android flagships. All replacements maintain original refresh rates, active color values, and Touch ID / Face ID calibrations.",
     icon: Smartphone,
     faqs: [
       { q: "Do you maintain TrueTone after replacement?", a: "Yes. We copy the screen serial data from your original screen controller to the replacement panel using advanced programmer blocks. This preserves Apple TrueTone functionality." },
@@ -193,7 +192,7 @@ export default function ServicePageClient({ slug }: { slug: string }) {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > 40);
       setShowScrollTop(window.scrollY > 400);
     };
     window.addEventListener("scroll", handleScroll);
@@ -212,33 +211,33 @@ export default function ServicePageClient({ slug }: { slug: string }) {
   const ServiceIcon = data.icon;
 
   return (
-    <div className="relative w-full glow-grid overflow-hidden bg-bg-primary text-white">
+    <div className="relative w-full overflow-hidden bg-bg-light text-text-charcoal selection:bg-accent-blue/10 selection:text-accent-blue">
       
       {/* Scroll Progress */}
-      <div className="fixed top-0 left-0 right-0 z-50 h-[3px] bg-gradient-to-r from-accent-blue to-accent-green" />
+      <div className="fixed top-0 left-0 right-0 z-50 h-[3px] bg-accent-blue" />
 
       {/* Header */}
       <header className={`fixed top-0 left-0 right-0 z-40 w-full transition-all duration-500 ${
-        scrolled ? "bg-bg-primary/70 backdrop-blur-md border-b border-white/5 py-4" : "bg-transparent py-6"
+        scrolled ? "glass-nav py-4" : "bg-transparent py-6"
       }`}>
         <div className="mx-auto max-w-7xl px-6 md:px-8 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
-            <div className="relative w-10 h-10 overflow-hidden rounded-full border border-white/10 p-1 bg-black flex items-center justify-center">
-              <Image 
-                src="/logo.png" 
-                alt="iPhonix Logo" 
-                width={36} 
-                height={36} 
-                className="object-contain"
-              />
+            <div className="relative w-9 h-9 overflow-hidden rounded-full border border-black/5 p-1 bg-black flex items-center justify-center">
+              <Image src="/logo.png" alt="iPhonix Logo" width={24} height={24} className="object-contain" />
             </div>
             <div className="flex flex-col">
-              <span className="font-display text-xl font-bold tracking-tight text-white">iPhonix</span>
-              <span className="text-[9px] tracking-widest text-text-muted uppercase font-medium">Apple & Multi-Brand Service</span>
+              <span className={`font-display text-lg font-bold tracking-tight transition-colors duration-300 ${
+                scrolled ? "text-text-charcoal" : "text-white"
+              }`}>
+                iPhonix
+              </span>
+              <span className="text-[8px] tracking-widest text-text-muted uppercase font-bold">Apple & Multi-Brand Service</span>
             </div>
           </Link>
 
-          <Link href="/" className="text-sm font-semibold text-accent-blue hover:text-white transition-colors duration-300 flex items-center gap-1.5">
+          <Link href="/" className={`text-sm font-semibold transition-colors duration-300 flex items-center gap-1.5 ${
+            scrolled ? "text-accent-blue hover:text-text-charcoal" : "text-white hover:text-accent-blue"
+          }`}>
             Return Home <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -255,67 +254,70 @@ export default function ServicePageClient({ slug }: { slug: string }) {
             className="w-full h-full object-cover scale-102"
           />
           <div className="absolute inset-0 bg-black/60" />
-          <div className="absolute inset-0 bg-gradient-to-t from-bg-primary via-bg-primary/80 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-bg-light via-transparent to-transparent" />
         </div>
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-8 text-center flex flex-col items-center">
-          <div className="w-16 h-16 rounded-3xl bg-accent-blue/15 border border-accent-blue/30 flex items-center justify-center mb-8">
-            <ServiceIcon className="w-8 h-8 text-accent-blue" />
+          <div className="outline-icon-container mb-8 text-accent-blue">
+            <ServiceIcon className="w-20 h-20" />
           </div>
 
           <h1 className="font-display text-5xl sm:text-6xl md:text-8xl font-bold tracking-tight text-white mb-6">
             {data.title}
           </h1>
 
-          <p className="text-xl sm:text-2xl text-accent-blue font-medium tracking-tight mb-8">
+          <p className="text-xl sm:text-2xl text-accent-blue font-semibold tracking-tight mb-8">
             {data.tagline}
           </p>
 
-          <p className="text-base sm:text-lg text-text-muted max-w-2xl leading-relaxed mb-12">
+          <p className="text-base sm:text-lg text-white/80 max-w-2xl leading-relaxed mb-12">
             {data.desc}
           </p>
 
           <a 
             href="#booking-bay"
-            className="inline-flex items-center justify-center px-10 py-4.5 rounded-full text-sm font-semibold uppercase tracking-wider bg-accent-blue text-white hover:bg-accent-blue/90 border border-accent-blue transition-all duration-300 hover:shadow-[0_0_20px_rgba(10,132,255,0.4)]"
+            className="inline-flex items-center justify-center px-12 py-5 rounded-full text-xs font-bold uppercase tracking-wider bg-accent-blue text-white hover:bg-accent-blue/90 transition-all duration-300"
           >
-            Request Diagnostic Check
+            Request Diagnostics Slot
           </a>
         </div>
       </section>
 
-      {/* Why Choose iPhonix Section */}
-      <section className="relative z-10 w-full py-32 bg-bg-primary">
+      {/* Why Choose iPhonix Section (Light Grey Canvas + Asymmetric Spacing) */}
+      <section className="relative z-10 w-full py-32 bg-bg-gray">
         <div className="mx-auto max-w-7xl px-6 md:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <span className="text-xs uppercase font-semibold tracking-widest text-accent-blue mb-4 block">Diagnostics Bay</span>
-            <h2 className="font-display text-3xl md:text-5xl font-bold tracking-tight text-white mb-6">Why Choose iPhonix</h2>
+          
+          <div className="text-center max-w-3xl mx-auto mb-24">
+            <span className="text-xs uppercase font-bold tracking-widest text-accent-blue mb-4 block">Diagnostics Bay</span>
+            <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-text-charcoal mb-6">Why Choose iPhonix</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {[
-              { title: "Certified Technicians", desc: "Expert motherboard micro-soldering certified technicians.", icon: Award },
-              { title: "Genuine Parts Only", desc: "We utilize premium factory-grade OEM replacement parts.", icon: ShieldCheck },
-              { title: "Warranty Card Provided", desc: "Every component is covered by up to 90 days of replacement warranty.", icon: Clock }
+              { title: "Laboratory Technicians", desc: "Expert motherboard micro-soldering certified technicians.", icon: Award },
+              { title: "OEM Quality Components", desc: "We utilize premium factory-grade replacement components exclusively.", icon: ShieldCheck },
+              { title: "90-Day Guarantee", desc: "Every component swap is backed by a complete replacement warranty card.", icon: Clock }
             ].map((card, idx) => (
-              <div key={idx} className="glass-panel p-8 cursor-default">
-                <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-6">
-                  <card.icon className="w-6 h-6 text-accent-blue" />
+              <div key={idx} className="apple-card-light p-10 cursor-default">
+                <div className="outline-icon-container mb-8 text-accent-blue">
+                  <card.icon className="w-16 h-16" />
                 </div>
-                <h3 className="font-display text-lg font-bold text-white mb-2">{card.title}</h3>
+                <h3 className="font-display text-2xl font-bold text-text-charcoal mb-4">{card.title}</h3>
                 <p className="text-sm text-text-muted leading-relaxed">{card.desc}</p>
               </div>
             ))}
           </div>
+
         </div>
       </section>
 
-      {/* Repair Process */}
-      <section className="relative z-10 w-full py-32 bg-bg-secondary">
+      {/* Repair Process (Pro Black Block) */}
+      <section className="relative z-10 w-full py-32 bg-bg-dark text-white dark-mode-scrollbar">
         <div className="mx-auto max-w-7xl px-6 md:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <span className="text-xs uppercase font-semibold tracking-widest text-accent-blue mb-4 block">Repair Pipeline</span>
-            <h2 className="font-display text-3xl md:text-5xl font-bold tracking-tight text-white mb-6">Our Process</h2>
+          
+          <div className="text-center max-w-3xl mx-auto mb-24">
+            <span className="text-xs uppercase font-bold tracking-widest text-accent-blue mb-4 block">Repair Pipeline</span>
+            <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-white mb-6">Our Process</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -325,29 +327,31 @@ export default function ServicePageClient({ slug }: { slug: string }) {
               { step: "03", title: "Expert Repair", desc: "Repair conducted inside clean micro-repair enclosures." },
               { step: "04", title: "Quality Check & Delivery", desc: "Post-repair test verification and warranty card issue." }
             ].map((step, idx) => (
-              <div key={idx} className="glass-panel p-8 hover:border-accent-blue/20 transition-colors duration-300">
-                <div className="w-10 h-10 rounded-full bg-accent-blue/15 border border-accent-blue/30 flex items-center justify-center text-sm font-bold text-accent-blue font-display mb-6">
+              <div key={idx} className="apple-card-dark p-8 hover:border-accent-blue/20 transition-colors duration-300">
+                <div className="w-12 h-12 rounded-full bg-accent-blue/15 border border-accent-blue/30 flex items-center justify-center text-sm font-bold text-accent-blue font-display mb-8">
                   {step.step}
                 </div>
-                <h3 className="font-display text-lg font-bold text-white mb-2">{step.title}</h3>
-                <p className="text-xs text-text-muted leading-relaxed">{step.desc}</p>
+                <h3 className="font-display text-xl font-bold text-white mb-2">{step.title}</h3>
+                <p className="text-xs text-white/60 leading-relaxed">{step.desc}</p>
               </div>
             ))}
           </div>
+
         </div>
       </section>
 
-      {/* Before & After Gallery */}
-      <section className="relative z-10 w-full py-32 bg-bg-primary">
+      {/* Before & After Gallery (White Canvas) */}
+      <section className="relative z-10 w-full py-32 bg-white">
         <div className="mx-auto max-w-7xl px-6 md:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <span className="text-xs uppercase font-semibold tracking-widest text-accent-blue mb-4 block">Visual Evidence</span>
-            <h2 className="font-display text-3xl md:text-5xl font-bold tracking-tight text-white mb-6">Gallery Showcase</h2>
+          
+          <div className="text-center max-w-3xl mx-auto mb-24">
+            <span className="text-xs uppercase font-bold tracking-widest text-accent-blue mb-4 block">Visual Evidence</span>
+            <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-text-charcoal mb-6">Gallery Showcase</h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-12">
             {data.gallery.map((url, idx) => (
-              <div key={idx} className="relative overflow-hidden rounded-3xl border border-white/10 group aspect-video cursor-pointer">
+              <div key={idx} className="relative overflow-hidden rounded-[32px] border border-black/5 group aspect-video cursor-pointer shadow-sm">
                 <Image 
                   src={url} 
                   alt="Repair gallery photo" 
@@ -361,55 +365,58 @@ export default function ServicePageClient({ slug }: { slug: string }) {
               </div>
             ))}
           </div>
+
         </div>
       </section>
 
-      {/* FAQ Accordion */}
-      <section className="relative z-10 w-full py-32 bg-bg-secondary">
+      {/* FAQ Accordion (Light Grey Canvas) */}
+      <section className="relative z-10 w-full py-32 bg-bg-gray">
         <div className="mx-auto max-w-7xl px-6 md:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <span className="text-xs uppercase font-semibold tracking-widest text-accent-blue mb-4 block">Faq</span>
-            <h2 className="font-display text-3xl md:text-5xl font-bold tracking-tight text-white mb-6">Common Questions</h2>
+          
+          <div className="text-center max-w-3xl mx-auto mb-24">
+            <span className="text-xs uppercase font-bold tracking-widest text-accent-blue mb-4 block">Faq</span>
+            <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-text-charcoal mb-6">Common Questions</h2>
           </div>
 
-          <div className="max-w-3xl mx-auto flex flex-col gap-4">
+          <div className="max-w-3xl mx-auto flex flex-col gap-6">
             {data.faqs.map((faq, index) => {
               const isOpen = openFaqIndex === index;
               return (
-                <div key={index} className="glass-panel border-white/5 overflow-hidden transition-all duration-300">
+                <div key={index} className="bg-white border border-black/5 rounded-[24px] overflow-hidden transition-all duration-300 shadow-sm">
                   <button
-                    className="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none"
+                    className="w-full px-8 py-6 flex items-center justify-between text-left focus:outline-none"
                     onClick={() => setOpenFaqIndex(isOpen ? null : index)}
                   >
-                    <span className="font-display text-base font-bold text-white pr-4">{faq.q}</span>
+                    <span className="font-display text-lg font-bold text-text-charcoal pr-4">{faq.q}</span>
                     <ChevronDown className={`w-5 h-5 text-text-muted transition-transform duration-300 ${isOpen ? "rotate-180 text-accent-blue" : ""}`} />
                   </button>
-                  <div className={`transition-all duration-300 ease-in-out ${isOpen ? "max-h-[300px] border-t border-white/5 opacity-100" : "max-h-0 opacity-0 pointer-events-none"}`}>
-                    <div className="px-6 py-5 text-sm text-text-muted leading-relaxed">{faq.a}</div>
+                  <div className={`transition-all duration-300 ease-in-out ${isOpen ? "max-h-[300px] border-t border-black/5 opacity-100" : "max-h-0 opacity-0 pointer-events-none"}`}>
+                    <div className="px-8 py-6 text-sm text-text-muted leading-relaxed">{faq.a}</div>
                   </div>
                 </div>
               );
             })}
           </div>
+
         </div>
       </section>
 
-      {/* Booking Form CTA */}
-      <section id="booking-bay" className="relative z-10 w-full py-32 bg-bg-primary">
+      {/* Booking Form CTA (White Canvas) */}
+      <section id="booking-bay" className="relative z-10 w-full py-32 bg-white">
         <div className="mx-auto max-w-7xl px-6 md:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
             <div>
-              <span className="text-xs uppercase font-semibold tracking-widest text-accent-blue mb-4 block">Service Area</span>
-              <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight text-white mb-6">Book Repair Slots</h2>
-              <p className="text-text-muted leading-relaxed mb-8">
+              <span className="text-xs uppercase font-bold tracking-widest text-accent-blue mb-4 block">Service Area</span>
+              <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight text-text-charcoal mb-6">Book Repair Slots</h2>
+              <p className="text-text-muted leading-relaxed mb-12">
                 Send details of your device. Our micro-diagnostics team will reach out with pricing quotes within 5 to 10 minutes.
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-6">
                 <a 
                   href="tel:+919962512345"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-xs font-bold uppercase tracking-wider bg-white/5 border border-white/10 hover:border-accent-blue hover:text-accent-blue transition-colors duration-300"
+                  className="inline-flex items-center justify-center gap-3 px-10 py-4.5 rounded-full text-xs font-bold uppercase tracking-wider bg-bg-gray border border-black/5 hover:border-accent-blue hover:text-accent-blue transition-colors duration-300 text-text-charcoal"
                 >
                   <Phone className="w-4 h-4" /> Call Direct
                 </a>
@@ -417,20 +424,20 @@ export default function ServicePageClient({ slug }: { slug: string }) {
                   href="https://wa.me/919962512345"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-xs font-bold uppercase tracking-wider bg-white/5 border border-white/10 hover:border-accent-green hover:text-accent-green transition-colors duration-300"
+                  className="inline-flex items-center justify-center gap-3 px-10 py-4.5 rounded-full text-xs font-bold uppercase tracking-wider bg-bg-gray border border-black/5 hover:border-accent-green hover:text-accent-green transition-colors duration-300 text-text-charcoal"
                 >
                   <MessageCircle className="w-4 h-4" /> WhatsApp Chat
                 </a>
               </div>
             </div>
 
-            <div className="glass-panel p-8 border-white/5">
+            <div className="apple-card-light p-10 md:p-12">
               {bookingSuccess ? (
-                <div className="w-full py-16 px-6 flex flex-col items-center justify-center text-center gap-4 bg-accent-green/5 border border-accent-green/20 rounded-xl">
-                  <CheckCircle2 className="w-14 h-14 text-accent-green animate-bounce" />
-                  <h4 className="font-display text-lg font-bold text-white">Diagnostics Request Sent</h4>
+                <div className="w-full py-16 px-6 flex flex-col items-center justify-center text-center gap-4 bg-accent-green/5 border border-accent-green/20 rounded-2xl">
+                  <CheckCircle2 className="w-12 h-12 text-accent-green" />
+                  <h4 className="font-display text-lg font-bold text-text-charcoal">Diagnostics Request Sent</h4>
                   <p className="text-xs text-text-muted max-w-xs leading-relaxed">
-                    Thank you! We will get in touch with you shortly.
+                    Thank you. We have logged your request.
                   </p>
                 </div>
               ) : (
@@ -440,7 +447,7 @@ export default function ServicePageClient({ slug }: { slug: string }) {
                     <input 
                       type="text" 
                       placeholder="e.g. Aditya Verma" 
-                      className="px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-sm focus:outline-none focus:border-accent-blue text-white placeholder-white/20 transition-all duration-300"
+                      className="px-4 py-3.5 rounded-xl bg-bg-gray border border-black/5 text-sm focus:outline-none focus:border-accent-blue text-text-charcoal placeholder-black/30 transition-all duration-300"
                       {...register("name", { required: "Name is required" })}
                     />
                     {errors.name && <span className="text-xs text-red-500">{errors.name.message}</span>}
@@ -451,7 +458,7 @@ export default function ServicePageClient({ slug }: { slug: string }) {
                     <input 
                       type="tel" 
                       placeholder="e.g. +91 99625 12345" 
-                      className="px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-sm focus:outline-none focus:border-accent-blue text-white placeholder-white/20 transition-all duration-300"
+                      className="px-4 py-3.5 rounded-xl bg-bg-gray border border-black/5 text-sm focus:outline-none focus:border-accent-blue text-text-charcoal placeholder-black/30 transition-all duration-300"
                       {...register("phone", { required: "Phone is required" })}
                     />
                     {errors.phone && <span className="text-xs text-red-500">{errors.phone.message}</span>}
@@ -463,7 +470,7 @@ export default function ServicePageClient({ slug }: { slug: string }) {
                       type="text" 
                       value={data.title}
                       readOnly
-                      className="px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-sm text-text-muted outline-none select-none"
+                      className="px-4 py-3.5 rounded-xl bg-bg-gray border border-black/5 text-sm text-text-muted outline-none select-none"
                       {...register("deviceModel")}
                     />
                   </div>
@@ -473,7 +480,7 @@ export default function ServicePageClient({ slug }: { slug: string }) {
                     <textarea 
                       rows={3}
                       placeholder="Specify curved edges, battery degradation levels, or water contact durations." 
-                      className="px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-sm focus:outline-none focus:border-accent-blue text-white placeholder-white/20 transition-all duration-300 resize-none"
+                      className="px-4 py-3.5 rounded-xl bg-bg-gray border border-black/5 text-sm focus:outline-none focus:border-accent-blue text-text-charcoal placeholder-black/30 transition-all duration-300 resize-none"
                       {...register("problemDescription", { required: "Fault details are required" })}
                     />
                     {errors.problemDescription && <span className="text-xs text-red-500">{errors.problemDescription.message}</span>}
@@ -481,7 +488,7 @@ export default function ServicePageClient({ slug }: { slug: string }) {
 
                   <button 
                     type="submit"
-                    className="w-full py-4.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-accent-blue text-white hover:bg-accent-blue/90 border border-accent-blue transition-all duration-300"
+                    className="w-full py-4.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-accent-blue text-white hover:bg-accent-blue/95 transition-all duration-300"
                   >
                     Confirm Diagnostic Slot
                   </button>
@@ -494,8 +501,8 @@ export default function ServicePageClient({ slug }: { slug: string }) {
       </section>
 
       {/* Footer */}
-      <footer className="w-full py-12 bg-bg-secondary border-t border-white/5 text-center">
-        <span className="text-xs text-text-muted">
+      <footer className="w-full py-12 bg-bg-dark border-t border-white/5 text-center text-white">
+        <span className="text-xs text-white/50">
           © {new Date().getFullYear()} iPhonix Service Centre Chennai • Apple & Multi-Brand Specialists
         </span>
       </footer>
@@ -507,13 +514,13 @@ export default function ServicePageClient({ slug }: { slug: string }) {
         rel="noopener noreferrer"
         className="fixed bottom-6 left-6 z-40 flex items-center justify-center w-14 h-14 rounded-full bg-accent-green text-white shadow-lg"
       >
-        <MessageCircle className="w-6 h-6 fill-white text-accent-green" />
+        <MessageCircle className="w-5 h-5 fill-white text-accent-green" />
       </a>
 
       {showScrollTop && (
         <button 
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-6 right-6 z-40 flex items-center justify-center w-12 h-12 rounded-full bg-white/10 backdrop-blur border border-white/10"
+          className="fixed bottom-6 right-6 z-40 flex items-center justify-center w-12 h-12 rounded-full bg-black/10 backdrop-blur border border-black/5 text-text-charcoal"
         >
           <ArrowUp className="w-5 h-5" />
         </button>
