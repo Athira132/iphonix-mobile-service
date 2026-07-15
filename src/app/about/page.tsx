@@ -11,36 +11,32 @@ export default function AboutPage() {
   return (
     <div className="relative w-full overflow-hidden bg-bg-light text-text-charcoal selection:bg-accent-green/20 selection:text-accent-green">
       
-      {/* Translucent navigation header */}
+      {/* Sticky header navigation */}
       <Header darkTheme={true} />
 
-      {/* Hero Banner */}
-      <section className="relative w-full pt-44 pb-32 overflow-hidden bg-bg-dark text-white">
+      {/* Hero Banner Section (Clean, displaying ONLY page heading over the banner) */}
+      <section className="relative w-full h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden bg-bg-dark text-white">
         <div className="absolute inset-0 z-0">
           <Image 
-            src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=1200" 
-            alt="About us background"
+            src="https://i.ibb.co/ccSs6vDx/image.png" 
+            alt="About banner background"
             fill
-            className="w-full h-full object-cover opacity-20 scale-102"
+            priority
+            className="w-full h-full object-cover scale-102"
           />
-          <div className="absolute inset-0 bg-black/60" />
+          {/* 50% dark overlay */}
+          <div className="absolute inset-0 bg-black/50" />
         </div>
 
-        <div className="relative z-10 w-full max-w-[1440px] mx-auto px-8 md:px-12">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+        <div className="relative z-10 w-full max-w-[1440px] mx-auto px-8 md:px-12 text-center">
+          <motion.h1 
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-3xl text-left"
+            className="font-display text-[48px] sm:text-[64px] md:text-[76px] font-extrabold tracking-tight text-white leading-none uppercase"
           >
-            <span className="text-xs uppercase font-extrabold tracking-widest text-accent-green mb-4 block">About iPhonix</span>
-            <h1 className="font-display text-[44px] sm:text-[56px] lg:text-[68px] font-extrabold tracking-tight text-white mb-6 leading-none">
-              Precision Engineering For Mobile Systems.
-            </h1>
-            <p className="text-lg md:text-[20px] text-white/80 max-w-xl leading-relaxed">
-              We trace motherboard faults, replace screen assemblies, and recondition hardware in Karamana, Thiruvananthapuram.
-            </p>
-          </motion.div>
+            About
+          </motion.h1>
         </div>
       </section>
 
@@ -65,7 +61,7 @@ export default function AboutPage() {
               </p>
             </div>
 
-            {/* Shop Image Right */}
+            {/* Shop Image Right (Using the WhatsApp image from the resolved list) */}
             <div className="lg:col-span-6 relative h-[450px] md:h-[580px] rounded-[32px] overflow-hidden border border-black/5 shadow-sm">
               <Image 
                 src="https://i.ibb.co/pBGN8Nz1/Whats-App-Image-2026-07-14-at-4-01-58-PM.jpg" 

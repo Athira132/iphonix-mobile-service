@@ -15,33 +15,29 @@ export default function ServicesPage() {
       {/* Sticky header */}
       <Header darkTheme={true} />
 
-      {/* Hero section */}
-      <section className="relative w-full pt-44 pb-32 overflow-hidden bg-bg-dark text-white">
+      {/* Hero section displaying ONLY the centered page heading over the banner */}
+      <section className="relative w-full h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden bg-bg-dark text-white">
         <div className="absolute inset-0 z-0">
           <Image 
-            src="https://images.unsplash.com/photo-1596524430615-b46475ddff6e?q=80&w=1200" 
-            alt="Services background banner"
+            src="https://i.ibb.co/ccSs6vDx/image.png" 
+            alt="Services banner background"
             fill
-            className="w-full h-full object-cover opacity-20 scale-102"
+            priority
+            className="w-full h-full object-cover scale-102"
           />
-          <div className="absolute inset-0 bg-black/60" />
+          {/* 50% dark overlay */}
+          <div className="absolute inset-0 bg-black/50" />
         </div>
 
-        <div className="relative z-10 w-full max-w-[1440px] mx-auto px-8 md:px-12">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+        <div className="relative z-10 w-full max-w-[1440px] mx-auto px-8 md:px-12 text-center">
+          <motion.h1 
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-3xl text-left"
+            className="font-display text-[48px] sm:text-[64px] md:text-[76px] font-extrabold tracking-tight text-white leading-none uppercase"
           >
-            <span className="text-xs uppercase font-extrabold tracking-widest text-accent-green mb-4 block">Repair Catalog</span>
-            <h1 className="font-display text-[44px] sm:text-[56px] lg:text-[68px] font-extrabold tracking-tight text-white mb-6 leading-none">
-              Professional Hardware Calibrations.
-            </h1>
-            <p className="text-lg md:text-[20px] text-white/80 max-w-xl leading-relaxed">
-              Explore our comprehensive range of services for iPhones and premium smartphones.
-            </p>
-          </motion.div>
+            Services
+          </motion.h1>
         </div>
       </section>
 
@@ -54,7 +50,7 @@ export default function ServicesPage() {
               <Link 
                 key={idx}
                 href={`/services/${srv.slug}`}
-                className="group relative flex flex-col justify-between rounded-[24px] border-2 border-black/[0.05] hover:border-accent-green transition-all duration-300 bg-white p-8 shadow-sm hover:shadow-[0_25px_60px_rgba(0,0,0,0.06)] hover:-translate-y-1.5 text-left animate-none"
+                className="group relative flex flex-col justify-between rounded-[24px] border-2 border-black/[0.05] hover:border-accent-green transition-all duration-300 bg-white p-8 shadow-sm hover:shadow-[0_25px_60px_rgba(0,0,0,0.06)] hover:-translate-y-1.5 text-left"
               >
                 {/* Accent border highlight line on hover */}
                 <div className="absolute top-0 left-0 right-0 h-1.5 bg-accent-green rounded-t-[22px] scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />

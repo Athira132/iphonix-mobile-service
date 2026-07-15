@@ -12,67 +12,67 @@ export const SERVICES_DATA = [
     title: "Screen Replacement", 
     slug: "display-replacement",
     desc: "TrueTone matched premium OLED screen restorations.",
-    image: "https://images.unsplash.com/photo-1580983218765-f663becf4859?q=80&w=800"
+    image: "https://i.ibb.co/xKjCL5W3/image.png"
   },
   { 
     title: "Battery Replacement", 
     slug: "battery-replacement",
     desc: "Original capacity cells with safety health parameters.",
-    image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=800"
+    image: "https://i.ibb.co/qFgM6Kjf/image.png"
   },
   { 
     title: "Charging Port Repair", 
     slug: "charging-port-repair",
     desc: "Lightning & USB-C ports replacements under microscope.",
-    image: "https://images.unsplash.com/photo-1601524909162-be87252be298?q=80&w=800"
+    image: "https://i.ibb.co/CKjv2D0n/image.png"
   },
   { 
     title: "Back Glass Replacement", 
     slug: "back-glass-replacement",
     desc: "Laser separator alignments for precise rear glass swaps.",
-    image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?q=80&w=800"
+    image: "https://i.ibb.co/HD7TzxCB/image.png"
   },
   { 
     title: "Camera Repair", 
     slug: "camera-repair",
     desc: "Optical stabilizers and camera module restores.",
-    image: "https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?q=80&w=800"
+    image: "https://i.ibb.co/jZBFtzgm/image.png"
   },
   { 
     title: "Speaker Repair", 
     slug: "speaker-repair",
     desc: "Audio descaling and internal speaker swaps.",
-    image: "https://images.unsplash.com/photo-1608156639585-b3a032ef9689?q=80&w=800"
+    image: "https://i.ibb.co/xKjCL5W3/image.png"
   },
   { 
     title: "Mic Repair", 
     slug: "mic-repair",
     desc: "Primary and environmental noise-canceling mic recoveries.",
-    image: "https://images.unsplash.com/photo-1527018601619-a508a2be00cd?q=80&w=800"
+    image: "https://i.ibb.co/qFgM6Kjf/image.png"
   },
   { 
     title: "Water Damage Repair", 
     slug: "water-damage-repair",
     desc: "Ultrasonic cleaning chambers and line repairs.",
-    image: "https://images.unsplash.com/photo-1563206767-5b18f218e8de?q=80&w=800"
+    image: "https://i.ibb.co/CKjv2D0n/image.png"
   },
   { 
     title: "Motherboard Repair", 
     slug: "motherboard-repair",
     desc: "IC chip reballing, logic soldering, and trace jumps.",
-    image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800"
+    image: "https://i.ibb.co/HD7TzxCB/image.png"
   },
   { 
     title: "Software Repair", 
     slug: "software-solutions",
     desc: "Loop recoveries, firmware flash solutions, and backups.",
-    image: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?q=80&w=800"
+    image: "https://i.ibb.co/jZBFtzgm/image.png"
   },
   { 
     title: "Face ID Repair", 
     slug: "face-id-repair",
     desc: "TrueDepth sensor calibrations and chip transplant repairs.",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300"
+    image: "https://i.ibb.co/xKjCL5W3/image.png"
   }
 ];
 

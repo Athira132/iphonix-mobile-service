@@ -1,0 +1,30 @@
+# Task List: iPhonix Multi-Page Architectural Overhaul
+
+- [x] Booking Form Redesign
+    - [x] Visible 2px gradient border (white/light gray with green accent).
+    - [x] 18-24px rounded corners and glassmorphism.
+    - [x] Internal padding 40-50px.
+    - [x] Small header: Book Your Repair / Fast • Reliable • Professional Service.
+    - [x] Large inputs (h-[58px]) and full-width "Book Now" CTA.
+- [x] Dedicated Customer Reviews Page (`/reviews`)
+    - [x] Overall rating Google Business style.
+    - [x] Statistics counters and masonry cards.
+    - [x] Autoload reviews pagination.
+- [x] Dedicated Routes
+    - [x] Home (`/`) - minimal brand index.
+    - [x] About (`/about`).
+    - [x] Services (`/services`).
+    - [x] Gallery (`/gallery`).
+    - [x] Reviews (`/reviews`).
+    - [x] Contact (`/contact`).
+    - [x] Book Repair (`/book-repair`).
+- [x] Individual Service Pages (`/services/[slug]`)
+    - [x] Layout: Banner, overview, why choose, process, benefits, supported devices, gallery, FAQs, related, and BookingForm.
+- [x] Shared navigation header mega menu & Custom footer
+    - [x] Translucent sticky mega-dropdown menu.
+    - [x] Address coordinates mapped.
+- [x] Verification & Deployment
+    - [x] Run `npm run build` compilation verification.
+    - [x] Run `npm run lint` eslint rule verification.
+    - [x] Stage all changes, commit, and push.
+    - [x] Trigger Vercel production deploy and verify live URLs.
