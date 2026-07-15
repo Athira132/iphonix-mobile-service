@@ -95,7 +95,7 @@ const SERVICES_DATA: Record<string, {
     desc: "Fix low earpiece sound, crackling speakers, and microphone recording issues. We clean dust grilles or replace audio transducers.",
     icon: Award,
     faqs: [
-      { q: "Why is my earpiece sound suddenly very low?", a: "Usually, this is due to fine dirt, cosmetics, or sweat clogging the speaker mesh. A deep micro-cleaning solves this in minutes." },
+      { q: "Why is my earpiece sound suddenly very low?", a: "Usually, this is due to fine dirt, cosmetics, or sweat clogging the mesh. A deep micro-cleaning solves this in minutes." },
       { q: "Do you replace speaker components?", a: "Yes. If cleaning does not restore audio clarity, we install replacement speaker drivers." }
     ],
     gallery: [
@@ -218,28 +218,28 @@ export default function ServicePageClient({ slug }: { slug: string }) {
       <div className="fixed top-0 left-0 right-0 z-50 h-[3px] bg-accent-green" />
 
       {/* Header */}
-      <header className={`fixed top-0 left-0 right-0 z-40 w-full transition-all duration-500 ${
-        scrolled ? "glass-nav py-4 shadow-sm" : "bg-transparent py-6"
+      <header className={`fixed top-0 left-0 right-0 z-40 w-full transition-all duration-500 h-28 flex items-center ${
+        scrolled ? "glass-nav shadow-sm" : "bg-transparent"
       }`}>
-        <div className="mx-auto max-w-7xl px-6 md:px-8 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="relative w-9 h-9 overflow-hidden rounded-full border border-black/5 p-1 bg-black flex items-center justify-center">
-              <Image src="/logo.png" alt="Logo" width={24} height={24} className="object-contain" />
+        <div className="mx-auto w-full max-w-[1440px] px-8 md:px-12 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-4 flex-shrink-0">
+            <div className="relative w-12 h-12 flex items-center justify-center p-0.5 overflow-visible">
+              <Image src="/logo.png" alt="Logo" width={48} height={48} className="object-contain" />
             </div>
             <div className="flex flex-col">
-              <span className={`font-display text-lg font-bold tracking-tight transition-colors duration-300 ${
+              <span className={`font-display font-extrabold leading-none tracking-tight text-[22px] md:text-[26px] lg:text-[32px] transition-colors duration-300 ${
                 scrolled ? "text-text-charcoal" : "text-white"
               }`}>
                 iPhonix
               </span>
-              <span className="text-[7.5px] tracking-widest text-text-muted uppercase font-bold">Apple & Multi-Brand Service</span>
+              <span className="text-[9px] tracking-widest text-text-muted uppercase font-bold mt-1.5">Apple & Multi-Brand Service</span>
             </div>
           </Link>
 
-          <Link href="/" className={`text-sm font-semibold transition-colors duration-300 flex items-center gap-1.5 ${
+          <Link href="/" className={`text-[18px] font-bold transition-colors duration-300 flex items-center gap-2 ${
             scrolled ? "text-accent-green hover:text-text-charcoal" : "text-white hover:text-accent-green"
           }`}>
-            Return Home <ArrowRight className="w-4 h-4" />
+            Return Home <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
       </header>
@@ -248,36 +248,35 @@ export default function ServicePageClient({ slug }: { slug: string }) {
       <section className="relative w-full min-h-[90vh] flex items-center justify-center pt-32 pb-24 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image 
-            src="https://i.ibb.co/pBGN8Nz1/Whats-App-Image-2026-07-14-at-4-01-58-PM.jpg" 
+            src="https://i.ibb.co/pBGN8Nz1/WhatsApp-Image-2026-07-14-at-4-01-58-PM.jpg" 
             alt={data.title}
             fill
             priority
             className="w-full h-full object-cover scale-102"
           />
           <div className="absolute inset-0 bg-black/60" />
-          <div className="absolute inset-0 bg-gradient-to-t from-bg-light via-transparent to-transparent" />
         </div>
 
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-8 text-center flex flex-col items-center">
+        <div className="relative z-10 w-full max-w-[1440px] mx-auto px-8 md:px-12 text-center flex flex-col items-center">
           <div className="outline-icon-container mb-8 text-accent-green">
             <ServiceIcon className="w-20 h-20" />
           </div>
 
-          <h1 className="font-display text-5xl sm:text-6xl md:text-8xl font-bold tracking-tight text-white mb-6">
+          <h1 className="font-display text-[48px] sm:text-[68px] md:text-[80px] lg:text-[90px] font-extrabold tracking-tight text-white mb-6">
             {data.title}
           </h1>
 
-          <p className="text-xl sm:text-2xl text-accent-green font-semibold tracking-tight mb-8">
+          <p className="text-[20px] sm:text-[22px] lg:text-[26px] text-accent-green font-semibold tracking-tight mb-8">
             {data.tagline}
           </p>
 
-          <p className="text-base sm:text-lg text-white/80 max-w-2xl leading-relaxed mb-12">
+          <p className="text-base sm:text-lg lg:text-[20px] text-white/80 max-w-2xl leading-relaxed mb-12">
             {data.desc}
           </p>
 
           <a 
             href="#booking-bay"
-            className="inline-flex items-center justify-center px-12 py-5 rounded-full text-xs font-bold uppercase tracking-wider bg-accent-green text-white hover:bg-accent-green/90 transition-all duration-300"
+            className="inline-flex items-center justify-center py-[18px] px-[40px] rounded-[16px] text-[18px] font-bold uppercase tracking-wider bg-accent-green text-white hover:bg-accent-green/90 transition-all duration-300 shadow-md"
           >
             Request Diagnostics Slot
           </a>
@@ -285,12 +284,12 @@ export default function ServicePageClient({ slug }: { slug: string }) {
       </section>
 
       {/* Why Choose iPhonix Section */}
-      <section className="relative z-10 w-full py-32 bg-bg-light-grey">
-        <div className="mx-auto max-w-7xl px-6 md:px-8">
+      <section className="relative z-10 w-full pt-[160px] pb-[160px] bg-bg-light-grey mt-[60px]">
+        <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
           <div className="text-center max-w-3xl mx-auto mb-24">
-            <span className="text-xs uppercase font-bold tracking-widest text-accent-green mb-4 block">Diagnostics Bay</span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-text-charcoal mb-6">Why Choose iPhonix</h2>
+            <span className="text-[13px] uppercase font-bold tracking-widest text-accent-green mb-6 block">Diagnostics Bay</span>
+            <h2 className="font-display text-[40px] md:text-[50px] lg:text-[60px] font-bold tracking-tight text-text-charcoal mb-6">Why Choose iPhonix</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -299,12 +298,12 @@ export default function ServicePageClient({ slug }: { slug: string }) {
               { title: "OEM Quality Components", desc: "We utilize premium factory-grade replacement components exclusively.", icon: ShieldCheck },
               { title: "90-Day Guarantee", desc: "Every component swap is backed by a complete replacement warranty card.", icon: Clock }
             ].map((card, idx) => (
-              <div key={idx} className="apple-card-light p-10 cursor-default">
+              <div key={idx} className="apple-card-light p-10 bg-white rounded-[32px] cursor-default">
                 <div className="outline-icon-container mb-8 text-accent-green">
-                  <card.icon className="w-16 h-16" />
+                  <card.icon className="w-20 h-20" />
                 </div>
                 <h3 className="font-display text-2xl font-bold text-text-charcoal mb-4">{card.title}</h3>
-                <p className="text-sm text-text-muted leading-relaxed">{card.desc}</p>
+                <p className="text-base sm:text-lg text-text-muted leading-relaxed">{card.desc}</p>
               </div>
             ))}
           </div>
@@ -313,12 +312,12 @@ export default function ServicePageClient({ slug }: { slug: string }) {
       </section>
 
       {/* Repair Process */}
-      <section className="relative z-10 w-full py-32 bg-bg-dark text-white dark-mode-scrollbar">
-        <div className="mx-auto max-w-7xl px-6 md:px-8">
+      <section className="relative z-10 w-full pt-[160px] pb-[160px] bg-bg-dark text-white dark-mode-scrollbar mt-[60px]">
+        <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
           <div className="text-center max-w-3xl mx-auto mb-24">
             <span className="text-xs uppercase font-bold tracking-widest text-accent-green mb-4 block">Repair Pipeline</span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-white mb-6">Our Process</h2>
+            <h2 className="font-display text-[40px] md:text-[50px] lg:text-[60px] font-bold tracking-tight text-white mb-6">Our Process</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -328,7 +327,7 @@ export default function ServicePageClient({ slug }: { slug: string }) {
               { step: "03", title: "Expert Repair", desc: "Repair conducted inside clean micro-repair enclosures." },
               { step: "04", title: "Quality Check & Delivery", desc: "Post-repair test verification and warranty card issue." }
             ].map((step, idx) => (
-              <div key={idx} className="apple-card-dark p-8 hover:border-accent-green/20 transition-colors duration-300">
+              <div key={idx} className="apple-card-dark p-8 rounded-[32px] hover:border-accent-green/20 transition-colors duration-300">
                 <div className="w-12 h-12 rounded-full bg-accent-green/15 border border-accent-green/30 flex items-center justify-center text-sm font-bold text-accent-green font-display mb-8">
                   {step.step}
                 </div>
@@ -342,12 +341,12 @@ export default function ServicePageClient({ slug }: { slug: string }) {
       </section>
 
       {/* Before & After Gallery */}
-      <section className="relative z-10 w-full py-32 bg-white">
-        <div className="mx-auto max-w-7xl px-6 md:px-8">
+      <section className="relative z-10 w-full pt-[160px] pb-[160px] bg-white mt-[60px]">
+        <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
           <div className="text-center max-w-3xl mx-auto mb-24">
-            <span className="text-xs uppercase font-bold tracking-widest text-accent-green mb-4 block">Visual Evidence</span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-text-charcoal mb-6">Gallery Showcase</h2>
+            <span className="text-[13px] uppercase font-bold tracking-widest text-accent-green mb-6 block">Visual Evidence</span>
+            <h2 className="font-display text-[40px] md:text-[50px] lg:text-[60px] font-bold tracking-tight text-text-charcoal mb-6">Gallery Showcase</h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-12">
@@ -361,7 +360,7 @@ export default function ServicePageClient({ slug }: { slug: string }) {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
-                  <Star className="w-8 h-8 text-accent-green animate-pulse" />
+                  <Star className="w-10 h-10 text-accent-green animate-pulse" />
                 </div>
               </div>
             ))}
@@ -371,12 +370,12 @@ export default function ServicePageClient({ slug }: { slug: string }) {
       </section>
 
       {/* FAQ Accordion */}
-      <section className="relative z-10 w-full py-32 bg-bg-light-grey">
-        <div className="mx-auto max-w-7xl px-6 md:px-8">
+      <section className="relative z-10 w-full pt-[160px] pb-[160px] bg-bg-light-grey mt-[60px]">
+        <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
           <div className="text-center max-w-3xl mx-auto mb-24">
-            <span className="text-xs uppercase font-bold tracking-widest text-accent-green mb-4 block">Faq</span>
-            <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-text-charcoal mb-6">Common Questions</h2>
+            <span className="text-[13px] uppercase font-bold tracking-widest text-accent-green mb-6 block">Faq</span>
+            <h2 className="font-display text-[40px] md:text-[50px] lg:text-[60px] font-bold tracking-tight text-text-charcoal mb-6">Common Questions</h2>
           </div>
 
           <div className="max-w-3xl mx-auto flex flex-col gap-6">
@@ -385,14 +384,14 @@ export default function ServicePageClient({ slug }: { slug: string }) {
               return (
                 <div key={index} className="bg-white border border-black/5 rounded-[24px] overflow-hidden transition-all duration-300 shadow-sm">
                   <button
-                    className="w-full px-8 py-6 flex items-center justify-between text-left focus:outline-none"
+                    className="w-full px-10 py-8 flex items-center justify-between text-left focus:outline-none"
                     onClick={() => setOpenFaqIndex(isOpen ? null : index)}
                   >
                     <span className="font-display text-lg font-bold text-text-charcoal pr-4">{faq.q}</span>
-                    <ChevronDown className={`w-5 h-5 text-text-muted transition-transform duration-300 ${isOpen ? "rotate-180 text-accent-green" : ""}`} />
+                    <ChevronDown className={`w-6 h-6 text-text-muted transition-transform duration-300 ${isOpen ? "rotate-180 text-accent-green" : ""}`} />
                   </button>
                   <div className={`transition-all duration-300 ease-in-out ${isOpen ? "max-h-[300px] border-t border-black/5 opacity-100" : "max-h-0 opacity-0 pointer-events-none"}`}>
-                    <div className="px-8 py-6 text-sm text-text-muted leading-relaxed">{faq.a}</div>
+                    <div className="px-10 py-8 text-sm sm:text-base text-text-muted leading-relaxed">{faq.a}</div>
                   </div>
                 </div>
               );
@@ -402,37 +401,37 @@ export default function ServicePageClient({ slug }: { slug: string }) {
         </div>
       </section>
 
-      {/* Booking Form CTA */}
-      <section id="booking-bay" className="relative z-10 w-full py-32 bg-white">
-        <div className="mx-auto max-w-7xl px-6 md:px-8">
+      {/* Booking Form CTA (Map URL Redirect updates) */}
+      <section id="booking-bay" className="relative z-10 w-full pt-[160px] pb-[160px] bg-white mt-[60px]">
+        <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
             <div>
-              <span className="text-xs uppercase font-bold tracking-widest text-accent-green mb-4 block">Service Area</span>
-              <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight text-text-charcoal mb-6">Book Repair Slots</h2>
-              <p className="text-text-muted leading-relaxed mb-12">
+              <span className="text-[13px] uppercase font-bold tracking-widest text-accent-green mb-6 block">Service Area</span>
+              <h2 className="font-display text-[40px] md:text-[50px] lg:text-[60px] font-bold tracking-tight text-text-charcoal mb-6">Book Repair Slots</h2>
+              <p className="text-text-muted leading-relaxed text-lg md:text-[20px] mb-12">
                 Send details of your device. Our micro-diagnostics team will reach out with pricing quotes within 5 to 10 minutes.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-6">
                 <a 
                   href="tel:7306243424"
-                  className="inline-flex items-center justify-center gap-3 px-10 py-4.5 rounded-full text-xs font-bold uppercase tracking-wider bg-bg-light-grey border border-black/5 hover:border-accent-green hover:text-accent-green transition-colors duration-300 text-text-charcoal"
+                  className="inline-flex items-center justify-center gap-3 py-[18px] px-[40px] rounded-[16px] text-[18px] font-bold uppercase tracking-wider bg-bg-light-grey border border-black/5 hover:border-accent-green hover:text-accent-green transition-colors duration-300 text-text-charcoal"
                 >
-                  <Phone className="w-4 h-4" /> Call Direct
+                  <Phone className="w-5 h-5" /> Call Direct
                 </a>
                 <a 
                   href="https://wa.me/917306243424"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-3 px-10 py-4.5 rounded-full text-xs font-bold uppercase tracking-wider bg-bg-light-grey border border-black/5 hover:border-accent-green hover:text-accent-green transition-colors duration-300 text-text-charcoal"
+                  className="inline-flex items-center justify-center gap-3 py-[18px] px-[40px] rounded-[16px] text-[18px] font-bold uppercase tracking-wider bg-bg-light-grey border border-black/5 hover:border-accent-green hover:text-accent-green transition-colors duration-300 text-text-charcoal"
                 >
-                  <MessageCircle className="w-4 h-4" /> WhatsApp Chat
+                  <MessageCircle className="w-5 h-5" /> WhatsApp Chat
                 </a>
               </div>
             </div>
 
-            <div className="apple-card-light p-10 md:p-12">
+            <div className="apple-card-light p-10 md:p-12 bg-white rounded-[32px]">
               {bookingSuccess ? (
                 <div className="w-full py-16 px-6 flex flex-col items-center justify-center text-center gap-4 bg-accent-green/5 border border-accent-green/20 rounded-2xl">
                   <CheckCircle2 className="w-12 h-12 text-accent-green" />
@@ -489,7 +488,7 @@ export default function ServicePageClient({ slug }: { slug: string }) {
 
                   <button 
                     type="submit"
-                    className="w-full py-4.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-accent-green text-white hover:bg-accent-green/95 transition-all duration-300"
+                    className="w-full py-5 rounded-[16px] text-[18px] font-bold uppercase tracking-wider bg-accent-green text-white hover:bg-accent-green/95 transition-all duration-300 shadow-md"
                   >
                     Confirm Diagnostic Slot
                   </button>
