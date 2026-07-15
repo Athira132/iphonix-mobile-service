@@ -6,8 +6,8 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { 
   Smartphone, ShieldCheck, Clock, Settings, Award, 
-  CheckCircle2, ChevronDown, Phone, Sparkles, ArrowRight, 
-  Star, Cpu, MessageCircle, ArrowUp, Watch
+  ChevronDown, Phone, Sparkles, ArrowRight, Star, Cpu, 
+  MessageCircle, ArrowUp, Watch, CheckCircle2
 } from "lucide-react";
 
 type BookingFormData = {
@@ -223,8 +223,9 @@ export default function ServicePageClient({ slug }: { slug: string }) {
       }`}>
         <div className="mx-auto w-full max-w-[1440px] px-8 md:px-12 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-4 flex-shrink-0">
-            <div className="relative w-12 h-12 flex items-center justify-center p-0.5 overflow-visible">
-              <Image src="/logo.png" alt="Logo" width={48} height={48} className="object-contain" />
+            {/* Circular Logo Container */}
+            <div className="relative w-14 h-14 rounded-full border border-white/20 shadow bg-black flex items-center justify-center p-2 overflow-visible">
+              <Image src="/logo.png" alt="Logo" width={38} height={38} className="object-contain" />
             </div>
             <div className="flex flex-col">
               <span className={`font-display font-extrabold leading-none tracking-tight text-[22px] md:text-[26px] lg:text-[32px] transition-colors duration-300 ${
@@ -248,7 +249,7 @@ export default function ServicePageClient({ slug }: { slug: string }) {
       <section className="relative w-full min-h-[90vh] flex items-center justify-center pt-32 pb-24 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image 
-            src="https://i.ibb.co/pBGN8Nz1/WhatsApp-Image-2026-07-14-at-4-01-58-PM.jpg" 
+            src="https://i.ibb.co/pBGN8Nz1/Whats-App-Image-2026-07-14-at-4-01-58-PM.jpg" 
             alt={data.title}
             fill
             priority
@@ -401,7 +402,7 @@ export default function ServicePageClient({ slug }: { slug: string }) {
         </div>
       </section>
 
-      {/* Booking Form CTA (Map URL Redirect updates) */}
+      {/* Booking Form CTA */}
       <section id="booking-bay" className="relative z-10 w-full pt-[160px] pb-[160px] bg-white mt-[60px]">
         <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
