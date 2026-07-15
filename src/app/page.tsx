@@ -1,39 +1,22 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { 
-  Smartphone, Watch, Laptop, Tablet, ShieldCheck, Clock, 
-  Settings, Award, CheckCircle2, ChevronDown, Phone, 
+  Smartphone, Watch, Laptop, ShieldCheck, Clock, 
+  Settings, Award, CheckCircle2, Phone, 
   MapPin, Mail, Calendar, Sparkles, ArrowRight, 
-  Star, Cpu, MessageCircle, RefreshCw, X, ArrowUp
+  Star, Cpu, MessageCircle, ArrowUp
 } from "lucide-react";
-
-// Inline Instagram SVG component
-const Instagram = ({ className }: { className?: string }) => (
-  <svg 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
-    strokeLinejoin="round" 
-    className={className}
-  >
-    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-  </svg>
-);
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay, EffectFade } from "swiper/modules";
+import { Pagination, Autoplay } from "swiper/modules";
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
-import "swiper/css/effect-fade";
 
 // Form input types
 type BookingFormData = {
@@ -43,186 +26,99 @@ type BookingFormData = {
   problemDescription: string;
 };
 
-// Brand marquee list
-const BRANDS = [
-  "Apple", "Samsung", "OnePlus", "Google Pixel", "Xiaomi", 
-  "Realme", "Oppo", "Vivo", "Nothing", "Motorola", "Asus"
-];
-
-// Services list
-const SERVICES = [
+// Featured services for the homepage
+const FEATURED_SERVICES = [
   {
-    title: "iPhone Screen Replacement",
+    title: "Screen Replacement",
+    slug: "screen-replacement",
     icon: Smartphone,
-    desc: "Restore visual perfection. TrueTone compatibility and high-brightness original panels with warranty.",
-    category: "iPhone"
+    desc: "TrueTone matched premium displays with precise glass laminations.",
   },
   {
     title: "Battery Replacement",
+    slug: "battery-replacement",
     icon: Cpu,
-    desc: "Restore peak performance. High-capacity OEM batteries with health metrics reporting.",
-    category: "Hardware"
+    desc: "Original-grade capacity cells with complete battery health telemetry.",
   },
   {
     title: "Charging Port Repair",
+    slug: "charging-port-repair",
     icon: Settings,
-    desc: "Solve connection errors. Cleaning and replacement of Type-C and Lightning dock flexes.",
-    category: "Hardware"
+    desc: "Lightning and Type-C dock replacements with strict power flow checking.",
   },
   {
-    title: "Face ID Repair",
-    icon: ShieldCheck,
-    desc: "Microelectronics logic board restoration for dot projectors and ambient light sensors.",
-    category: "iPhone"
+    title: "Water Damage Repair",
+    slug: "water-damage-repair",
+    icon: Cpu,
+    desc: "Advanced microcircuit cleaning using ultrasonic diagnostic benches.",
   },
   {
     title: "Camera Repair",
+    slug: "camera-repair",
     icon: Sparkles,
-    desc: "Blurry focus or sensor failures solved. Replacement of premium camera lenses and OIS modules.",
-    category: "Hardware"
+    desc: "Focus, OIS stabilizer, and camera lens restorations.",
   },
   {
-    title: "Speaker & Microphone Repair",
-    icon: Award,
-    desc: "Crystal-clear audio restoration. Cleaning blockages or replacing audio drivers.",
-    category: "Hardware"
-  },
-  {
-    title: "Water Damage Recovery",
-    icon: RefreshCw,
-    desc: "Advanced ultrasonic bath cleaning and board dehydration. High success recovery rates.",
-    category: "Logic Board"
-  },
-  {
-    title: "Back Glass Replacement",
-    icon: Smartphone,
-    desc: "Laser back glass removal for seamless fit and premium finish.",
-    category: "iPhone"
-  },
-  {
-    title: "Motherboard Chip-Level Repair",
-    icon: Cpu,
-    desc: "IC reballing, trace rebuilding, and capacitor diagnostics under stereo microscopes.",
-    category: "Logic Board"
-  },
-  {
-    title: "Software & iOS Issues",
+    title: "Software Solutions",
+    slug: "software-solutions",
     icon: ShieldCheck,
-    desc: "Stuck on boot loops, bricked recovery, memory diagnostics, and firmware upgrades.",
-    category: "Software"
-  },
-  {
-    title: "Data Recovery",
-    icon: CheckCircle2,
-    desc: "Safely extract precious photos, messages, and document storage from dead devices.",
-    category: "Software"
-  },
-  {
-    title: "Apple Watch Repair",
-    icon: Watch,
-    desc: "Digitizer glass replacement, OLED fixes, and battery swaps for series 3 to Ultra.",
-    category: "Wearables"
-  },
-  {
-    title: "MacBook Repair",
-    icon: Laptop,
-    desc: "Keyboard replacements, display fixes, trackpad tuning, and SMC power supply repairs.",
-    category: "MacBook"
-  },
-  {
-    title: "iPad Repair",
-    icon: Tablet,
-    desc: "Laminated glass replacements, chassis straightening, and charging IC diagnostics.",
-    category: "iPad"
-  },
-  {
-    title: "Android Phone Repair",
-    icon: Smartphone,
-    desc: "Specialized diagnostics and repairs for Samsung Ultra, Google Pixel, and OnePlus flagships.",
-    category: "Android"
+    desc: "Firmware loop fixes, secure data extraction, and memory diagnostics.",
   }
 ];
 
 // Why Choose Us list
 const ADVANTAGES = [
-  { title: "Certified Technicians", desc: "Our experts hold certifications in microelectronics and Apple repairs.", icon: Award },
-  { title: "Genuine Parts", desc: "We source high-grade original parts that guarantee long-term durability.", icon: ShieldCheck },
-  { title: "Affordable Pricing", desc: "Get premium diagnostics and repairs at competitive, upfront rates.", icon: Settings },
-  { title: "Warranty Support", desc: "Rest easy with up to 90 days of complete warranty on replacement components.", icon: ShieldCheck },
-  { title: "Fast Delivery", desc: "Over 80% of diagnostic, screen, and battery repairs completed on the same day.", icon: Clock },
-  { title: "Customer Satisfaction", desc: "Highly rated on local boards with a 98% positive verification index.", icon: Star },
-  { title: "Modern Equipment", desc: "We utilize laser removers, advanced oscilloscopes, and thermal cameras.", icon: Cpu },
-  { title: "Secure Data Handling", desc: "Privacy is paramount. We enforce strict data protection protocols.", icon: CheckCircle2 }
+  { title: "Certified Technicians", desc: "Expert micro-engineers certified in board diagnostics.", icon: Award },
+  { title: "Genuine Parts", desc: "Only factory-grade replacement components are installed.", icon: ShieldCheck },
+  { title: "Warranty Support", desc: "Up to 90 days of complete post-repair assurance.", icon: Clock },
+  { title: "Transparent Pricing", desc: "Upfront pricing structures. No diagnostic fees.", icon: CheckCircle2 }
+];
+
+// Core Repair Categories
+const REPAIR_CATEGORIES = [
+  {
+    title: "iPhone Repair",
+    slug: "iphone-repair",
+    desc: "Specialized service path for iPhone screen, logic board, back glass, and chip-level repairs.",
+    icon: Smartphone,
+  },
+  {
+    title: "Android Repair",
+    slug: "android-repair",
+    desc: "Diagnostics and screen/battery service pathways for Samsung Ultra, Pixel, and OnePlus flagships.",
+    icon: Smartphone,
+  },
+  {
+    title: "MacBook & iPad Repair",
+    slug: "screen-replacement", // Fallback path
+    desc: "Glass laminations, power board trace repairs, keyboard swaps, and battery maintenance.",
+    icon: Laptop,
+  },
+  {
+    title: "Accessories Store",
+    slug: "accessories",
+    desc: "Premium device protection overlays, adapters, MagSafe components, and luxury straps.",
+    icon: Watch,
+  }
 ];
 
 // Testimonials
 const REVIEWS = [
   { name: "Aditya Verma", type: "iPhone 14 Pro Screen Replacement", text: "Incredibly professional service! The screen is original and looks beautiful, complete with TrueTone. Done in just 1.5 hours next to the Daikin showroom in Pallikaranai.", rating: 5, avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200" },
   { name: "Priya Sundar", type: "MacBook Pro Motherboard Repair", text: "My MacBook had a liquid spill and wouldn't power on. Other service centers told me to replace the logic board. iPhonix fixed it at chip-level for a third of the cost. Highly recommended!", rating: 5, avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200" },
-  { name: "Rajesh Kannan", type: "Apple Watch Battery Swap", text: "Excellent and transparent pricing. They showed me the battery health analytics pre- and post-repair. Excellent after-sales support.", rating: 5, avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200" },
-  { name: "Meera Nair", type: "Samsung S23 Ultra Camera Repair", text: "Fixed my focus issue. Extremely prompt response on WhatsApp, booked my slot, and they did same-day handback.", rating: 5, avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200" }
-];
-
-// FAQs
-const FAQS = [
-  { q: "How long does repair take?", a: "Most diagnostic checks, screen replacements, and battery installations are completed within 1 to 2 hours. Complex motherboard repairs can take between 24 and 48 hours." },
-  { q: "Do you provide warranty?", a: "Yes, we offer up to 90 days of comprehensive warranty on parts replaced. This warranty covers defect occurrences in visual, audio, or tactile feedback of parts." },
-  { q: "Do you use genuine parts?", a: "We utilize original factory-grade OEM components which match original specifications perfectly. We test color balance, battery charge-discharge patterns, and touch sensitivity before installation." },
-  { q: "Can I wait during repair?", a: "Yes, our comfortable glass-walled reception area allows you to watch our technicians work through our micro-repair stations, or wait while enjoying air-conditioned comfort." },
-  { q: "Do you repair water-damaged phones?", a: "Yes, we perform ultrasonic cleaning of logic boards, strip corrosion under micro-inspection, and reflow logic traces. We recommend power-off immediately and bringing the device to us immediately." },
-  { q: "Do you repair MacBooks?", a: "Absolutely. We repair all MacBook Air, Pro, and iMac models. Our board specialists fix power circuitry (SMC/T2 chips), backlight ICs, keyboard switches, and battery lines." },
-  { q: "Do you repair Apple Watch?", a: "Yes, we perform glass-only restoration, digitizer laminations, power controller diagnostics, and battery replacements on Apple Watch series and Ultra models." }
-];
-
-// Gallery Images
-const GALLERY = [
-  { title: "Laser Glass Stripping", category: "iPhone Repair", url: "https://images.unsplash.com/photo-1601524909162-be87252be298?q=80&w=600" },
-  { title: "Chip Reflow Station", category: "Board Diagnostics", url: "https://images.unsplash.com/photo-1597733336794-12d05021d510?q=80&w=600" },
-  { title: "Apple Watch Digitizer Lamination", category: "Wearables", url: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?q=80&w=600" },
-  { title: "Ultrasonic Corrosion Bath", category: "Water Recovery", url: "https://images.unsplash.com/photo-1563206767-5b18f218e8de?q=80&w=600" },
-  { title: "Precision Screwdriver assembly", category: "Assembly", url: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=600" },
-  { title: "Finished TrueTone Testing", category: "Quality Assurance", url: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=600" }
+  { name: "Rajesh Kannan", type: "Apple Watch Battery Swap", text: "Excellent and transparent pricing. They showed me the battery health analytics pre- and post-repair. Excellent after-sales support.", rating: 5, avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200" }
 ];
 
 export default function Home() {
-  // Navigation & Scroll states
-  const [activeSection, setActiveSection] = useState("hero");
   const [scrolled, setScrolled] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   
-  // Before/After comparison state
-  const [sliderPosition, setSliderPosition] = useState(50);
-  const beforeAfterRef = useRef<HTMLDivElement>(null);
-  const [containerWidth, setContainerWidth] = useState(768);
-
-  useEffect(() => {
-    if (beforeAfterRef.current) {
-      setContainerWidth(beforeAfterRef.current.getBoundingClientRect().width);
-    }
-    const handleResize = () => {
-      if (beforeAfterRef.current) {
-        setContainerWidth(beforeAfterRef.current.getBoundingClientRect().width);
-      }
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-  
-  // FAQ state
-  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
-  
-  // Lightbox state
-  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
-
-  // Form states
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const { register, handleSubmit, reset, formState: { errors } } = useForm<BookingFormData>();
 
-  // Mouse Glow coordinates
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [showGlow, setShowGlow] = useState(false);
 
-  // Scroll Progress indicator
   const { scrollYProgress } = useScroll();
   const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
@@ -230,22 +126,6 @@ export default function Home() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
       setShowScrollTop(window.scrollY > 400);
-
-      // Section tracking
-      const sections = ["hero", "about", "services", "process", "gallery", "faq", "contact"];
-      const scrollPos = window.scrollY + 200;
-
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const top = element.offsetTop;
-          const height = element.offsetHeight;
-          if (scrollPos >= top && scrollPos < top + height) {
-            setActiveSection(section);
-            break;
-          }
-        }
-      }
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -260,20 +140,6 @@ export default function Home() {
     });
   };
 
-  const handleSliderMove = (clientX: number) => {
-    if (!beforeAfterRef.current) return;
-    const rect = beforeAfterRef.current.getBoundingClientRect();
-    const x = clientX - rect.left;
-    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-    setSliderPosition(percentage);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (e.touches[0]) {
-      handleSliderMove(e.touches[0].clientX);
-    }
-  };
-
   const handleBookingSubmit = (data: BookingFormData) => {
     console.log("Booking request received:", data);
     setBookingSuccess(true);
@@ -284,28 +150,33 @@ export default function Home() {
   };
 
   return (
-    <div className="relative w-full glow-grid overflow-hidden bg-bg-primary text-white" onMouseMove={handleMouseMove} onMouseEnter={() => setShowGlow(true)} onMouseLeave={() => setShowGlow(false)}>
+    <div 
+      className="relative w-full glow-grid overflow-hidden bg-bg-primary text-white" 
+      onMouseMove={handleMouseMove} 
+      onMouseEnter={() => setShowGlow(true)} 
+      onMouseLeave={() => setShowGlow(false)}
+    >
       
-      {/* Dynamic Mouse Glow Highlight (Tesla/Nothing inspired) */}
+      {/* Dynamic Mouse Glow Highlight */}
       {showGlow && (
         <div 
-          className="pointer-events-none absolute z-0 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent-blue/4 blur-[120px] transition-all duration-100 ease-out"
+          className="pointer-events-none absolute z-0 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent-blue/3 blur-[140px] transition-all duration-100 ease-out"
           style={{ left: `${mousePosition.x}px`, top: `${mousePosition.y}px` }}
         />
       )}
 
-      {/* Scroll Progress Indicator (Apple/Linear inspired) */}
+      {/* Scroll Progress Indicator */}
       <motion.div 
         className="fixed top-0 left-0 right-0 z-50 h-[3px] origin-left bg-gradient-to-r from-accent-blue to-accent-green" 
         style={{ scaleX }}
       />
 
-      {/* 1. Header & Navigation (Apple glassmorphic layout) */}
+      {/* Header & Navigation */}
       <header className={`fixed top-0 left-0 right-0 z-40 w-full transition-all duration-500 ${
         scrolled ? "bg-bg-primary/70 backdrop-blur-md border-b border-white/5 py-4" : "bg-transparent py-6"
       }`}>
         <div className="mx-auto max-w-7xl px-6 md:px-8 flex items-center justify-between">
-          <a href="#hero" className="flex items-center gap-3 group">
+          <Link href="/" className="flex items-center gap-3 group">
             <div className="relative w-10 h-10 overflow-hidden rounded-full border border-white/10 p-1 bg-black flex items-center justify-center">
               <Image 
                 src="/logo.png" 
@@ -323,34 +194,27 @@ export default function Home() {
                 Apple & Multi-Brand Service
               </span>
             </div>
-          </a>
+          </Link>
 
-          {/* Desktop Navigation */}
+          {/* Navigation Links */}
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
-            {["about", "services", "process", "gallery", "faq", "contact"].map((section) => (
-              <a 
-                key={section} 
-                href={`#${section}`} 
-                className={`capitalize transition-colors duration-300 hover:text-accent-blue ${
-                  activeSection === section ? "text-accent-blue font-semibold" : "text-text-muted"
-                }`}
-              >
-                {section}
-              </a>
-            ))}
+            <a href="#services" className="text-text-muted hover:text-accent-blue transition-colors duration-300">Featured Services</a>
+            <a href="#why-choose" className="text-text-muted hover:text-accent-blue transition-colors duration-300">Why iPhonix</a>
+            <a href="#categories" className="text-text-muted hover:text-accent-blue transition-colors duration-300">Categories</a>
+            <a href="#reviews" className="text-text-muted hover:text-accent-blue transition-colors duration-300">Reviews</a>
+            <a href="#contact" className="text-text-muted hover:text-accent-blue transition-colors duration-300">Contact</a>
           </nav>
 
           <div className="flex items-center gap-4">
             <a 
               href="#contact" 
-              className="hidden sm:inline-flex items-center justify-center px-5 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-accent-blue hover:bg-accent-blue/90 border border-accent-blue transition-all duration-300 hover:shadow-[0_0_15px_rgba(10,132,255,0.4)]"
+              className="hidden sm:inline-flex items-center justify-center px-6 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-accent-blue hover:bg-accent-blue/90 border border-accent-blue transition-all duration-300 hover:shadow-[0_0_15px_rgba(10,132,255,0.4)]"
             >
-              Book Now
+              Book Repair
             </a>
             
-            {/* Direct WhatsApp Call link in header */}
             <a
-              href="https://wa.me/919962512345?text=Hi%20iPhonix%2C%20I%20would%20like%20to%20book%20a%20repair%20for%20my%20device."
+              href="https://wa.me/919962512345?text=Hi%20iPhonix%2C%20I%20would%20like%20to%20book%20a%20repair."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-white/10 hover:border-accent-green hover:bg-accent-green/5 text-text-muted hover:text-accent-green transition-all duration-300"
@@ -362,8 +226,8 @@ export default function Home() {
         </div>
       </header>
 
-      {/* 2. Hero Section (Cinematic repair background video loop + overlay) */}
-      <section id="hero" className="relative w-full min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden">
+      {/* Hero Section */}
+      <section className="relative w-full min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden">
         
         {/* Background Video Layer */}
         <div className="absolute inset-0 z-0">
@@ -377,332 +241,137 @@ export default function Home() {
           >
             <source src="https://assets.mixkit.co/videos/preview/mixkit-close-up-of-microchip-repair-41270-large.mp4" type="video/mp4" />
           </video>
-          {/* Custom cinematic dark overlays */}
-          <div className="absolute inset-0 bg-gradient-to-t from-bg-primary via-bg-primary/80 to-bg-primary/45" />
-          <div className="absolute inset-0 bg-radial-gradient(ellipse at center, transparent 20%, rgba(5,5,5,0.85) 80%)" />
+          {/* Dark overlays */}
+          <div className="absolute inset-0 bg-gradient-to-t from-bg-primary via-bg-primary/90 to-bg-primary/50" />
+          <div className="absolute inset-0 bg-radial-gradient(ellipse at center, transparent 10%, rgba(5,5,5,0.9) 80%)" />
         </div>
 
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-8 flex flex-col items-center justify-center text-center mt-8">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-8 flex flex-col items-center justify-center text-center mt-12">
           
-          {/* Interactive Floating Badge (Stripe-inspired) */}
           <motion.div 
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-text-muted mb-8"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-text-muted mb-10"
           >
             <span className="w-2 h-2 rounded-full bg-accent-blue animate-pulse" />
-            <span className="font-medium tracking-wide">ISO Certified Premium Repair Experts</span>
-            <ArrowRight className="w-3.5 h-3.5 text-accent-blue" />
+            <span className="font-medium tracking-wide">ISO Certified Premium Mobile Repair & Accessories</span>
           </motion.div>
 
-          {/* Space Grotesk Heading (Apple/Nothing style) */}
           <motion.h1 
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-white max-w-4xl leading-[1.1] mb-6"
+            className="font-display text-6xl sm:text-7xl md:text-9xl font-bold tracking-tight text-white mb-6"
           >
-            Premium Mobile Repair.<br/>
-            <span className="text-gradient-blue">Fast.</span>{" "}
-            <span className="text-gradient-silver">Reliable.</span>{" "}
-            <span className="text-gradient-green">Trusted.</span>
+            iPhonix
           </motion.h1>
 
-          {/* Subheading */}
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="text-base sm:text-lg md:text-xl text-text-muted max-w-2xl font-normal leading-relaxed mb-10"
+            className="text-lg sm:text-xl md:text-2xl text-text-muted max-w-3xl font-medium tracking-tight leading-relaxed mb-12"
           >
-            Repairs for iPhone, iPad, Watch, MacBook, and premium Android devices using high-quality parts and expert micro-technicians in Pallikaranai, Chennai.
+            Professional Mobile Repair & Premium Accessories
           </motion.p>
 
-          {/* Action CTAs (Magnetic hover layout mockup) */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col sm:flex-row gap-4 mb-16"
+            className="flex flex-col sm:flex-row gap-6 justify-center items-center w-full"
           >
             <a 
               href="#contact" 
-              className="inline-flex items-center justify-center px-8 py-4 rounded-full text-sm font-semibold uppercase tracking-wider bg-accent-blue text-white hover:bg-accent-blue/90 transition-all duration-300 hover:shadow-[0_0_20px_rgba(10,132,255,0.4)]"
+              className="inline-flex w-full sm:w-auto items-center justify-center px-10 py-5 rounded-full text-sm font-semibold uppercase tracking-wider bg-accent-blue text-white hover:bg-accent-blue/90 transition-all duration-300 hover:shadow-[0_0_20px_rgba(10,132,255,0.4)]"
             >
-              Book a Repair
+              Book Your Repair
             </a>
             <a 
-              href="https://wa.me/919962512345?text=Hi%20iPhonix%2C%20I%20would%20like%20to%20get%20support%20for%20my%20broken%20device."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-8 py-4 rounded-full text-sm font-semibold uppercase tracking-wider bg-white/5 border border-white/10 hover:border-accent-green hover:bg-accent-green/5 hover:text-accent-green transition-all duration-300"
+              href="#services" 
+              className="inline-flex w-full sm:w-auto items-center justify-center px-10 py-5 rounded-full text-sm font-semibold uppercase tracking-wider bg-white/5 border border-white/10 hover:border-accent-blue hover:bg-accent-blue/5 hover:text-accent-blue transition-all duration-300"
             >
-              Get WhatsApp Support
+              Explore Services
             </a>
           </motion.div>
 
-          {/* Floating Device Cards Grid (Micro-Animated) */}
-          <div className="w-full max-w-5xl grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-            {[
-              { name: "iPhone Repair", desc: "TrueTone & FaceID Restoration", icon: Smartphone, delay: 0.1 },
-              { name: "MacBook Repair", desc: "Chip-Level power & keyboard fixes", icon: Laptop, delay: 0.2 },
-              { name: "iPad Repair", desc: "OLED displays & digitizer panels", icon: Tablet, delay: 0.3 },
-              { name: "Wearables & Watch", desc: "Screen overlays & battery swap", icon: Watch, delay: 0.4 }
-            ].map((device, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: device.delay, ease: [0.16, 1, 0.3, 1] }}
-                whileHover={{ y: -8 }}
-                className="glass-panel p-6 flex flex-col items-center justify-center text-center cursor-default group"
-              >
-                <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 group-hover:bg-accent-blue/10 group-hover:border-accent-blue/20 transition-all duration-300">
-                  <device.icon className="w-6 h-6 text-text-muted group-hover:text-accent-blue transition-colors duration-300" />
-                </div>
-                <h3 className="font-display text-sm font-bold text-white mb-1 group-hover:text-accent-blue transition-colors duration-300">
-                  {device.name}
-                </h3>
-                <p className="text-xs text-text-muted">
-                  {device.desc}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-
         </div>
 
       </section>
 
-      {/* 3. Trust Bar (Framer reveals) */}
-      <section className="relative z-10 w-full border-y border-white/5 bg-bg-secondary py-12">
-        <div className="mx-auto max-w-7xl px-6 md:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-6 gap-6">
-            {[
-              { label: "Same-Day Repairs", desc: "80% screen & battery tasks", icon: Clock },
-              { label: "Genuine Quality", desc: "High-grade OEM spares", icon: ShieldCheck },
-              { label: "Warranty Support", desc: "Up to 90 days guarantee", icon: Award },
-              { label: "Certified Experts", desc: "Microelectronics trained", icon: Cpu },
-              { label: "Free Diagnostics", desc: "No charge device scanning", icon: Settings },
-              { label: "Transparent Rates", desc: "Upfront pricing charts", icon: CheckCircle2 }
-            ].map((item, index) => (
-              <div key={index} className="flex flex-col items-center text-center md:items-start md:text-left gap-2 group cursor-default">
-                <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-accent-blue/30 group-hover:bg-accent-blue/5 transition-all duration-300">
-                  <item.icon className="w-4 h-4 text-accent-blue" />
-                </div>
-                <span className="font-display text-xs font-bold text-white group-hover:text-accent-blue transition-colors duration-300">
-                  {item.label}
-                </span>
-                <span className="text-[10px] text-text-muted">
-                  {item.desc}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 4. About Section (Split layout with premium aesthetics) */}
-      <section id="about" className="relative z-10 w-full py-24 md:py-32 bg-bg-primary">
-        <div className="mx-auto max-w-7xl px-6 md:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            
-            {/* Left Content - Glass Card features */}
-            <div className="flex flex-col">
-              <span className="text-xs uppercase font-semibold tracking-widest text-accent-blue mb-3">
-                Precision Craftsmanship
-              </span>
-              <h2 className="font-display text-3xl md:text-5xl font-bold tracking-tight text-white mb-6">
-                Redefining Micro-Electronics Repair Services.
-              </h2>
-              <p className="text-text-muted mb-8 leading-relaxed">
-                iPhonix was established to deliver state-of-the-art service quality that mirrors an official service lab. We bypass standard quick-fix setups to provide micro-soldering, trace rebuilding, and precision laminations.
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {[
-                  "Experienced micro-technicians",
-                  "Genuine replacement parts",
-                  "Fast diagnostic turnaround",
-                  "Customer satisfaction guarantee",
-                  "Laser back glass stripping",
-                  "Ultrasonic liquid diagnostics"
-                ].map((highlight, idx) => (
-                  <div key={idx} className="flex items-center gap-3">
-                    <CheckCircle2 className="w-4 h-4 text-accent-green flex-shrink-0" />
-                    <span className="text-sm font-medium text-white/95">{highlight}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Company Identity Seal box (from company_name.png) */}
-              <div className="glass-panel p-6 mt-10 flex items-start gap-4">
-                <div className="relative w-12 h-12 flex-shrink-0 bg-white/5 border border-white/10 rounded-full flex items-center justify-center p-1">
-                  <Image src="/logo.png" alt="Seal logo" width={40} height={40} className="object-contain" />
-                </div>
-                <div>
-                  <h4 className="font-display text-xs font-bold text-accent-blue tracking-wide uppercase mb-1">
-                    Official Brand Identity
-                  </h4>
-                  <p className="text-xs font-medium text-white">
-                    iPhonix Apple Research and Professional Services
-                  </p>
-                  <p className="text-[10px] text-text-muted mt-1 uppercase tracking-widest">
-                    Mobile & Service Centre • Pallikaranai, Chennai
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Content - Large Workshop Image with hover tilt and overlay */}
-            <div className="relative group overflow-hidden rounded-2xl border border-white/10">
-              <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/60 via-transparent to-transparent z-10" />
-              <img 
-                src="https://images.unsplash.com/photo-1597733336794-12d05021d510?q=80&w=800" 
-                alt="iPhonix Repair Station" 
-                className="w-full h-[500px] object-cover scale-100 group-hover:scale-105 transition-transform duration-700 ease-out"
-              />
-              {/* Overlay Glass Card stats */}
-              <div className="absolute bottom-6 left-6 right-6 z-20 glass-panel p-6 border-white/10">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h3 className="font-display text-lg font-bold text-white">Advanced Labs</h3>
-                    <p className="text-xs text-text-muted">Class-100 Cleanroom inspection tools</p>
-                  </div>
-                  <div className="px-3.5 py-1.5 rounded-full bg-accent-blue/10 border border-accent-blue/20 text-xs font-bold text-accent-blue">
-                    Ready
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* 5. Services Section (15 Apple-inspired grid cards) */}
-      <section id="services" className="relative z-10 w-full py-24 md:py-32 bg-bg-secondary">
+      {/* Featured Services Section (Redesigned with dedicated landing page links) */}
+      <section id="services" className="relative z-10 w-full py-32 md:py-48 bg-bg-secondary">
         <div className="mx-auto max-w-7xl px-6 md:px-8">
           
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-xs uppercase font-semibold tracking-widest text-accent-blue mb-3 block">
+          <div className="text-center max-w-3xl mx-auto mb-24">
+            <span className="text-xs uppercase font-semibold tracking-widest text-accent-blue mb-4 block">
               Repair Capabilities
             </span>
-            <h2 className="font-display text-3xl md:text-5xl font-bold tracking-tight text-white mb-6">
-              Our Professional Services
+            <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight text-white mb-6">
+              Featured Services
             </h2>
             <p className="text-text-muted leading-relaxed text-sm md:text-base">
-              From screen laminations to deep logic board micro-soldering, choose our targeted repair solutions built to restore full factory specifications.
+              Select a specialized diagnostic pipeline below to learn more, verify pricing structures, and schedule repairs.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {SERVICES.map((service, index) => (
-              <div 
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {FEATURED_SERVICES.map((service, index) => (
+              <Link 
                 key={index}
-                className="glass-panel glass-panel-hover p-6 flex flex-col justify-between group h-full"
+                href={`/services/${service.slug}`}
+                className="glass-panel glass-panel-hover p-8 flex flex-col justify-between group h-full cursor-pointer hover:no-underline"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-accent-blue/10 group-hover:border-accent-blue/20 transition-all duration-300">
-                      <service.icon className="w-6 h-6 text-text-muted group-hover:text-accent-blue transition-colors duration-300" />
-                    </div>
-                    <span className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full bg-white/5 border border-white/5 text-text-muted">
-                      {service.category}
-                    </span>
+                  <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 group-hover:bg-accent-blue/10 group-hover:border-accent-blue/20 transition-all duration-300">
+                    <service.icon className="w-6 h-6 text-text-muted group-hover:text-accent-blue transition-colors duration-300" />
                   </div>
-                  <h3 className="font-display text-lg font-bold text-white mb-2 group-hover:text-accent-blue transition-colors duration-300">
+                  <h3 className="font-display text-xl font-bold text-white mb-3 group-hover:text-accent-blue transition-colors duration-300">
                     {service.title}
                   </h3>
-                  <p className="text-sm text-text-muted leading-relaxed mb-6">
+                  <p className="text-sm text-text-muted leading-relaxed mb-8">
                     {service.desc}
                   </p>
                 </div>
                 
-                <a 
-                  href="#contact" 
-                  className="inline-flex items-center gap-2 text-xs font-semibold text-accent-blue hover:text-white transition-colors duration-300"
-                >
-                  Book Service <ArrowRight className="w-3.5 h-3.5" />
-                </a>
-              </div>
+                <span className="inline-flex items-center gap-2 text-xs font-semibold text-accent-blue group-hover:text-white transition-colors duration-300">
+                  Explore Repair Pathway <ArrowRight className="w-4 h-4" />
+                </span>
+              </Link>
             ))}
           </div>
 
         </div>
       </section>
 
-      {/* 6. Repair Process Timeline */}
-      <section id="process" className="relative z-10 w-full py-24 md:py-32 bg-bg-primary">
+      {/* Why Choose iPhonix */}
+      <section id="why-choose" className="relative z-10 w-full py-32 md:py-48 bg-bg-primary">
         <div className="mx-auto max-w-7xl px-6 md:px-8">
           
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <span className="text-xs uppercase font-semibold tracking-widest text-accent-blue mb-3 block">
-              Repair Journey
-            </span>
-            <h2 className="font-display text-3xl md:text-5xl font-bold tracking-tight text-white mb-6">
-              How We Repair Your Device
-            </h2>
-            <p className="text-text-muted leading-relaxed text-sm">
-              We operate on a transparent, 4-step professional pipeline to ensure absolute data security, speed, and validation.
-            </p>
-          </div>
-
-          <div className="relative w-full max-w-5xl mx-auto">
-            {/* Connecting Timeline Line */}
-            <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-gradient-to-r from-accent-blue/10 via-accent-blue/40 to-accent-green/10 -translate-y-1/2 hidden md:block" />
-            
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-              {[
-                { step: "01", title: "Book Service", desc: "Schedule online or start a WhatsApp ticket. Same-day drop slots allocated." },
-                { step: "02", title: "Inspection", desc: "Class-100 bench diagnostic check with full trace power consumption report." },
-                { step: "03", title: "Professional Repair", desc: "Microelectronics soldering, laser back glass, or OLED lamination." },
-                { step: "04", title: "Warranty Handover", desc: "Full post-repair calibration testing and 90-day warranty card issuance." }
-              ].map((proc, index) => (
-                <div key={index} className="relative z-10 glass-panel p-6 flex flex-col items-start gap-4 hover:border-accent-blue/20 transition-all duration-300">
-                  <div className="w-10 h-10 rounded-full bg-accent-blue/10 border border-accent-blue/20 flex items-center justify-center text-sm font-bold text-accent-blue font-display">
-                    {proc.step}
-                  </div>
-                  <div>
-                    <h3 className="font-display text-base font-bold text-white mb-2">{proc.title}</h3>
-                    <p className="text-xs text-text-muted leading-relaxed">{proc.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* 7. Why Choose Us Grid */}
-      <section className="relative z-10 w-full py-24 md:py-32 bg-bg-secondary">
-        <div className="mx-auto max-w-7xl px-6 md:px-8">
-          
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-xs uppercase font-semibold tracking-widest text-accent-blue mb-3 block">
+          <div className="text-center max-w-3xl mx-auto mb-24">
+            <span className="text-xs uppercase font-semibold tracking-widest text-accent-blue mb-4 block">
               Core Strengths
             </span>
-            <h2 className="font-display text-3xl md:text-5xl font-bold tracking-tight text-white mb-6">
+            <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight text-white mb-6">
               Why Choose iPhonix?
             </h2>
             <p className="text-text-muted leading-relaxed text-sm">
-              We stand apart from the local store standard. Here is why premium device owners trust us.
+              Spacious laboratory-level engineering built around device privacy, fast handbacks, and quality assurance.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {ADVANTAGES.map((adv, index) => (
               <div 
                 key={index}
-                className="glass-panel p-6 hover:border-white/10 hover:shadow-lg transition-all duration-300"
+                className="glass-panel p-8 hover:border-white/10 hover:shadow-lg transition-all duration-300 cursor-default"
               >
-                <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-6">
-                  <adv.icon className="w-5 h-5 text-accent-blue" />
+                <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8">
+                  <adv.icon className="w-6 h-6 text-accent-blue" />
                 </div>
-                <h3 className="font-display text-base font-bold text-white mb-2">{adv.title}</h3>
-                <p className="text-xs text-text-muted leading-relaxed">{adv.desc}</p>
+                <h3 className="font-display text-lg font-bold text-white mb-3">{adv.title}</h3>
+                <p className="text-sm text-text-muted leading-relaxed">{adv.desc}</p>
               </div>
             ))}
           </div>
@@ -710,186 +379,65 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 8. Statistics Section (Counters) */}
-      <section className="relative z-10 w-full py-16 bg-bg-primary border-y border-white/5">
-        <div className="mx-auto max-w-7xl px-6 md:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { value: "1000+", label: "Happy Customers" },
-              { value: "2500+", label: "Devices Repaired" },
-              { value: "98%", label: "Satisfaction Index" },
-              { value: "5+", label: "Years Experience" }
-            ].map((stat, index) => (
-              <div key={index} className="flex flex-col items-center justify-center text-center">
-                <span className="font-display text-3xl sm:text-5xl font-bold text-accent-blue tracking-tight mb-2">
-                  {stat.value}
-                </span>
-                <span className="text-xs uppercase tracking-widest text-text-muted font-medium">
-                  {stat.label}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 9. Brand marquee slider */}
-      <section className="relative z-10 w-full py-12 bg-bg-secondary overflow-hidden border-b border-white/5">
-        <div className="mx-auto max-w-7xl px-6 md:px-8 mb-6 text-center">
-          <span className="text-[10px] uppercase font-bold tracking-widest text-text-muted">
-            Supported Device Brands
-          </span>
-        </div>
-        
-        {/* Infinite Moving Marquee */}
-        <div className="flex w-[200%] overflow-hidden relative">
-          <div className="animate-marquee flex items-center gap-12 whitespace-nowrap py-2">
-            {BRANDS.concat(BRANDS).map((brand, idx) => (
-              <span 
-                key={idx} 
-                className="font-display text-xl sm:text-3xl font-bold tracking-tight text-white/20 hover:text-accent-blue transition-colors duration-300 cursor-default px-4"
-              >
-                {brand}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 10. Before & After Gallery (Interactive Slider & Masonry) */}
-      <section id="gallery" className="relative z-10 w-full py-24 md:py-32 bg-bg-primary">
+      {/* Repair Categories */}
+      <section id="categories" className="relative z-10 w-full py-32 md:py-48 bg-bg-secondary">
         <div className="mx-auto max-w-7xl px-6 md:px-8">
           
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-xs uppercase font-semibold tracking-widest text-accent-blue mb-3 block">
-              Proof in Craftsmanship
+          <div className="text-center max-w-3xl mx-auto mb-24">
+            <span className="text-xs uppercase font-semibold tracking-widest text-accent-blue mb-4 block">
+              Device Support
             </span>
-            <h2 className="font-display text-3xl md:text-5xl font-bold tracking-tight text-white mb-6">
-              Before & After Repair Gallery
+            <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight text-white mb-6">
+              Repair Categories
             </h2>
             <p className="text-text-muted leading-relaxed text-sm">
-              Use the interactive slider to see how we restore heavily damaged devices to like-new condition.
+              We diagnose and repair all premium hardware form factors. Select a route to initialize booking.
             </p>
           </div>
 
-          {/* Interactive Before/After Screen Slider */}
-          <div className="w-full max-w-3xl mx-auto mb-16">
-            <div 
-              ref={beforeAfterRef}
-              className="relative w-full h-[380px] rounded-2xl border border-white/10 overflow-hidden cursor-ew-resize select-none"
-              onMouseMove={(e) => handleSliderMove(e.clientX)}
-              onTouchMove={handleTouchMove}
-            >
-              {/* After: Repaired State (Right Side underneath) */}
-              <div className="absolute inset-0 w-full h-full bg-black">
-                <img 
-                  src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=800" 
-                  alt="Repaired Screen State" 
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute bottom-4 right-4 z-20 px-3 py-1 rounded bg-accent-green/80 text-[10px] font-bold tracking-wide uppercase text-white">
-                  After iPhonix
-                </div>
-              </div>
-
-              {/* Before: Cracked State (Left Side Overlay) */}
-              <div 
-                className="absolute inset-0 h-full overflow-hidden border-r-2 border-accent-blue z-10"
-                style={{ width: `${sliderPosition}%` }}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {REPAIR_CATEGORIES.map((cat, index) => (
+              <Link
+                key={index}
+                href={`/services/${cat.slug}`}
+                className="glass-panel glass-panel-hover p-8 md:p-12 flex flex-col justify-between group cursor-pointer hover:no-underline"
               >
-                {/* Keep image width fixed at full container width so clipping works */}
-                <div className="absolute inset-0 w-full h-full" style={{ width: containerWidth }}>
-                  <img 
-                    src="https://images.unsplash.com/photo-1563206767-5b18f218e8de?q=80&w=800" 
-                    alt="Cracked Screen State" 
-                    className="w-full h-full object-cover filter contrast-125"
-                  />
-                </div>
-                <div className="absolute bottom-4 left-4 z-20 px-3 py-1 rounded bg-red-600/80 text-[10px] font-bold tracking-wide uppercase text-white">
-                  Before Repair
-                </div>
-              </div>
-
-              {/* Drag Handle Indicator */}
-              <div 
-                className="absolute top-0 bottom-0 z-20 w-8 h-8 -ml-4 bg-accent-blue border border-white rounded-full flex items-center justify-center shadow-lg pointer-events-none"
-                style={{ left: `${sliderPosition}%`, top: "50%", transform: "translateY(-50%)" }}
-              >
-                <div className="flex gap-0.5 items-center">
-                  <span className="block w-0.5 h-3 bg-white" />
-                  <span className="block w-0.5 h-3 bg-white" />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Masonry Image Gallery (Lightbox trigger) */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-            {GALLERY.map((img, index) => (
-              <div 
-                key={index} 
-                className="relative overflow-hidden rounded-xl border border-white/10 group cursor-pointer aspect-video"
-                onClick={() => setLightboxImage(img.url)}
-              >
-                <img 
-                  src={img.url} 
-                  alt={img.title} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                />
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 z-10">
-                  <span className="text-[9px] uppercase font-bold tracking-widest text-accent-blue mb-1">
-                    {img.category}
+                <div className="flex items-start justify-between gap-6 mb-8">
+                  <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-accent-blue/10 group-hover:border-accent-blue/20 transition-all duration-300">
+                    <cat.icon className="w-6 h-6 text-text-muted group-hover:text-accent-blue transition-colors duration-300" />
+                  </div>
+                  <span className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-text-muted group-hover:text-accent-blue group-hover:border-accent-blue transition-colors duration-300">
+                    <ArrowRight className="w-5 h-5" />
                   </span>
-                  <h4 className="font-display text-sm font-bold text-white">
-                    {img.title}
-                  </h4>
                 </div>
-              </div>
+                <div>
+                  <h3 className="font-display text-2xl font-bold text-white mb-3 group-hover:text-accent-blue transition-colors duration-300">
+                    {cat.title}
+                  </h3>
+                  <p className="text-sm text-text-muted leading-relaxed">
+                    {cat.desc}
+                  </p>
+                </div>
+              </Link>
             ))}
           </div>
 
         </div>
-
-        {/* Lightbox Modal */}
-        <AnimatePresence>
-          {lightboxImage && (
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
-            >
-              <button 
-                className="absolute top-6 right-6 text-white/60 hover:text-white w-10 h-10 flex items-center justify-center"
-                onClick={() => setLightboxImage(null)}
-              >
-                <X className="w-8 h-8" />
-              </button>
-              <div className="relative max-w-4xl max-h-[80vh] w-full h-full flex items-center justify-center">
-                <img 
-                  src={lightboxImage} 
-                  alt="Enlarged Gallery Work" 
-                  className="object-contain max-w-full max-h-full rounded-lg"
-                />
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </section>
 
-      {/* 11. Customer Reviews Swiper */}
-      <section className="relative z-10 w-full py-24 md:py-32 bg-bg-secondary">
+      {/* Customer Reviews Section */}
+      <section id="reviews" className="relative z-10 w-full py-32 md:py-48 bg-bg-primary">
         <div className="mx-auto max-w-7xl px-6 md:px-8">
           
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-xs uppercase font-semibold tracking-widest text-accent-blue mb-3 block">
+          <div className="text-center max-w-3xl mx-auto mb-24">
+            <span className="text-xs uppercase font-semibold tracking-widest text-accent-blue mb-4 block">
               Social Proof
             </span>
-            <h2 className="font-display text-3xl md:text-5xl font-bold tracking-tight text-white mb-6">
+            <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight text-white mb-6">
               Client Testimonials
             </h2>
             <p className="text-text-muted leading-relaxed text-sm">
-              We pride ourselves on our 5.0 Google ratings. See what our customers say about their repair experience.
+              Highly rated for transparency, quality, and quick repair turnarounds.
             </p>
           </div>
 
@@ -904,12 +452,14 @@ export default function Home() {
             >
               {REVIEWS.map((rev, idx) => (
                 <SwiperSlide key={idx}>
-                  <div className="glass-panel p-8 md:p-12 border-white/5 relative">
-                    <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8">
+                  <div className="glass-panel p-10 md:p-14 border-white/5 relative">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-8">
                       <div className="flex items-center gap-4">
-                        <img 
+                        <Image 
                           src={rev.avatar} 
                           alt={rev.name} 
+                          width={56}
+                          height={56}
                           className="w-14 h-14 rounded-full border border-white/10 object-cover" 
                         />
                         <div>
@@ -923,7 +473,7 @@ export default function Home() {
                         ))}
                       </div>
                     </div>
-                    <p className="text-sm md:text-base text-white/90 leading-relaxed italic">
+                    <p className="text-base text-white/90 leading-relaxed italic">
                       &ldquo;{rev.text}&rdquo;
                     </p>
                   </div>
@@ -935,118 +485,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 12. Instagram reel section */}
-      <section className="relative z-10 w-full py-24 md:py-32 bg-bg-primary">
+      {/* Contact Section */}
+      <section id="contact" className="relative z-10 w-full py-32 md:py-48 bg-bg-secondary">
         <div className="mx-auto max-w-7xl px-6 md:px-8">
           
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <Instagram className="w-10 h-10 text-accent-blue mx-auto mb-4" />
-            <span className="text-xs uppercase font-semibold tracking-widest text-accent-blue mb-3 block">
-              Follow Us on Instagram
-            </span>
-            <h2 className="font-display text-3xl md:text-5xl font-bold tracking-tight text-white mb-6">
-              @iphonix_mobile_service
-            </h2>
-            <p className="text-text-muted leading-relaxed text-sm">
-              We update our feed with cool macro microelectronics repairs, diagnostic reels, and customer collections daily.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
-            {[
-              { type: "Reel", desc: "Liquid water damage cleaning", url: "https://images.unsplash.com/photo-1596524430615-b46475ddff6e?q=80&w=400" },
-              { type: "Video", desc: "Laser glass removing iPhone 13 Pro", url: "https://images.unsplash.com/photo-1601524909162-be87252be298?q=80&w=400" },
-              { type: "Post", desc: "Happy customer delivery iPhone 15 Pro", url: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=400" },
-              { type: "Reel", desc: "IC micro soldering diagnostic reflow", url: "https://images.unsplash.com/photo-1597733336794-12d05021d510?q=80&w=400" }
-            ].map((post, idx) => (
-              <a 
-                key={idx}
-                href="https://www.instagram.com/iphonix_mobile_service"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="relative overflow-hidden rounded-xl border border-white/10 aspect-square group"
-              >
-                <img src={post.url} alt={post.desc} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center gap-2">
-                  <Instagram className="w-6 h-6 text-white" />
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-accent-blue">{post.type}</span>
-                  <p className="text-[11px] text-center px-4 text-white/80">{post.desc}</p>
-                </div>
-              </a>
-            ))}
-          </div>
-
-          <div className="text-center">
-            <a 
-              href="https://www.instagram.com/iphonix_mobile_service" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-wider bg-white/5 border border-white/10 hover:border-accent-blue hover:text-accent-blue transition-colors duration-300"
-            >
-              Follow on Instagram
-            </a>
-          </div>
-
-        </div>
-      </section>
-
-      {/* 13. FAQ Accordion */}
-      <section id="faq" className="relative z-10 w-full py-24 md:py-32 bg-bg-secondary">
-        <div className="mx-auto max-w-7xl px-6 md:px-8">
-          
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <span className="text-xs uppercase font-semibold tracking-widest text-accent-blue mb-3 block">
-              Common Inquiries
-            </span>
-            <h2 className="font-display text-3xl md:text-5xl font-bold tracking-tight text-white mb-6">
-              Frequently Asked Questions
-            </h2>
-          </div>
-
-          <div className="w-full max-w-3xl mx-auto flex flex-col gap-4">
-            {FAQS.map((faq, index) => {
-              const isOpen = openFaqIndex === index;
-              return (
-                <div 
-                  key={index} 
-                  className="glass-panel border-white/5 overflow-hidden transition-all duration-300"
-                >
-                  <button
-                    className="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none"
-                    onClick={() => setOpenFaqIndex(isOpen ? null : index)}
-                  >
-                    <span className="font-display text-sm sm:text-base font-bold text-white pr-4">
-                      {faq.q}
-                    </span>
-                    <ChevronDown className={`w-5 h-5 text-text-muted transition-transform duration-300 ${isOpen ? "rotate-180 text-accent-blue" : ""}`} />
-                  </button>
-
-                  <div 
-                    className={`transition-all duration-300 ease-in-out ${
-                      isOpen ? "max-h-[300px] border-t border-white/5 opacity-100" : "max-h-0 opacity-0 pointer-events-none"
-                    }`}
-                  >
-                    <div className="px-6 py-5 text-xs sm:text-sm text-text-muted leading-relaxed">
-                      {faq.a}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-        </div>
-      </section>
-
-      {/* 14. Contact Section (Embedded map, Form) */}
-      <section id="contact" className="relative z-10 w-full py-24 md:py-32 bg-bg-primary">
-        <div className="mx-auto max-w-7xl px-6 md:px-8">
-          
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-xs uppercase font-semibold tracking-widest text-accent-blue mb-3 block">
+          <div className="text-center max-w-3xl mx-auto mb-24">
+            <span className="text-xs uppercase font-semibold tracking-widest text-accent-blue mb-4 block">
               Get in Touch
             </span>
-            <h2 className="font-display text-3xl md:text-5xl font-bold tracking-tight text-white mb-6">
+            <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight text-white mb-6">
               Book a Service & Repair
             </h2>
             <p className="text-text-muted leading-relaxed text-sm">
@@ -1056,17 +503,17 @@ export default function Home() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             
-            {/* Left Column: Form & Booking state */}
-            <div className="glass-panel p-8 border-white/5">
-              <h3 className="font-display text-xl font-bold text-white mb-6">
+            {/* Form */}
+            <div className="glass-panel p-10 border-white/5">
+              <h3 className="font-display text-2xl font-bold text-white mb-8">
                 Service Booking Form
               </h3>
 
               {bookingSuccess ? (
-                <div className="w-full py-12 px-6 flex flex-col items-center justify-center text-center gap-4 bg-accent-green/5 border border-accent-green/20 rounded-xl">
-                  <CheckCircle2 className="w-12 h-12 text-accent-green animate-bounce" />
-                  <h4 className="font-display text-base font-bold text-white">Booking Request Successful</h4>
-                  <p className="text-xs text-text-muted max-w-xs">
+                <div className="w-full py-16 px-6 flex flex-col items-center justify-center text-center gap-4 bg-accent-green/5 border border-accent-green/20 rounded-xl">
+                  <CheckCircle2 className="w-14 h-14 text-accent-green animate-bounce" />
+                  <h4 className="font-display text-lg font-bold text-white">Booking Request Successful</h4>
+                  <p className="text-xs text-text-muted max-w-xs leading-relaxed">
                     Thank you! We have received your booking details and our repair specialists will text/call you back in 5-10 minutes.
                   </p>
                 </div>
@@ -1118,7 +565,7 @@ export default function Home() {
 
                   <button 
                     type="submit"
-                    className="w-full py-4 rounded-xl text-xs font-bold uppercase tracking-wider bg-accent-blue text-white hover:bg-accent-blue/90 border border-accent-blue hover:shadow-lg transition-all duration-300"
+                    className="w-full py-4.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-accent-blue text-white hover:bg-accent-blue/90 border border-accent-blue hover:shadow-lg transition-all duration-300"
                   >
                     Book Repair
                   </button>
@@ -1126,20 +573,20 @@ export default function Home() {
               )}
             </div>
 
-            {/* Right Column: Google Maps Embed & info cards */}
+            {/* Info Cards & Maps */}
             <div className="flex flex-col gap-8 justify-between">
               
-              <div className="glass-panel p-8 border-white/5">
-                <h3 className="font-display text-xl font-bold text-white mb-6">
+              <div className="glass-panel p-10 border-white/5">
+                <h3 className="font-display text-2xl font-bold text-white mb-8">
                   Store Contact Info
                 </h3>
 
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-6">
                   <div className="flex items-start gap-4">
-                    <MapPin className="w-5 h-5 text-accent-blue mt-1 flex-shrink-0" />
+                    <MapPin className="w-6 h-6 text-accent-blue mt-1 flex-shrink-0" />
                     <div>
                       <h4 className="text-sm font-bold text-white">Our Address</h4>
-                      <p className="text-xs text-text-muted leading-relaxed">
+                      <p className="text-xs text-text-muted leading-relaxed mt-1">
                         iPhonix Mobile Service, Velachery Main Road, Pallikaranai, Chennai - 600100<br/>
                         (Next to Daikin Showroom)
                       </p>
@@ -1147,30 +594,30 @@ export default function Home() {
                   </div>
 
                   <div className="flex items-start gap-4">
-                    <Phone className="w-5 h-5 text-accent-blue mt-1 flex-shrink-0" />
+                    <Phone className="w-6 h-6 text-accent-blue mt-1 flex-shrink-0" />
                     <div>
                       <h4 className="text-sm font-bold text-white">Call Support</h4>
-                      <p className="text-xs text-text-muted">
+                      <p className="text-xs text-text-muted mt-1">
                         +91 99625 12345
                       </p>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-4">
-                    <Mail className="w-5 h-5 text-accent-blue mt-1 flex-shrink-0" />
+                    <Mail className="w-6 h-6 text-accent-blue mt-1 flex-shrink-0" />
                     <div>
                       <h4 className="text-sm font-bold text-white">Email Us</h4>
-                      <p className="text-xs text-text-muted">
+                      <p className="text-xs text-text-muted mt-1">
                         support@iphonix.in
                       </p>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-4">
-                    <Calendar className="w-5 h-5 text-accent-blue mt-1 flex-shrink-0" />
+                    <Calendar className="w-6 h-6 text-accent-blue mt-1 flex-shrink-0" />
                     <div>
                       <h4 className="text-sm font-bold text-white">Store Hours</h4>
-                      <p className="text-xs text-text-muted">
+                      <p className="text-xs text-text-muted mt-1">
                         Monday – Sunday: 10:00 AM – 10:00 PM
                       </p>
                     </div>
@@ -1178,8 +625,8 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Google Maps Embed iframe */}
-              <div className="w-full h-[280px] rounded-2xl border border-white/10 overflow-hidden relative">
+              {/* Maps Embed */}
+              <div className="w-full h-[320px] rounded-3xl border border-white/10 overflow-hidden relative">
                 <iframe 
                   src="https://maps.google.com/maps?q=Iphonix%20Mobile%20Service%20Pallikaranai%20Chennai&t=&z=15&ie=UTF8&iwloc=&output=embed"
                   className="w-full h-full border-0 grayscale invert contrast-125 opacity-70"
@@ -1196,12 +643,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 15. Premium Dark Footer */}
-      <footer className="relative z-10 w-full bg-bg-secondary border-t border-white/5 pt-16 pb-8">
+      {/* Footer */}
+      <footer className="relative z-10 w-full bg-bg-secondary border-t border-white/5 pt-20 pb-8">
         <div className="mx-auto max-w-7xl px-6 md:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
             
-            {/* Col 1: Brand & Logo */}
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-3">
                 <div className="relative w-8 h-8 rounded-full border border-white/10 bg-black flex items-center justify-center p-1">
@@ -1214,29 +660,26 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Col 2: Services links */}
             <div>
               <h4 className="font-display text-xs font-bold text-white uppercase tracking-wider mb-4">Services</h4>
               <ul className="flex flex-col gap-2.5 text-xs text-text-muted">
-                <li><a href="#services" className="hover:text-accent-blue transition-colors">Screen Replacement</a></li>
-                <li><a href="#services" className="hover:text-accent-blue transition-colors">Battery Swap</a></li>
-                <li><a href="#services" className="hover:text-accent-blue transition-colors">Motherboard Repairs</a></li>
-                <li><a href="#services" className="hover:text-accent-blue transition-colors">Water Damage Fixes</a></li>
+                <li><Link href="/services/screen-replacement" className="hover:text-accent-blue transition-colors">Screen Replacement</Link></li>
+                <li><Link href="/services/battery-replacement" className="hover:text-accent-blue transition-colors">Battery Swap</Link></li>
+                <li><Link href="/services/charging-port-repair" className="hover:text-accent-blue transition-colors">Motherboard Repairs</Link></li>
+                <li><Link href="/services/water-damage-repair" className="hover:text-accent-blue transition-colors">Water Damage Fixes</Link></li>
               </ul>
             </div>
 
-            {/* Col 3: Quick Navigation */}
             <div>
               <h4 className="font-display text-xs font-bold text-white uppercase tracking-wider mb-4">Quick Links</h4>
               <ul className="flex flex-col gap-2.5 text-xs text-text-muted">
-                <li><a href="#about" className="hover:text-accent-blue transition-colors">About Our Labs</a></li>
-                <li><a href="#process" className="hover:text-accent-blue transition-colors">Repair Pipeline</a></li>
-                <li><a href="#gallery" className="hover:text-accent-blue transition-colors">Before & After</a></li>
-                <li><a href="#faq" className="hover:text-accent-blue transition-colors">Common FAQs</a></li>
+                <li><a href="#why-choose" className="hover:text-accent-blue transition-colors">Why iPhonix</a></li>
+                <li><a href="#categories" className="hover:text-accent-blue transition-colors">Categories</a></li>
+                <li><a href="#reviews" className="hover:text-accent-blue transition-colors">Testimonials</a></li>
+                <li><a href="#contact" className="hover:text-accent-blue transition-colors">Book Now</a></li>
               </ul>
             </div>
 
-            {/* Col 4: Business Hours */}
             <div>
               <h4 className="font-display text-xs font-bold text-white uppercase tracking-wider mb-4">Location Details</h4>
               <p className="text-xs text-text-muted leading-relaxed">
@@ -1253,14 +696,14 @@ export default function Home() {
               © {new Date().getFullYear()} iPhonix. All rights reserved.
             </span>
             <div className="flex gap-6 text-xs text-text-muted">
-              <a href="#privacy" className="hover:text-accent-blue transition-colors">Privacy Policy</a>
-              <a href="#terms" className="hover:text-accent-blue transition-colors">Terms of Service</a>
+              <Link href="/" className="hover:text-accent-blue transition-colors">Privacy Policy</Link>
+              <Link href="/" className="hover:text-accent-blue transition-colors">Terms of Service</Link>
             </div>
           </div>
         </div>
       </footer>
 
-      {/* Floating Call CTA (Bottom-Right) */}
+      {/* Floating Call CTA */}
       <a 
         href="tel:+919962512345"
         className="fixed bottom-6 right-6 z-40 flex items-center justify-center w-14 h-14 rounded-full bg-accent-blue text-white shadow-[0_4px_20px_rgba(10,132,255,0.4)] hover:scale-105 hover:bg-accent-blue/95 transition-all duration-300 animate-pulse-slow"
@@ -1269,7 +712,7 @@ export default function Home() {
         <Phone className="w-6 h-6" />
       </a>
 
-      {/* Floating WhatsApp CTA (Bottom-Left) */}
+      {/* Floating WhatsApp CTA */}
       <a 
         href="https://wa.me/919962512345?text=Hi%20iPhonix%2C%20I%20would%20like%20to%20get%20support%20for%20my%20broken%20device."
         target="_blank"
@@ -1280,7 +723,7 @@ export default function Home() {
         <MessageCircle className="w-6 h-6 fill-white text-accent-green" />
       </a>
 
-      {/* Floating Back to Top Button */}
+      {/* Floating Back to Top */}
       {showScrollTop && (
         <button 
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
