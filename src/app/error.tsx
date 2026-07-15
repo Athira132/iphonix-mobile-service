@@ -87,7 +87,7 @@ export default function Error({
       {/* Footer */}
       <footer className="w-full py-6 border-t border-white/5 bg-black/10 text-center z-10">
         <span className="text-[10px] text-text-muted uppercase tracking-widest">
-          © {new Date().getFullYear()} iPhonix Service Centre Chennai • Precision Engineering
+          © {new Date().getFullYear()} iPhonix Service Centre • Apple & Multi-Brand Specialists
         </span>
       </footer>
 

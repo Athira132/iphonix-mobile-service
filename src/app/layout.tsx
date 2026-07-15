@@ -17,9 +17,9 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "iPhonix | Premium Mobile & Apple Service Centre Chennai",
-  description: "iPhonix Apple Research and Professional Services Mobile & Service Centre in Pallikaranai, Chennai. Premium, fast, and trusted repair services for iPhone, MacBook, iPad, Apple Watch, and premium Android devices using high-quality genuine parts with warranty.",
-  keywords: "iphone repair chennai, apple service center chennai, macbook repair pallikaranai, ipad repair chennai, apple watch repair, mobile repair shop pallikaranai, premium phone repair, iphonix mobile service, broken screen replacement",
+  title: "iPhonix | Premium Mobile & Apple Service Centre Trivandrum",
+  description: "iPhonix Apple Research and Professional Services Mobile & Service Centre in Karamana, Thiruvananthapuram, Kerala. Premium, fast, and trusted repair services for iPhone, MacBook, iPad, Apple Watch, and premium Android devices using high-quality genuine parts with warranty.",
+  keywords: "iphone repair trivandrum, apple service center kerala, macbook repair karamana, ipad repair trivandrum, apple watch repair kerala, mobile repair shop karamana, premium phone repair trivandrum, iphonix mobile service, broken screen replacement karamana",
   authors: [{ name: "iPhonix Mobile Service" }],
   metadataBase: new URL("https://iphonix.in"), // Mock base URL for canonical tags
   alternates: {
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "iPhonix | Premium Mobile & Apple Service Centre",
-    description: "Expert repairs for iPhone, iPad, MacBook, Apple Watch, and premium smartphones in Pallikaranai, Chennai. Fast turnaround, genuine parts, and warranty support.",
+    description: "Expert repairs for iPhone, iPad, MacBook, Apple Watch, and premium smartphones in Karamana, Thiruvananthapuram, Kerala. Fast turnaround, genuine parts, and warranty support.",
     url: "https://iphonix.in",
     siteName: "iPhonix Mobile Service",
     images: [
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "iPhonix | Premium Mobile & Apple Service Centre",
-    description: "Professional Apple and smartphone repairs in Pallikaranai, Chennai. Same-day service, genuine parts, and warranty.",
+    description: "Professional Apple and smartphone repairs in Karamana, Thiruvananthapuram, Kerala. Same-day service, genuine parts, and warranty.",
     images: ["/company_name.png"],
   },
   robots: {
@@ -77,16 +77,16 @@ export default function RootLayout({
     "priceRange": "$$",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Velachery Main Road, Pallikaranai, Next to Daikin Showroom",
-      "addressLocality": "Chennai",
-      "addressRegion": "Tamil Nadu",
-      "postalCode": "600100",
+      "streetAddress": "Near Karamana Airtel Office, Karamana",
+      "addressLocality": "Thiruvananthapuram",
+      "addressRegion": "Kerala",
+      "postalCode": "695002",
       "addressCountry": "IN"
     },
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": 12.9362,
-      "longitude": 80.2137
+      "latitude": 8.4815,
+      "longitude": 76.9666
     },
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",
@@ -117,7 +117,7 @@ export default function RootLayout({
     },
     "areaServed": {
       "@type": "AdministrativeArea",
-      "name": "Chennai"
+      "name": "Thiruvananthapuram"
     },
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
