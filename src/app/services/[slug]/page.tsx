@@ -13,7 +13,11 @@ export function generateStaticParams() {
     { slug: "motherboard-repair" },
     { slug: "software-solutions" },
     { slug: "mobile-accessories" },
-    { slug: "doorstep-mobile-repair" }
+    { slug: "doorstep-mobile-repair" },
+    { slug: "back-glass-replacement" },
+    { slug: "speaker-repair" },
+    { slug: "mic-repair" },
+    { slug: "face-id-repair" }
   ];
 }
 
