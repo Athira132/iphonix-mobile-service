@@ -7,14 +7,15 @@ import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Phone, MapPin, Mail, Star, MessageCircle, 
-  Menu, X, Play, Image as ImageIcon, ChevronDown, CheckCircle2
+  Menu, X, Play, Image as ImageIcon, ChevronDown, CheckCircle2, ArrowRight
 } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay } from "swiper/modules";
+import { Pagination, Autoplay, Navigation } from "swiper/modules";
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 type BookingFormData = {
   name: string;
@@ -31,43 +32,43 @@ const SERVICES_DATA = [
     title: "iPhone Repair", 
     slug: "iphone-repair",
     desc: "Face ID sensor alignment, logic board micro-soldering, casing repairs.",
-    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=800"
+    image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?q=80&w=800"
   },
   { 
     title: "Android Repair", 
     slug: "android-repair",
     desc: "Motherboard diagnostics and screen calibrations for Samsung and Pixel.",
-    image: "https://images.unsplash.com/photo-1596524430615-b46475ddff6e?q=80&w=800"
+    image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?q=80&w=800"
   },
   { 
     title: "Display Replacement", 
     slug: "display-replacement",
     desc: "TrueTone matched premium displays with high color accuracy layers.",
-    image: "https://images.unsplash.com/photo-1601524909162-be87252be298?q=80&w=800"
+    image: "https://images.unsplash.com/photo-1580983218765-f663becf4859?q=80&w=800"
   },
   { 
     title: "Battery Replacement", 
     slug: "battery-replacement",
     desc: "OEM-grade battery cells with safety chips and capacity analytics.",
-    image: "https://images.unsplash.com/photo-1597733336794-12d05021d510?q=80&w=800"
+    image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=800"
   },
   { 
     title: "Camera Repair", 
     slug: "camera-repair",
     desc: "Restore autofocus engines, OIS stabilizers, and cracked lens glass.",
-    image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?q=80&w=800"
+    image: "https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?q=80&w=800"
   },
   { 
     title: "Charging Port Repair", 
     slug: "charging-port-repair",
     desc: "Lightning and Type-C dock flex swaps for stable current flow.",
-    image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800"
+    image: "https://images.unsplash.com/photo-1601524909162-be87252be298?q=80&w=800"
   },
   { 
     title: "Chip-Level Repair", 
     slug: "motherboard-repair",
     desc: "IC replacements, board track jumps, and detailed short diagnostics.",
-    image: "https://images.unsplash.com/photo-1597733336794-12d05021d510?q=80&w=800"
+    image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800"
   },
   { 
     title: "Water Damage Repair", 
@@ -79,13 +80,13 @@ const SERVICES_DATA = [
     title: "Software Solutions", 
     slug: "software-solutions",
     desc: "OS restores, secure data backup solutions, and system upgrades.",
-    image: "https://images.unsplash.com/photo-1596524430615-b46475ddff6e?q=80&w=800"
+    image: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?q=80&w=800"
   },
   { 
     title: "Mobile Accessories", 
     slug: "mobile-accessories",
     desc: "Certified BIS adapters, premium tempered shields, MagSafe components.",
-    image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?q=80&w=800"
+    image: "https://images.unsplash.com/photo-1608156639585-b3a032ef9689?q=80&w=800"
   },
   { 
     title: "Doorstep Mobile Repair", 
@@ -106,9 +107,27 @@ const GALLERY_ITEMS = [
 ];
 
 const REVIEWS = [
-  { name: "Aditya Verma", type: "iPhone 14 Pro Screen Replacement", text: "Truly Apple-level service! They mapped the serial chip data to the new screen, and TrueTone works perfectly. Replaced in under two hours while I waited in Karamana.", rating: 5 },
-  { name: "Priya Sundar", type: "MacBook Pro Motherboard Repair", text: "My MacBook had fluid contact and wouldn't start. Other shops insisted on a full logic board replacement. iPhonix repaired it at micro-level for a fraction of the cost.", rating: 5 },
-  { name: "Rajesh Kannan", type: "Apple Watch Battery Swap", text: "Excellent and honest service. They analyzed battery health analytics right in front of me, and swapped it with OEM parts. Highly recommended.", rating: 5 }
+  { 
+    name: "Aditya Verma", 
+    type: "iPhone 14 Pro Screen Replacement", 
+    text: "Truly Apple-level service! They mapped the serial chip data to the new screen, and TrueTone works perfectly. Replaced in under two hours while I waited in Karamana.", 
+    rating: 5,
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300"
+  },
+  { 
+    name: "Priya Sundar", 
+    type: "MacBook Pro Motherboard Repair", 
+    text: "My MacBook had fluid contact and wouldn't start. Other shops insisted on a full logic board replacement. iPhonix repaired it at micro-level for a fraction of the cost.", 
+    rating: 5,
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300"
+  },
+  { 
+    name: "Rajesh Kannan", 
+    type: "Apple Watch Battery Swap", 
+    text: "Excellent and honest service. They analyzed battery health analytics right in front of me, and swapped it with OEM parts. Highly recommended.", 
+    rating: 5,
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300"
+  }
 ];
 
 export default function Home() {
@@ -182,18 +201,25 @@ export default function Home() {
               <AnimatePresence>
                 {servicesDropdownOpen && (
                   <motion.div 
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    className="absolute top-full left-1/2 -translate-x-1/2 w-[360px] bg-white border border-black/5 rounded-[24px] shadow-2xl py-6 text-left flex flex-col font-sans normal-case text-text-charcoal z-50 overflow-hidden"
+                    initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 15, scale: 0.95 }}
+                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute top-full left-1/2 -translate-x-1/2 w-[520px] bg-white border border-black/[0.08] rounded-[24px] shadow-[0_30px_70px_rgba(0,0,0,0.15)] p-6 text-left grid grid-cols-2 gap-x-6 gap-y-4 font-sans normal-case text-text-charcoal z-50"
                   >
                     {SERVICES_DATA.map((srv, index) => (
                       <Link 
                         key={index} 
                         href={`/services/${srv.slug}`}
-                        className="px-8 py-3 hover:bg-bg-light-grey hover:text-accent-green transition-all duration-200 text-[18px] font-bold block"
+                        className="pl-4 pr-3 py-3 rounded-xl hover:bg-black/[0.01] hover:text-accent-green border-l-2 border-transparent hover:border-accent-green transition-all duration-200 text-[18px] font-bold flex items-center justify-between group/item"
                       >
-                        {srv.title}
+                        <div className="flex flex-col gap-0.5 pr-2">
+                          <span className="text-[18px] font-bold text-text-charcoal group-hover/item:text-accent-green transition-colors">{srv.title}</span>
+                          <span className="text-[12px] font-medium text-text-muted normal-case tracking-normal line-clamp-1 group-hover/item:text-text-charcoal transition-colors">
+                            {srv.desc}
+                          </span>
+                        </div>
+                        <ArrowRight className="w-4.5 h-4.5 opacity-0 group-hover/item:opacity-100 group-hover/item:translate-x-1 transition-all text-accent-green flex-shrink-0" />
                       </Link>
                     ))}
                   </motion.div>
@@ -256,18 +282,20 @@ export default function Home() {
       <section id="home" className="relative w-full min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden">
         
         {/* Background Video */}
-        <div className="absolute inset-0 z-0">
-          <video 
-            autoPlay 
-            loop 
-            muted 
-            playsInline 
-            className="w-full h-full object-cover scale-102"
-            poster="https://images.unsplash.com/photo-1597733336794-12d05021d510?q=80&w=1200"
-          >
-            <source src="https://assets.mixkit.co/videos/preview/mixkit-close-up-of-microchip-repair-41270-large.mp4" type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+          <div 
+            className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1597733336794-12d05021d510?q=80&w=1200")' }}
+          />
+          <iframe
+            src="https://www.youtube.com/embed/cwPthSTrtp4?autoplay=1&mute=1&loop=1&playlist=cwPthSTrtp4&controls=0&rel=0&showinfo=0&iv_load_policy=3&modestbranding=1&playsinline=1&enablejsapi=1"
+            className="absolute top-1/2 left-1/2 w-[115vw] h-[64.68vw] min-h-[115vh] min-w-[204.44vh] -translate-x-1/2 -translate-y-1/2 pointer-events-none scale-110"
+            allow="autoplay; encrypted-media"
+            title="Hero Background Video"
+            frameBorder="0"
+          />
+          {/* 50% dark overlay */}
+          <div className="absolute inset-0 bg-black/50" />
         </div>
 
         <div className="relative z-10 w-full max-w-[1440px] mx-auto px-8 md:px-12 flex flex-col items-center justify-center text-center pt-16">
@@ -549,36 +577,55 @@ export default function Home() {
 
       {/* Testimonials Section Redesigned: Independent section with py-200px and spacious layout */}
       <section id="testimonials" className="relative z-10 w-full pt-[200px] pb-[200px] bg-white border-b border-black/5">
-        <div className="mx-auto max-w-[1440px] px-8 md:px-12">
+        <div className="mx-auto w-full max-w-[1440px] px-8 md:px-12">
           
-          <div className="mb-[80px] text-left">
-            <h2 className="font-display text-[38px] md:text-[48px] lg:text-[60px] font-bold tracking-tight text-text-charcoal">
+          <div className="mb-[100px] text-center">
+            <h2 className="font-display text-[48px] sm:text-[60px] md:text-[64px] font-extrabold tracking-tight text-text-charcoal leading-none">
               Customer Reviews
             </h2>
           </div>
 
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-5xl mx-auto relative px-10">
             <Swiper
-              modules={[Pagination, Autoplay]}
-              spaceBetween={40}
+              modules={[Pagination, Autoplay, Navigation]}
+              spaceBetween={50}
               slidesPerView={1}
+              navigation={true}
               pagination={{ clickable: true }}
               autoplay={{ delay: 6500 }}
-              className="pb-20"
+              className="pb-24 reviews-swiper"
             >
               {REVIEWS.map((rev, idx) => (
                 <SwiperSlide key={idx}>
-                  <div className="bg-[#F8F8F8] p-16 md:p-24 relative flex flex-col items-center text-center rounded-[32px] border border-black/5 shadow-sm">
-                    <div className="flex gap-1 text-yellow-500 mb-8">
+                  <div className="bg-white p-16 md:p-24 relative flex flex-col items-center text-center rounded-[40px] border border-black/5 shadow-[0_30px_100px_rgba(0,0,0,0.06)] max-w-4xl mx-auto overflow-hidden">
+                    {/* Large decorative quotation mark background */}
+                    <span className="text-[180px] font-serif leading-none text-accent-green/[0.08] select-none absolute top-4 left-1/2 -translate-x-1/2 pointer-events-none">“</span>
+
+                    {/* Customer Avatar */}
+                    <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-md mb-8 flex-shrink-0 bg-black/5 z-10">
+                      <Image 
+                        src={rev.avatar} 
+                        alt={rev.name} 
+                        fill 
+                        className="object-cover"
+                      />
+                    </div>
+
+                    {/* Star Ratings */}
+                    <div className="flex gap-2 text-amber-500 mb-8 z-10">
                       {Array.from({ length: rev.rating }).map((_, i) => (
-                        <Star key={i} className="w-6 h-6 fill-yellow-500" />
+                        <Star key={i} className="w-10 h-10 fill-amber-500 stroke-amber-600" />
                       ))}
                     </div>
-                    <blockquote className="font-display text-xl sm:text-[26px] font-semibold text-text-charcoal leading-relaxed max-w-3xl mb-8 italic">
+
+                    {/* Testimonial Quote */}
+                    <blockquote className="font-display text-2xl sm:text-3xl md:text-[34px] font-semibold text-text-charcoal leading-[1.4] max-w-3xl mb-10 italic z-10">
                       &ldquo;{rev.text}&rdquo;
                     </blockquote>
-                    <span className="text-sm font-bold text-text-charcoal">{rev.name}</span>
-                    <span className="text-xs text-text-muted font-semibold mt-1">{rev.type}</span>
+
+                    {/* Customer Info */}
+                    <span className="text-xl font-bold text-text-charcoal tracking-wide z-10">{rev.name}</span>
+                    <span className="text-sm text-accent-green font-bold uppercase tracking-wider mt-2 z-10">{rev.type}</span>
                   </div>
                 </SwiperSlide>
               ))}
@@ -657,14 +704,14 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Booking Form Right - enlarged padding, input sizes, and taller textarea */}
-            <div className="bg-white p-12 md:p-14 rounded-[32px] border border-black/5 shadow-sm w-full max-w-2xl mx-auto">
-              <h3 className="font-display text-2xl font-bold text-text-charcoal mb-8">
+            {/* Booking Form Right - premium elevated card with white background, large padding, soft shadow, and glass details */}
+            <div className="bg-white p-10 md:p-12 rounded-[18px] border border-black/[0.04] hover:border-accent-green/[0.12] transition-colors duration-300 shadow-[0_30px_80px_rgba(0,0,0,0.06)] w-full max-w-[700px] mx-auto z-10">
+              <h3 className="font-display text-3xl font-bold text-text-charcoal mb-10 text-center lg:text-left">
                 Request Diagnostics Slot
               </h3>
 
               {bookingSuccess ? (
-                <div className="w-full py-16 px-6 flex flex-col items-center justify-center text-center gap-4 bg-accent-green/5 border border-accent-green/20 rounded-[24px]">
+                <div className="w-full py-16 px-6 flex flex-col items-center justify-center text-center gap-4 bg-accent-green/5 border border-accent-green/20 rounded-[18px]">
                   <CheckCircle2 className="w-12 h-12 text-accent-green animate-bounce" />
                   <h4 className="font-display text-lg font-bold text-text-charcoal">Slot Registered Successfully</h4>
                   <p className="text-xs text-text-muted max-w-xs leading-relaxed">
@@ -672,13 +719,13 @@ export default function Home() {
                   </p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit(onSubmitBooking)} className="flex flex-col gap-8">
+                <form onSubmit={handleSubmit(onSubmitBooking)} className="flex flex-col gap-6">
                   <div className="flex flex-col gap-3">
                     <label className="text-xs font-bold uppercase tracking-wider text-text-muted">Your Name</label>
                     <input 
                       type="text" 
                       placeholder="e.g. Aditya Verma" 
-                      className="px-6 py-5 rounded-2xl bg-bg-light-grey border border-black/5 text-base focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300"
+                      className="h-[58px] px-6 rounded-2xl bg-bg-light-grey/60 border border-black/5 text-base focus:outline-none focus:border-accent-green focus:bg-white text-text-charcoal placeholder-black/30 transition-all duration-300"
                       {...register("name", { required: "Name is required" })}
                     />
                     {errors.name && <span className="text-xs text-red-500">{errors.name.message}</span>}
@@ -689,7 +736,7 @@ export default function Home() {
                     <input 
                       type="tel" 
                       placeholder="e.g. +91 73062 43424" 
-                      className="px-6 py-5 rounded-2xl bg-bg-light-grey border border-black/5 text-base focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300"
+                      className="h-[58px] px-6 rounded-2xl bg-bg-light-grey/60 border border-black/5 text-base focus:outline-none focus:border-accent-green focus:bg-white text-text-charcoal placeholder-black/30 transition-all duration-300"
                       {...register("phone", { required: "Phone is required" })}
                     />
                     {errors.phone && <span className="text-xs text-red-500">{errors.phone.message}</span>}
@@ -700,7 +747,7 @@ export default function Home() {
                     <input 
                       type="text" 
                       placeholder="e.g. iPhone 15 Pro" 
-                      className="px-6 py-5 rounded-2xl bg-bg-light-grey border border-black/5 text-base focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300"
+                      className="h-[58px] px-6 rounded-2xl bg-bg-light-grey/60 border border-black/5 text-base focus:outline-none focus:border-accent-green focus:bg-white text-text-charcoal placeholder-black/30 transition-all duration-300"
                       {...register("deviceModel", { required: "Model is required" })}
                     />
                     {errors.deviceModel && <span className="text-xs text-red-500">{errors.deviceModel.message}</span>}
@@ -711,7 +758,7 @@ export default function Home() {
                     <input 
                       type="text" 
                       placeholder="e.g. Flickering screen, charging loop error" 
-                      className="px-6 py-5 rounded-2xl bg-bg-light-grey border border-black/5 text-base focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300"
+                      className="h-[58px] px-6 rounded-2xl bg-bg-light-grey/60 border border-black/5 text-base focus:outline-none focus:border-accent-green focus:bg-white text-text-charcoal placeholder-black/30 transition-all duration-300"
                       {...register("problemDescription", { required: "Issue is required" })}
                     />
                     {errors.problemDescription && <span className="text-xs text-red-500">{errors.problemDescription.message}</span>}
@@ -721,7 +768,7 @@ export default function Home() {
                     <label className="text-xs font-bold uppercase tracking-wider text-text-muted">Preferred Date</label>
                     <input 
                       type="date" 
-                      className="px-6 py-5 rounded-2xl bg-bg-light-grey border border-black/5 text-base focus:outline-none focus:border-accent-green text-text-charcoal transition-all duration-300"
+                      className="h-[58px] px-6 rounded-2xl bg-bg-light-grey/60 border border-black/5 text-base focus:outline-none focus:border-accent-green focus:bg-white text-text-charcoal transition-all duration-300"
                       {...register("preferredDate", { required: "Preferred Date is required" })}
                     />
                     {errors.preferredDate && <span className="text-xs text-red-500">{errors.preferredDate.message}</span>}
@@ -730,19 +777,19 @@ export default function Home() {
                   <div className="flex flex-col gap-3">
                     <label className="text-xs font-bold uppercase tracking-wider text-text-muted">Additional Message</label>
                     <textarea 
-                      rows={5} 
+                      rows={6} 
                       placeholder="Any specific requests or detail tags." 
-                      className="px-6 py-5 rounded-2xl bg-bg-light-grey border border-black/5 text-base focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300 resize-none animate-none"
+                      className="px-6 py-5 rounded-2xl bg-bg-light-grey/60 border border-black/5 text-base focus:outline-none focus:border-accent-green focus:bg-white text-text-charcoal placeholder-black/30 transition-all duration-300 resize-none animate-none"
                       {...register("message")}
                     />
                   </div>
 
-                  {/* Form submit button */}
+                  {/* Form submit button - enlarged height and shadow styling */}
                   <button 
                     type="submit"
-                    className="w-full py-5 rounded-[12px] text-[18px] font-bold uppercase tracking-wider bg-accent-green text-white hover:bg-accent-green/90 transition-all duration-300 h-[56px]"
+                    className="w-full py-5 rounded-[12px] text-[18px] font-bold uppercase tracking-wider bg-accent-green text-white hover:bg-accent-green/90 transition-all duration-300 h-[64px] flex items-center justify-center shadow-lg hover:shadow-accent-green/20"
                   >
-                    Book My Repair
+                    Book Repair
                   </button>
                 </form>
               )}

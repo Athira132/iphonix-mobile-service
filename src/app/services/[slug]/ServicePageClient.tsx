@@ -39,7 +39,7 @@ const SERVICES_DATA: Record<string, {
       { q: "Are your technicians certified for iOS devices?", a: "Our team consists of specialists trained in Apple board-level logic repair, including chip reballing, micro-welding, and component swaps." },
       { q: "Do you repair bent iPhone frames?", a: "Yes. We can safely transfer your components into a new original chassis or straighten minor chassis bends." }
     ],
-    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=800",
+    image: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?q=80&w=800",
     highlights: [
       "Face ID sensor calibration alignment",
       "Logic board micro-soldering component restoration",
@@ -56,7 +56,7 @@ const SERVICES_DATA: Record<string, {
       { q: "Do you repair curved OLED screens?", a: "Yes, we are equipped with specialized vacuum frame separators and UV alignment tools for Samsung and OnePlus curved OLED displays." },
       { q: "Can you fix motherboard errors on OnePlus or Google Pixel?", a: "Yes, we troubleshoot logic loop errors and power management IC failures on Android board layers." }
     ],
-    image: "https://images.unsplash.com/photo-1596524430615-b46475ddff6e?q=80&w=800",
+    image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?q=80&w=800",
     highlights: [
       "Curved OLED panel replacement tools",
       "Samsung and Pixel factory-grade screen calibrations",
@@ -73,7 +73,7 @@ const SERVICES_DATA: Record<string, {
       { q: "Do you maintain TrueTone after replacement?", a: "Yes. We copy the screen serial data from your original screen controller to the replacement panel using advanced programmer blocks. This preserves Apple TrueTone functionality." },
       { q: "How long does a screen replacement take?", a: "Typically 1 to 2 hours. We perform frame cleaning, gasket alignment, and lamination testing before handback." }
     ],
-    image: "https://images.unsplash.com/photo-1601524909162-be87252be298?q=80&w=800",
+    image: "https://images.unsplash.com/photo-1580983218765-f663becf4859?q=80&w=800",
     highlights: [
       "Serial chip programming for Apple TrueTone",
       "Zero dead pixel quality checkpoints",
@@ -90,7 +90,7 @@ const SERVICES_DATA: Record<string, {
       { q: "Will my iPhone show battery health after swap?", a: "For newer iPhone models, a message may display in settings unless the original battery controller board is micro-welded onto the new cells. We offer both standard and premium chip-transfer options." },
       { q: "How do I know my battery needs replacement?", a: "If your battery health is below 80% or if your device shuts down unexpectedly in low charge, it is time for a replacement." }
     ],
-    image: "https://images.unsplash.com/photo-1597733336794-12d05021d510?q=80&w=800",
+    image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=800",
     highlights: [
       "High capacity battery cells (zero cycle status)",
       "Battery health calibrations & cycle counts reset",
@@ -107,7 +107,7 @@ const SERVICES_DATA: Record<string, {
       { q: "Can you fix a cracked camera glass without replacing the whole camera?", a: "Yes. If the underlying camera sensor is scratch-free and focuses properly, we can replace just the external glass ring." },
       { q: "Why is my camera shaking or making buzzing noises?", a: "This indicates a failure in the Optical Image Stabilization (OIS) gyro motors, usually caused by heavy vibrations (e.g. motorcycle mounts)." }
     ],
-    image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?q=80&w=800",
+    image: "https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?q=80&w=800",
     highlights: [
       "Optical Image Stabilization (OIS) calibrations",
       "Scratch-resistant sapphire camera glass plates",
@@ -124,7 +124,7 @@ const SERVICES_DATA: Record<string, {
       { q: "Do you clean charging ports or replace them?", a: "We first perform precision cleaning under microscopes. If contacts are corroded or worn, we replace the charging port flex board." },
       { q: "Why is my phone charging very slowly?", a: "This can be caused by dirt buildup in the port, a faulty charging adapter, or a degraded dock connector pins." }
     ],
-    image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800",
+    image: "https://images.unsplash.com/photo-1601524909162-be87252be298?q=80&w=800",
     highlights: [
       "Type-C & Lightning connector replacements",
       "Fast charging protocol diagnostics",
@@ -158,7 +158,7 @@ const SERVICES_DATA: Record<string, {
       { q: "How long does a complex motherboard repair take?", a: "Normally 24 to 48 hours depending on line tracing complexity and replacement chip availability." },
       { q: "What is your success rate on motherboard repairs?", a: "We successfully restore over 95% of dead boards, excluding those with severe multi-layer fractures or extensive water corrosion." }
     ],
-    image: "https://images.unsplash.com/photo-1597733336794-12d05021d510?q=80&w=800",
+    image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=800",
     highlights: [
       "Power Management IC (PMIC) replacements",
       "Multi-layer board track micro-jumper traces",
@@ -175,7 +175,7 @@ const SERVICES_DATA: Record<string, {
       { q: "Will I lose my data during software restore?", a: "We prioritize data retention. We attempt diagnostic boot recoveries first. If formatting is required, we request client approval." },
       { q: "Can you resolve devices stuck on the Apple logo?", a: "Yes. This is often caused by system storage overflow or firmware corruption, which we resolve using specialized diagnostic interfaces." }
     ],
-    image: "https://images.unsplash.com/photo-1596524430615-b46475ddff6e?q=80&w=800",
+    image: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?q=80&w=800",
     highlights: [
       "Firmware flashes & loop recoveries",
       "Data extraction from damaged memory blocks",
@@ -192,7 +192,7 @@ const SERVICES_DATA: Record<string, {
       { q: "Do you sell screen protection overlays?", a: "Yes. We offer high-impact tempered glass, matte anti-glare screen protectors, and privacy panels with layout alignment assistance." },
       { q: "Are your adapters certified safe?", a: "All power supplies and cables are fully certified (BIS/CE) to ensure stable current flow without heating your phone's PMIC controller." }
     ],
-    image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?q=80&w=800",
+    image: "https://images.unsplash.com/photo-1608156639585-b3a032ef9689?q=80&w=800",
     highlights: [
       "High-impact 9H tempered glass screen overlays",
       "BIS certified charging docks & MagSafe bricks",
@@ -369,27 +369,6 @@ export default function ServicePageClient({ slug }: { slug: string }) {
         </div>
       </section>
 
-      {/* Feature Block: One premium image and "Request a Slot" CTA button */}
-      <section className="relative z-10 w-full pt-[240px] pb-[240px] bg-[#F8F8F8] border-b border-black/5">
-        <div className="mx-auto max-w-[1440px] px-8 md:px-12 text-center">
-          <div className="relative w-full max-w-5xl mx-auto h-[450px] rounded-[32px] overflow-hidden border border-black/5 shadow-md mb-[60px]">
-            <Image 
-              src={data.image} 
-              alt="Feature highlight representation" 
-              fill
-              className="object-cover"
-            />
-          </div>
-          
-          <a 
-            href="#booking-bay"
-            className="inline-flex items-center justify-center rounded-[12px] text-[18px] font-bold uppercase tracking-wider bg-accent-green text-white hover:bg-accent-green/90 transition-all duration-300 shadow-md h-[56px] w-[220px]"
-          >
-            Request a Slot
-          </a>
-        </div>
-      </section>
-
       {/* Booking Form & Contact Section (240px spacing, enlarged booking inputs) */}
       <section id="booking-bay" className="relative z-10 w-full pt-[240px] pb-[240px] bg-white">
         <div className="mx-auto max-w-[1440px] px-8 md:px-12">
@@ -419,10 +398,10 @@ export default function ServicePageClient({ slug }: { slug: string }) {
               </div>
             </div>
 
-            {/* Booking Form Right - enlarged size with padded inputs and taller textarea */}
-            <div className="bg-[#F8F8F8] p-12 md:p-14 rounded-[32px] shadow-sm border border-black/5 w-full max-w-2xl mx-auto">
+            {/* Booking Form Right - premium elevated card with white background, large padding, soft shadow, and glass details */}
+            <div className="bg-white p-10 md:p-12 rounded-[18px] border border-black/[0.04] hover:border-accent-green/[0.12] transition-colors duration-300 shadow-[0_30px_80px_rgba(0,0,0,0.06)] w-full max-w-[700px] mx-auto z-10">
               {bookingSuccess ? (
-                <div className="w-full py-16 px-6 flex flex-col items-center justify-center text-center gap-4 bg-accent-green/5 border border-accent-green/20 rounded-2xl">
+                <div className="w-full py-16 px-6 flex flex-col items-center justify-center text-center gap-4 bg-accent-green/5 border border-accent-green/20 rounded-[18px]">
                   <CheckCircle2 className="w-12 h-12 text-accent-green animate-bounce" />
                   <h4 className="font-display text-lg font-bold text-text-charcoal">Diagnostics Request Sent</h4>
                   <p className="text-xs text-text-muted max-w-xs leading-relaxed">
@@ -430,13 +409,13 @@ export default function ServicePageClient({ slug }: { slug: string }) {
                   </p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit(handleBookingSubmit)} className="flex flex-col gap-8">
+                <form onSubmit={handleSubmit(handleBookingSubmit)} className="flex flex-col gap-6">
                   <div className="flex flex-col gap-3">
                     <label className="text-xs font-bold uppercase tracking-wider text-text-muted">Full Name</label>
                     <input 
                       type="text" 
                       placeholder="e.g. Aditya Verma" 
-                      className="px-6 py-5 rounded-2xl bg-white border border-black/5 text-base focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300"
+                      className="h-[58px] px-6 rounded-2xl bg-bg-light-grey/60 border border-black/5 text-base focus:outline-none focus:border-accent-green focus:bg-white text-text-charcoal placeholder-black/30 transition-all duration-300"
                       {...register("name", { required: "Name is required" })}
                     />
                     {errors.name && <span className="text-xs text-red-500">{errors.name.message}</span>}
@@ -447,7 +426,7 @@ export default function ServicePageClient({ slug }: { slug: string }) {
                     <input 
                       type="tel" 
                       placeholder="e.g. +91 73062 43424" 
-                      className="px-6 py-5 rounded-2xl bg-white border border-black/5 text-base focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300"
+                      className="h-[58px] px-6 rounded-2xl bg-bg-light-grey/60 border border-black/5 text-base focus:outline-none focus:border-accent-green focus:bg-white text-text-charcoal placeholder-black/30 transition-all duration-300"
                       {...register("phone", { required: "Phone is required" })}
                     />
                     {errors.phone && <span className="text-xs text-red-500">{errors.phone.message}</span>}
@@ -459,7 +438,7 @@ export default function ServicePageClient({ slug }: { slug: string }) {
                       type="text" 
                       value={data.title}
                       readOnly
-                      className="px-6 py-5 rounded-2xl bg-white border border-black/5 text-base text-text-muted outline-none select-none"
+                      className="h-[58px] px-6 rounded-2xl bg-bg-light-grey/30 border border-black/5 text-base text-text-muted outline-none select-none font-medium"
                       {...register("deviceModel")}
                     />
                   </div>
@@ -467,19 +446,20 @@ export default function ServicePageClient({ slug }: { slug: string }) {
                   <div className="flex flex-col gap-3">
                     <label className="text-xs font-bold uppercase tracking-wider text-text-muted">Fault Specifications</label>
                     <textarea 
-                      rows={5}
+                      rows={6}
                       placeholder="Specify curved edges, battery degradation levels, or water contact durations." 
-                      className="px-6 py-5 rounded-2xl bg-white border border-black/5 text-base focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300 resize-none"
+                      className="px-6 py-5 rounded-2xl bg-bg-light-grey/60 border border-black/5 text-base focus:outline-none focus:border-accent-green focus:bg-white text-text-charcoal placeholder-black/30 transition-all duration-300 resize-none animate-none"
                       {...register("problemDescription", { required: "Fault details are required" })}
                     />
                     {errors.problemDescription && <span className="text-xs text-red-500">{errors.problemDescription.message}</span>}
                   </div>
 
+                  {/* Form submit button - enlarged height and shadow styling */}
                   <button 
                     type="submit"
-                    className="w-full py-5 rounded-[12px] text-[18px] font-bold uppercase tracking-wider bg-accent-green text-white hover:bg-accent-green/95 transition-all duration-300 shadow-md h-[56px]"
+                    className="w-full py-5 rounded-[12px] text-[18px] font-bold uppercase tracking-wider bg-accent-green text-white hover:bg-accent-green/90 transition-all duration-300 h-[64px] flex items-center justify-center shadow-lg hover:shadow-accent-green/20"
                   >
-                    Confirm Diagnostic Slot
+                    Book Repair
                   </button>
                 </form>
               )}
