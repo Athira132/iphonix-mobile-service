@@ -98,15 +98,15 @@ export default function Home() {
   return (
     <div className="relative w-full overflow-hidden bg-bg-light text-text-charcoal selection:bg-accent-green/20 selection:text-accent-green">
       
-      {/* Navigation Bar (Increased navbar height, Circular Logo, dropdown Services, Centered Menu, Far-right Button) */}
+      {/* Navigation Bar (Increased navbar height, Circular Profile Logo, dropdown Services, Centered Menu, Far-right Button) */}
       <header className={`fixed top-0 left-0 right-0 z-40 w-full transition-all duration-500 h-28 flex items-center ${
         scrolled ? "glass-nav shadow-sm" : "bg-transparent"
       }`}>
         <div className="mx-auto w-full max-w-[1440px] px-8 md:px-12 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-4 flex-shrink-0">
-            {/* Circular Logo Container (Subtle white border & soft shadow, visible) */}
-            <div className="relative w-14 h-14 rounded-full border-2 border-white/80 shadow-md bg-black flex items-center justify-center p-2 overflow-visible">
-              <Image src="/logo.png" alt="Logo" width={38} height={38} className="object-contain" />
+            {/* Perfect circular cropped container (aspect ratio locked, no rectangle borders) */}
+            <div className="relative w-14 h-14 rounded-full border-2 border-white shadow bg-black overflow-hidden flex items-center justify-center p-0.5">
+              <Image src="/logo.png" alt="Logo" width={56} height={56} className="rounded-full object-cover w-full h-full" />
             </div>
             <div className="flex flex-col">
               <span className={`font-display font-extrabold leading-none tracking-tight text-[22px] md:text-[26px] lg:text-[32px] ${
@@ -273,17 +273,17 @@ export default function Home() {
 
       </section>
 
-      {/* About Section (bg: #FFFFFF, 200px vertical gaps, large section heading, dark readable body text) */}
-      <section id="about" className="relative z-10 w-full pt-[200px] pb-[200px] bg-white border-b border-black/5">
+      {/* About Section (bg: #FFFFFF, 240px vertical gaps, large section heading, 40px paragraph spacing, 60px grid gap) */}
+      <section id="about" className="relative z-10 w-full pt-[240px] pb-[240px] bg-white border-b border-black/5">
         <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
-          <div className="mb-[60px] text-left">
+          <div className="mb-[80px] text-left">
             <h2 className="font-display text-[38px] md:text-[48px] lg:text-[60px] font-bold tracking-tight text-text-charcoal leading-tight">
               About Us
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-[80px] items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-[60px] items-center">
             {/* Image Left */}
             <div className="lg:col-span-6 relative h-[450px] md:h-[580px] rounded-[32px] overflow-hidden border border-black/5 shadow-sm">
               <Image 
@@ -294,10 +294,13 @@ export default function Home() {
               />
             </div>
 
-            {/* Content Right (No extra badges or floating icons, high-contrast medium weight paragraphs) */}
-            <div className="lg:col-span-6 flex flex-col items-start text-left">
-              <p className="text-[#2B2B2B] leading-[1.8] text-[20px] font-medium mb-8">
-                iPhonix Mobile Service Centre is a trusted destination for professional smartphone repair solutions. With experienced technicians, advanced repair equipment, and genuine spare parts, we specialize in repairing iPhones and Android smartphones with precision and care. From minor issues to complex chip-level motherboard repairs, we are committed to delivering fast, reliable, and affordable services while ensuring complete customer satisfaction.
+            {/* Content Right (40px spacing between paragraphs, high-contrast readable copy) */}
+            <div className="lg:col-span-6 flex flex-col items-start text-left space-y-[40px]">
+              <p className="text-[#2B2B2B] leading-[1.8] text-[20px] font-medium">
+                iPhonix Mobile Service Centre is a trusted destination for professional smartphone repair solutions. With experienced technicians, advanced repair equipment, and genuine spare parts, we specialize in repairing iPhones and Android smartphones with precision and care.
+              </p>
+              <p className="text-[#2B2B2B] leading-[1.8] text-[20px] font-medium">
+                From minor issues to complex chip-level motherboard repairs, we are committed to delivering fast, reliable, and affordable services while ensuring complete customer satisfaction.
               </p>
             </div>
           </div>
@@ -305,18 +308,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Doorstep Mobile Phone Repair Service Section (bg: #F8F8F8, 220px vertical padding gap) */}
-      <section className="relative z-10 w-full pt-[200px] pb-[200px] bg-[#F8F8F8] border-b border-black/5">
+      {/* Doorstep Mobile Phone Repair Service Section (bg: #F8F8F8, 240px spacing, 80px below heading, 60px gap) */}
+      <section className="relative z-10 w-full pt-[240px] pb-[240px] bg-[#F8F8F8] border-b border-black/5">
         <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
-          <div className="mb-[60px] text-left">
+          <div className="mb-[80px] text-left">
             <span className="text-[13px] uppercase font-bold tracking-widest text-accent-green mb-4 block">Convenience At Your Door</span>
             <h2 className="font-display text-[38px] md:text-[48px] lg:text-[60px] font-bold tracking-tight text-text-charcoal">
               Door-to-Door Mobile Phone Repair Service
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-[80px] items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-[60px] items-center">
             {/* Image Left */}
             <div className="lg:col-span-6 relative h-[450px] md:h-[580px] rounded-[32px] overflow-hidden border border-black/5 shadow-sm bg-white">
               <Image 
@@ -327,27 +330,29 @@ export default function Home() {
               />
             </div>
 
-            {/* Door-to-Door Highlights Content Right */}
-            <div className="lg:col-span-6 flex flex-col items-start text-left">
-              <h3 className="font-display text-[26px] font-semibold text-text-charcoal mb-6">
-                Fast & Affordable Mobile Repair Services at Your Home or Office
-              </h3>
-              <p className="text-[#2B2B2B] leading-[1.8] text-[20px] font-medium mb-8">
-                Cannot visit our service center? No worries! Our expert technician comes straight to your location to perform on-site diagnoses and repairs securely.
-              </p>
+            {/* Door-to-Door Highlights Content Right (40px paragraph/list spacings) */}
+            <div className="lg:col-span-6 flex flex-col items-start text-left space-y-[40px]">
+              <div>
+                <h3 className="font-display text-[26px] font-semibold text-text-charcoal mb-6">
+                  Fast & Affordable Mobile Repair Services at Your Home or Office
+                </h3>
+                <p className="text-[#2B2B2B] leading-[1.8] text-[20px] font-medium">
+                  Cannot visit our service center? No worries! Our expert technician comes straight to your location to perform on-site diagnoses and repairs securely.
+                </p>
+              </div>
               
               <ul className="flex flex-col gap-4 text-[#2B2B2B] font-medium text-[20px] leading-[1.8]">
                 <li className="flex items-center gap-3">
-                  <span className="text-accent-green text-2xl">✓</span> We come to your location.
+                  <span className="text-accent-green text-2xl font-bold">✓</span> We come to your location.
                 </li>
                 <li className="flex items-center gap-3">
-                  <span className="text-accent-green text-2xl">✓</span> Professional doorstep repairs.
+                  <span className="text-accent-green text-2xl font-bold">✓</span> Professional doorstep repairs.
                 </li>
                 <li className="flex items-center gap-3">
-                  <span className="text-accent-green text-2xl">✓</span> Safe handling & diagnostic protocols.
+                  <span className="text-accent-green text-2xl font-bold">✓</span> Safe handling & diagnostic protocols.
                 </li>
                 <li className="flex items-center gap-3">
-                  <span className="text-accent-green text-2xl">✓</span> Convenient home and office visits.
+                  <span className="text-accent-green text-2xl font-bold">✓</span> Convenient home and office visits.
                 </li>
               </ul>
             </div>
@@ -356,11 +361,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services Section (bg: #FFFFFF, Simplified Clean cards without icons or illustrations) */}
-      <section id="services" className="relative z-10 w-full pt-[200px] pb-[200px] bg-white border-b border-black/5">
+      {/* Services Section (bg: #FFFFFF, 240px vertical gaps, 80px below heading) */}
+      <section id="services" className="relative z-10 w-full pt-[240px] pb-[240px] bg-white border-b border-black/5">
         <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
-          <div className="mb-[60px] text-left">
+          <div className="mb-[80px] text-left">
             <h2 className="font-display text-[38px] md:text-[48px] lg:text-[60px] font-bold tracking-tight text-text-charcoal">
               Our Services
             </h2>
@@ -386,11 +391,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Gallery Section (bg: #F8F8F8, masonry with spacing, no descriptors, lightbox) */}
-      <section id="gallery" className="relative z-10 w-full pt-[200px] pb-[200px] bg-[#F8F8F8] border-b border-black/5">
+      {/* Gallery Section (bg: #F8F8F8, 240px vertical gaps, 80px below headings) */}
+      <section id="gallery" className="relative z-10 w-full pt-[240px] pb-[240px] bg-[#F8F8F8] border-b border-black/5">
         <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
-          <div className="mb-[60px] text-left">
+          <div className="mb-[80px] text-left">
             <h2 className="font-display text-[38px] md:text-[48px] lg:text-[60px] font-bold tracking-tight text-text-charcoal">
               Gallery
             </h2>
@@ -449,11 +454,11 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* Testimonials Section (bg: #FFFFFF, spacious cards, no decorative icons) */}
-      <section id="testimonials" className="relative z-10 w-full pt-[200px] pb-[200px] bg-white border-b border-black/5">
+      {/* Testimonials Section (bg: #FFFFFF, 240px vertical gaps, 80px below headings) */}
+      <section id="testimonials" className="relative z-10 w-full pt-[240px] pb-[240px] bg-white border-b border-black/5">
         <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
-          <div className="mb-[60px] text-left">
+          <div className="mb-[80px] text-left">
             <h2 className="font-display text-[38px] md:text-[48px] lg:text-[60px] font-bold tracking-tight text-text-charcoal">
               Customer Reviews
             </h2>
@@ -490,11 +495,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact & Booking Section (bg: #F8F8F8, Karamana Thiruvananthapuram Kerala location details) */}
-      <section id="contact" className="relative z-10 w-full pt-[200px] pb-[200px] bg-[#F8F8F8]">
+      {/* Contact & Booking Section (bg: #F8F8F8, 240px gaps, 80px below heading) */}
+      <section id="contact" className="relative z-10 w-full pt-[240px] pb-[240px] bg-[#F8F8F8]">
         <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
-          <div className="mb-[60px] text-left">
+          <div className="mb-[80px] text-left">
             <h2 className="font-display text-[38px] md:text-[48px] lg:text-[60px] font-bold tracking-tight text-text-charcoal leading-none">
               Contact Us
             </h2>
@@ -547,7 +552,7 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Map Iframe (Karamana location embedded query) */}
+              {/* Map Iframe */}
               <div className="w-full h-[320px] rounded-[32px] overflow-hidden border border-black/5 relative shadow-sm">
                 <iframe 
                   src="https://maps.google.com/maps?q=Iphonix%20Mobile%20Service%20Karamana%20Thiruvananthapuram&t=&z=15&ie=UTF8&iwloc=&output=embed"
@@ -655,7 +660,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer (bg: #050505, Circular Logo, Karamana Thiruvananthapuram Kerala location details) */}
+      {/* Footer (bg: #050505, perfect circle logo crop, no rectangular margins, border-2 white, stacked title) */}
       <footer className="relative z-10 w-full bg-[#050505] text-white pt-24 pb-12 dark-mode-scrollbar">
         <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
@@ -663,9 +668,9 @@ export default function Home() {
             
             <div className="flex flex-col gap-4">
               <div className="flex items-center gap-3">
-                {/* Circular logo frame */}
-                <div className="relative w-12 h-12 rounded-full border-2 border-white/20 bg-black flex items-center justify-center p-2 shadow-md">
-                  <Image src="/logo.png" alt="Logo" width={28} height={28} className="object-contain" />
+                {/* Perfect circular cropped container (aspect ratio locked, no rectangle borders) */}
+                <div className="relative w-12 h-12 rounded-full border-2 border-white/20 bg-black overflow-hidden flex items-center justify-center p-0.5 shadow-md">
+                  <Image src="/logo.png" alt="Logo" width={48} height={48} className="rounded-full object-cover w-full h-full" />
                 </div>
                 <span className="font-display text-lg font-bold text-white leading-none">iPhonix</span>
               </div>
@@ -749,16 +754,29 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* WhatsApp Button (Only 1 floating action button left bottom) */}
-      <a 
+      {/* Floating Animated WhatsApp Icon-Only CTA Button (Bottom-Right, no popup text labels, glowing scale pulse) */}
+      <motion.a 
         href="https://wa.me/917306243424"
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-6 left-6 z-45 flex items-center gap-2 py-3.5 px-6 rounded-[16px] bg-accent-green text-white shadow-xl hover:scale-103 transition-transform duration-300 font-bold text-sm uppercase tracking-wider"
-        title="WhatsApp Chat"
+        animate={{ 
+          scale: [1, 1.08, 1],
+          boxShadow: [
+            "0 0 0 0 rgba(34, 197, 94, 0.4)",
+            "0 0 0 15px rgba(34, 197, 94, 0)",
+            "0 0 0 0 rgba(34, 197, 94, 0)"
+          ]
+        }}
+        transition={{ 
+          duration: 2.2, 
+          repeat: Infinity, 
+          ease: "easeInOut" 
+        }}
+        className="fixed bottom-8 right-8 z-50 w-14 h-14 rounded-full bg-accent-green text-white shadow-2xl flex items-center justify-center hover:scale-105 transition-transform duration-300"
+        title="WhatsApp Support"
       >
-        <MessageCircle className="w-5 h-5 fill-white text-accent-green" /> WhatsApp
-      </a>
+        <MessageCircle className="w-7 h-7 fill-white text-accent-green" />
+      </motion.a>
 
     </div>
   );

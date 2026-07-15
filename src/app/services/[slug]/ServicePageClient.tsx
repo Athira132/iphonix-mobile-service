@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
+import { motion } from "framer-motion";
 import { 
   Smartphone, ShieldCheck, Clock, Settings, Award, 
   ChevronDown, Phone, Sparkles, ArrowRight, Star, Cpu, 
@@ -19,7 +20,7 @@ type BookingFormData = {
   message: string;
 };
 
-// Services dynamic data map handling exactly 11 items with custom illustrations mapping
+// Services dynamic data map handling exactly 11 items
 const SERVICES_DATA: Record<string, {
   title: string;
   tagline: string;
@@ -27,6 +28,7 @@ const SERVICES_DATA: Record<string, {
   icon: React.ElementType;
   faqs: { q: string; a: string }[];
   gallery: string[];
+  highlights: string[];
 }> = {
   "iphone-repair": {
     title: "iPhone Repair",
@@ -41,6 +43,12 @@ const SERVICES_DATA: Record<string, {
       "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=600",
       "https://images.unsplash.com/photo-1601524909162-be87252be298?q=80&w=600",
       "https://images.unsplash.com/photo-1597733336794-12d05021d510?q=80&w=600"
+    ],
+    highlights: [
+      "Face ID sensor calibration alignment",
+      "Logic board micro-soldering component restoration",
+      "TrueTone serialization chip transfers",
+      "Chassis alignment & premium screen swap bays"
     ]
   },
   "android-repair": {
@@ -56,6 +64,12 @@ const SERVICES_DATA: Record<string, {
       "https://images.unsplash.com/photo-1596524430615-b46475ddff6e?q=80&w=600",
       "https://images.unsplash.com/photo-1597733336794-12d05021d510?q=80&w=600",
       "https://images.unsplash.com/photo-1601524909162-be87252be298?q=80&w=600"
+    ],
+    highlights: [
+      "Curved OLED panel replacement tools",
+      "Samsung and Pixel factory-grade screen calibrations",
+      "Charging flex board trace jump operations",
+      "Back glass laser separator overlays"
     ]
   },
   "display-replacement": {
@@ -71,6 +85,12 @@ const SERVICES_DATA: Record<string, {
       "https://images.unsplash.com/photo-1601524909162-be87252be298?q=80&w=600",
       "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=600",
       "https://images.unsplash.com/photo-1596524430615-b46475ddff6e?q=80&w=600"
+    ],
+    highlights: [
+      "Serial chip programming for Apple TrueTone",
+      "Zero dead pixel quality checkpoints",
+      "Gorilla Glass Victus overlay matches",
+      "Frame cleanup, gasket alignment, water seal tapes"
     ]
   },
   "battery-replacement": {
@@ -86,6 +106,12 @@ const SERVICES_DATA: Record<string, {
       "https://images.unsplash.com/photo-1597733336794-12d05021d510?q=80&w=600",
       "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=600",
       "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?q=80&w=600"
+    ],
+    highlights: [
+      "High capacity battery cells (zero cycle status)",
+      "Battery health calibrations & cycle counts reset",
+      "Overcharge safety protection controllers",
+      "Micro-welding battery controller boards"
     ]
   },
   "camera-repair": {
@@ -101,6 +127,12 @@ const SERVICES_DATA: Record<string, {
       "https://images.unsplash.com/photo-1601524909162-be87252be298?q=80&w=600",
       "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=600",
       "https://images.unsplash.com/photo-1597733336794-12d05021d510?q=80&w=600"
+    ],
+    highlights: [
+      "Optical Image Stabilization (OIS) calibrations",
+      "Scratch-resistant sapphire camera glass plates",
+      "Multi-focus lens system replacements",
+      "Under-microscope dust cleaning checkpoints"
     ]
   },
   "charging-port-repair": {
@@ -116,6 +148,12 @@ const SERVICES_DATA: Record<string, {
       "https://images.unsplash.com/photo-1597733336794-12d05021d510?q=80&w=600",
       "https://images.unsplash.com/photo-1601524909162-be87252be298?q=80&w=600",
       "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=600"
+    ],
+    highlights: [
+      "Type-C & Lightning connector replacements",
+      "Fast charging protocol diagnostics",
+      "Microscope-level pin trace repair checks",
+      "Gasket replacements to maintain dust protection"
     ]
   },
   "water-damage-repair": {
@@ -131,6 +169,12 @@ const SERVICES_DATA: Record<string, {
       "https://images.unsplash.com/photo-1563206767-5b18f218e8de?q=80&w=600",
       "https://images.unsplash.com/photo-1597733336794-12d05021d510?q=80&w=600",
       "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?q=80&w=600"
+    ],
+    highlights: [
+      "Ultrasonic descaling clean chambers",
+      "Moisture extraction & board dehydration ovens",
+      "Micro-soldering jump lines for damaged tracks",
+      "IC chip reflow operations"
     ]
   },
   "motherboard-repair": {
@@ -146,6 +190,12 @@ const SERVICES_DATA: Record<string, {
       "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=600",
       "https://images.unsplash.com/photo-1597733336794-12d05021d510?q=80&w=600",
       "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?q=80&w=600"
+    ],
+    highlights: [
+      "Power Management IC (PMIC) replacements",
+      "Multi-layer board track micro-jumper traces",
+      "BGA chip reballing operations",
+      "Detailed short circuit thermal diagnostics checks"
     ]
   },
   "software-solutions": {
@@ -161,6 +211,12 @@ const SERVICES_DATA: Record<string, {
       "https://images.unsplash.com/photo-1596524430615-b46475ddff6e?q=80&w=600",
       "https://images.unsplash.com/photo-1597733336794-12d05021d510?q=80&w=600",
       "https://images.unsplash.com/photo-1563206767-5b18f218e8de?q=80&w=600"
+    ],
+    highlights: [
+      "Firmware flashes & loop recoveries",
+      "Data extraction from damaged memory blocks",
+      "Boot loop diagnostics & OS restorations",
+      "System storage clearance & cleanup options"
     ]
   },
   "mobile-accessories": {
@@ -176,6 +232,12 @@ const SERVICES_DATA: Record<string, {
       "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?q=80&w=600",
       "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=600",
       "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=600"
+    ],
+    highlights: [
+      "High-impact 9H tempered glass screen overlays",
+      "BIS certified charging docks & MagSafe bricks",
+      "Premium watch straps & protective frame shells",
+      "Smart layout alignment assistance in-store"
     ]
   },
   "doorstep-mobile-repair": {
@@ -191,6 +253,12 @@ const SERVICES_DATA: Record<string, {
       "https://images.unsplash.com/photo-1596524430615-b46475ddff6e?q=80&w=600",
       "https://images.unsplash.com/photo-1597733336794-12d05021d510?q=80&w=600",
       "https://images.unsplash.com/photo-1601524909162-be87252be298?q=80&w=600"
+    ],
+    highlights: [
+      "On-site repair diagnostics & replacements",
+      "Secure handling with anti-static toolsets",
+      "Convenient home & office repair appointments",
+      "Trained technicians at your doorstep"
     ]
   }
 };
@@ -229,15 +297,15 @@ export default function ServicePageClient({ slug }: { slug: string }) {
       {/* Scroll Progress */}
       <div className="fixed top-0 left-0 right-0 z-50 h-[3px] bg-accent-green" />
 
-      {/* Header (Increased navbar height, Circular Logo container, Company title stacked) */}
+      {/* Header (Perfect circle logo crop, no rectangular margins, border-2 white, stacked title) */}
       <header className={`fixed top-0 left-0 right-0 z-40 w-full transition-all duration-500 h-28 flex items-center ${
         scrolled ? "glass-nav shadow-sm" : "bg-transparent"
       }`}>
         <div className="mx-auto w-full max-w-[1440px] px-8 md:px-12 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-4 flex-shrink-0">
-            {/* Circular Logo Container */}
-            <div className="relative w-14 h-14 rounded-full border border-white/20 shadow bg-black flex items-center justify-center p-2 overflow-visible">
-              <Image src="/logo.png" alt="Logo" width={38} height={38} className="object-contain" />
+            {/* Perfect circular cropped container (aspect ratio locked, no rectangle borders) */}
+            <div className="relative w-14 h-14 rounded-full border-2 border-white shadow bg-black overflow-hidden flex items-center justify-center p-0.5">
+              <Image src="/logo.png" alt="Logo" width={56} height={56} className="rounded-full object-cover w-full h-full" />
             </div>
             <div className="flex flex-col">
               <span className={`font-display font-extrabold leading-none tracking-tight text-[22px] md:text-[26px] lg:text-[32px] transition-colors duration-300 ${
@@ -257,51 +325,83 @@ export default function ServicePageClient({ slug }: { slug: string }) {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="relative w-full min-h-[90vh] flex items-center justify-center pt-32 pb-24 overflow-hidden">
+      {/* Hero Section Redesigned: Modern Left Split Layout (Left 40%, Right 60% with floating motion) */}
+      <section className="relative w-full min-h-[90vh] flex items-center justify-center pt-32 pb-24 overflow-hidden bg-bg-dark text-white">
         <div className="absolute inset-0 z-0">
           <Image 
             src="https://i.ibb.co/pBGN8Nz1/Whats-App-Image-2026-07-14-at-4-01-58-PM.jpg" 
             alt={data.title}
             fill
             priority
-            className="w-full h-full object-cover scale-102"
+            className="w-full h-full object-cover opacity-35 scale-102"
           />
           <div className="absolute inset-0 bg-black/60" />
         </div>
 
-        <div className="relative z-10 w-full max-w-[1440px] mx-auto px-8 md:px-12 text-center flex flex-col items-center">
-          <div className="outline-icon-container mb-8 text-accent-green">
-            <ServiceIcon className="w-20 h-20" />
+        <div className="relative z-10 w-full max-w-[1440px] mx-auto px-8 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-[60px] items-center text-left">
+            
+            {/* Left Side Column (lg:col-span-5 / 40% width) - content aligned left */}
+            <div className="lg:col-span-5 flex flex-col items-start">
+              <div className="outline-icon-container mb-8 text-accent-green">
+                <ServiceIcon className="w-20 h-20" />
+              </div>
+
+              <h1 className="font-display text-[42px] sm:text-[56px] md:text-[68px] lg:text-[76px] font-extrabold tracking-tight text-white mb-6 leading-tight">
+                {data.title}
+              </h1>
+
+              <p className="text-[20px] sm:text-[22px] lg:text-[24px] text-accent-green font-semibold tracking-tight mb-6">
+                {data.tagline}
+              </p>
+
+              <p className="text-base sm:text-lg lg:text-[20px] text-white/80 leading-[1.8] mb-8 max-w-xl font-medium">
+                {data.desc}
+              </p>
+
+              {/* Service Highlights List */}
+              <ul className="flex flex-col gap-3.5 mb-10 text-white/70 font-medium text-base">
+                {data.highlights.map((high, idx) => (
+                  <li key={idx} className="flex items-center gap-3.5">
+                    <span className="text-accent-green text-xl font-bold">✓</span> {high}
+                  </li>
+                ))}
+              </ul>
+
+              {/* Premium Rectangular CTA button */}
+              <a 
+                href="#booking-bay"
+                className="inline-flex items-center justify-center rounded-[12px] text-[18px] font-bold uppercase tracking-wider bg-accent-green text-white hover:bg-accent-green/90 transition-all duration-300 shadow-md h-[56px] w-[220px]"
+              >
+                Request Slot
+              </a>
+            </div>
+
+            {/* Right Side Column (lg:col-span-7 / 60% width) - floating animation image */}
+            <div className="lg:col-span-7 flex items-center justify-center">
+              <motion.div 
+                animate={{ y: [0, -15, 0] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                className="relative w-full max-w-[650px] aspect-video rounded-[32px] overflow-hidden border-2 border-white/20 shadow-2xl bg-black"
+              >
+                <Image 
+                  src={data.gallery[0]} 
+                  alt={data.title}
+                  fill 
+                  className="object-cover" 
+                />
+              </motion.div>
+            </div>
+
           </div>
-
-          <h1 className="font-display text-[48px] sm:text-[68px] md:text-[80px] lg:text-[90px] font-extrabold tracking-tight text-white mb-6">
-            {data.title}
-          </h1>
-
-          <p className="text-[20px] sm:text-[22px] lg:text-[26px] text-accent-green font-semibold tracking-tight mb-8">
-            {data.tagline}
-          </p>
-
-          <p className="text-base sm:text-lg lg:text-[20px] text-white/80 max-w-2xl leading-relaxed mb-12">
-            {data.desc}
-          </p>
-
-          {/* Premium Rectangular CTA button */}
-          <a 
-            href="#booking-bay"
-            className="inline-flex items-center justify-center py-[18px] px-[40px] rounded-[12px] text-[18px] font-bold uppercase tracking-wider bg-accent-green text-white hover:bg-accent-green/90 transition-all duration-300 shadow-md h-[56px] w-[220px]"
-          >
-            Request Diagnostics
-          </a>
         </div>
       </section>
 
-      {/* Why Choose iPhonix Section */}
-      <section className="relative z-10 w-full pt-[160px] pb-[160px] bg-bg-light-grey mt-[60px]">
+      {/* Why Choose iPhonix Section (240px vertical gaps, 80px below headings) */}
+      <section className="relative z-10 w-full pt-[240px] pb-[240px] bg-[#F8F8F8] border-b border-black/5">
         <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
-          <div className="text-center max-w-3xl mx-auto mb-24">
+          <div className="text-center max-w-3xl mx-auto mb-[80px]">
             <span className="text-[13px] uppercase font-bold tracking-widest text-accent-green mb-6 block">Diagnostics Bay</span>
             <h2 className="font-display text-[40px] md:text-[50px] lg:text-[60px] font-bold tracking-tight text-text-charcoal mb-6">Why Choose iPhonix</h2>
           </div>
@@ -312,7 +412,7 @@ export default function ServicePageClient({ slug }: { slug: string }) {
               { title: "OEM Quality Components", desc: "We utilize premium factory-grade replacement components exclusively.", icon: ShieldCheck },
               { title: "90-Day Guarantee", desc: "Every component swap is backed by a complete replacement warranty card.", icon: Clock }
             ].map((card, idx) => (
-              <div key={idx} className="apple-card-light p-10 bg-white rounded-[32px] cursor-default">
+              <div key={idx} className="apple-card-light p-10 bg-white rounded-[32px] cursor-default shadow-sm border border-black/5">
                 <div className="outline-icon-container mb-8 text-accent-green">
                   <card.icon className="w-20 h-20" />
                 </div>
@@ -325,11 +425,11 @@ export default function ServicePageClient({ slug }: { slug: string }) {
         </div>
       </section>
 
-      {/* Repair Process */}
-      <section className="relative z-10 w-full pt-[160px] pb-[160px] bg-bg-dark text-white dark-mode-scrollbar mt-[60px]">
+      {/* Repair Process (240px vertical gaps, 80px below headings) */}
+      <section className="relative z-10 w-full pt-[240px] pb-[240px] bg-bg-dark text-white dark-mode-scrollbar">
         <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
-          <div className="text-center max-w-3xl mx-auto mb-24">
+          <div className="text-center max-w-3xl mx-auto mb-[80px]">
             <span className="text-xs uppercase font-bold tracking-widest text-accent-green mb-4 block">Repair Pipeline</span>
             <h2 className="font-display text-[40px] md:text-[50px] lg:text-[60px] font-bold tracking-tight text-white mb-6">Our Process</h2>
           </div>
@@ -354,11 +454,11 @@ export default function ServicePageClient({ slug }: { slug: string }) {
         </div>
       </section>
 
-      {/* Before & After Gallery */}
-      <section className="relative z-10 w-full pt-[160px] pb-[160px] bg-white mt-[60px]">
+      {/* Before & After Gallery (240px vertical gaps, 80px below headings) */}
+      <section className="relative z-10 w-full pt-[240px] pb-[240px] bg-white">
         <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
-          <div className="text-center max-w-3xl mx-auto mb-24">
+          <div className="text-center max-w-3xl mx-auto mb-[80px]">
             <span className="text-[13px] uppercase font-bold tracking-widest text-accent-green mb-6 block">Visual Evidence</span>
             <h2 className="font-display text-[40px] md:text-[50px] lg:text-[60px] font-bold tracking-tight text-text-charcoal mb-6">Gallery Showcase</h2>
           </div>
@@ -383,11 +483,11 @@ export default function ServicePageClient({ slug }: { slug: string }) {
         </div>
       </section>
 
-      {/* FAQ Accordion */}
-      <section className="relative z-10 w-full pt-[160px] pb-[160px] bg-bg-light-grey mt-[60px]">
+      {/* FAQ Accordion (240px vertical gaps, 80px below headings) */}
+      <section className="relative z-10 w-full pt-[240px] pb-[240px] bg-[#F8F8F8] border-b border-black/5">
         <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           
-          <div className="text-center max-w-3xl mx-auto mb-24">
+          <div className="text-center max-w-3xl mx-auto mb-[80px]">
             <span className="text-[13px] uppercase font-bold tracking-widest text-accent-green mb-6 block">Faq</span>
             <h2 className="font-display text-[40px] md:text-[50px] lg:text-[60px] font-bold tracking-tight text-text-charcoal mb-6">Common Questions</h2>
           </div>
@@ -415,8 +515,8 @@ export default function ServicePageClient({ slug }: { slug: string }) {
         </div>
       </section>
 
-      {/* Booking Form CTA ( Kerala Address details ) */}
-      <section id="booking-bay" className="relative z-10 w-full pt-[160px] pb-[160px] bg-white mt-[60px]">
+      {/* Booking Form CTA (240px spacing, Kerala Address details) */}
+      <section id="booking-bay" className="relative z-10 w-full pt-[240px] pb-[240px] bg-white">
         <div className="mx-auto max-w-[1440px] px-8 md:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
@@ -445,7 +545,7 @@ export default function ServicePageClient({ slug }: { slug: string }) {
               </div>
             </div>
 
-            <div className="apple-card-light p-10 md:p-12 bg-white rounded-[32px]">
+            <div className="apple-card-light p-10 md:p-12 bg-white rounded-[32px] shadow-sm border border-black/5">
               {bookingSuccess ? (
                 <div className="w-full py-16 px-6 flex flex-col items-center justify-center text-center gap-4 bg-accent-green/5 border border-accent-green/20 rounded-2xl">
                   <CheckCircle2 className="w-12 h-12 text-accent-green animate-bounce" />
@@ -500,7 +600,6 @@ export default function ServicePageClient({ slug }: { slug: string }) {
                     {errors.problemDescription && <span className="text-xs text-red-500">{errors.problemDescription.message}</span>}
                   </div>
 
-                  {/* Rectangular form submit button */}
                   <button 
                     type="submit"
                     className="w-full py-5 rounded-[12px] text-[18px] font-bold uppercase tracking-wider bg-accent-green text-white hover:bg-accent-green/95 transition-all duration-300 shadow-md h-[56px]"
@@ -515,12 +614,12 @@ export default function ServicePageClient({ slug }: { slug: string }) {
         </div>
       </section>
 
-      {/* Footer (Consistently mapped to Karamana Trivandrum location details) */}
+      {/* Footer (Karamana Trivandrum location details, Perfect circle logo, no rectangular overlays) */}
       <footer className="w-full py-24 bg-bg-dark border-t border-white/5 text-center text-white dark-mode-scrollbar">
         <div className="mx-auto w-full max-w-[1440px] px-8 flex flex-col items-center gap-8">
           <div className="flex items-center gap-4">
-            <div className="relative w-12 h-12 rounded-full border border-white/20 bg-black flex items-center justify-center p-2 shadow-md">
-              <Image src="/logo.png" alt="Logo" width={28} height={28} className="object-contain" />
+            <div className="relative w-12 h-12 rounded-full border-2 border-white/20 bg-black overflow-hidden flex items-center justify-center p-0.5 shadow-md">
+              <Image src="/logo.png" alt="Logo" width={48} height={48} className="rounded-full object-cover w-full h-full" />
             </div>
             <span className="font-display text-xl font-bold text-white tracking-tight">iPhonix</span>
           </div>
@@ -533,15 +632,29 @@ export default function ServicePageClient({ slug }: { slug: string }) {
         </div>
       </footer>
 
-      {/* Floating CTA */}
-      <a 
+      {/* Floating Animated WhatsApp Icon-Only CTA Button (Bottom-Right, no popup text labels, glowing scale pulse) */}
+      <motion.a 
         href="https://wa.me/917306243424"
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-6 left-6 z-40 flex items-center justify-center w-14 h-14 rounded-full bg-accent-green text-white shadow-lg animate-pulse-slow"
+        animate={{ 
+          scale: [1, 1.08, 1],
+          boxShadow: [
+            "0 0 0 0 rgba(34, 197, 94, 0.4)",
+            "0 0 0 15px rgba(34, 197, 94, 0)",
+            "0 0 0 0 rgba(34, 197, 94, 0)"
+          ]
+        }}
+        transition={{ 
+          duration: 2.2, 
+          repeat: Infinity, 
+          ease: "easeInOut" 
+        }}
+        className="fixed bottom-8 right-8 z-50 w-14 h-14 rounded-full bg-accent-green text-white shadow-2xl flex items-center justify-center hover:scale-105 transition-transform duration-300"
+        title="WhatsApp Support"
       >
-        <MessageCircle className="w-5 h-5 fill-white text-accent-green" />
-      </a>
+        <MessageCircle className="w-7 h-7 fill-white text-accent-green" />
+      </motion.a>
 
     </div>
   );
