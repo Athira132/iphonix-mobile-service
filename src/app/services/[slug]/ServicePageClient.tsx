@@ -5,10 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { 
-  Smartphone, Watch, ShieldCheck, Clock, 
-  Settings, Award, CheckCircle2, ChevronDown, Phone, 
-  Sparkles, ArrowRight, Star, Cpu, MessageCircle, ArrowUp,
-  LucideIcon
+  Smartphone, ShieldCheck, Clock, Settings, Award, 
+  CheckCircle2, ChevronDown, Phone, Sparkles, ArrowRight, 
+  Star, Cpu, MessageCircle, ArrowUp, Watch
 } from "lucide-react";
 
 type BookingFormData = {
@@ -16,6 +15,8 @@ type BookingFormData = {
   phone: string;
   deviceModel: string;
   problemDescription: string;
+  preferredDate: string;
+  message: string;
 };
 
 // Services dynamic data map
@@ -23,7 +24,7 @@ const SERVICES_DATA: Record<string, {
   title: string;
   tagline: string;
   desc: string;
-  icon: LucideIcon;
+  icon: React.ElementType;
   faqs: { q: string; a: string }[];
   gallery: string[];
 }> = {
@@ -77,7 +78,7 @@ const SERVICES_DATA: Record<string, {
     title: "Water Damage Recovery",
     tagline: "Corrosion Descaling & Circuit Diagnostics",
     desc: "Advanced ultrasonic descaling, board dehydration, and microchip-level reflows to restore water-damaged components.",
-    icon: Cpu,
+    icon: ShieldCheck,
     faqs: [
       { q: "What should I do if my phone falls in water?", a: "Power off the device immediately. Do not charge it. Bring it to our service center as fast as possible to avoid logic board corrosion." },
       { q: "Can you recover data from a dead water-damaged phone?", a: "Yes. Even if the device cannot be fully repaired, we can often temporarily bridge board lines to extract your data." }
@@ -192,7 +193,7 @@ export default function ServicePageClient({ slug }: { slug: string }) {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
+      setScrolled(window.scrollY > 50);
       setShowScrollTop(window.scrollY > 400);
     };
     window.addEventListener("scroll", handleScroll);
@@ -211,19 +212,19 @@ export default function ServicePageClient({ slug }: { slug: string }) {
   const ServiceIcon = data.icon;
 
   return (
-    <div className="relative w-full overflow-hidden bg-bg-light text-text-charcoal selection:bg-accent-blue/10 selection:text-accent-blue">
+    <div className="relative w-full overflow-hidden bg-bg-light text-text-charcoal selection:bg-accent-green/20 selection:text-accent-green">
       
       {/* Scroll Progress */}
-      <div className="fixed top-0 left-0 right-0 z-50 h-[3px] bg-accent-blue" />
+      <div className="fixed top-0 left-0 right-0 z-50 h-[3px] bg-accent-green" />
 
       {/* Header */}
       <header className={`fixed top-0 left-0 right-0 z-40 w-full transition-all duration-500 ${
-        scrolled ? "glass-nav py-4" : "bg-transparent py-6"
+        scrolled ? "glass-nav py-4 shadow-sm" : "bg-transparent py-6"
       }`}>
         <div className="mx-auto max-w-7xl px-6 md:px-8 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
             <div className="relative w-9 h-9 overflow-hidden rounded-full border border-black/5 p-1 bg-black flex items-center justify-center">
-              <Image src="/logo.png" alt="iPhonix Logo" width={24} height={24} className="object-contain" />
+              <Image src="/logo.png" alt="Logo" width={24} height={24} className="object-contain" />
             </div>
             <div className="flex flex-col">
               <span className={`font-display text-lg font-bold tracking-tight transition-colors duration-300 ${
@@ -231,12 +232,12 @@ export default function ServicePageClient({ slug }: { slug: string }) {
               }`}>
                 iPhonix
               </span>
-              <span className="text-[8px] tracking-widest text-text-muted uppercase font-bold">Apple & Multi-Brand Service</span>
+              <span className="text-[7.5px] tracking-widest text-text-muted uppercase font-bold">Apple & Multi-Brand Service</span>
             </div>
           </Link>
 
           <Link href="/" className={`text-sm font-semibold transition-colors duration-300 flex items-center gap-1.5 ${
-            scrolled ? "text-accent-blue hover:text-text-charcoal" : "text-white hover:text-accent-blue"
+            scrolled ? "text-accent-green hover:text-text-charcoal" : "text-white hover:text-accent-green"
           }`}>
             Return Home <ArrowRight className="w-4 h-4" />
           </Link>
@@ -258,7 +259,7 @@ export default function ServicePageClient({ slug }: { slug: string }) {
         </div>
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-8 text-center flex flex-col items-center">
-          <div className="outline-icon-container mb-8 text-accent-blue">
+          <div className="outline-icon-container mb-8 text-accent-green">
             <ServiceIcon className="w-20 h-20" />
           </div>
 
@@ -266,7 +267,7 @@ export default function ServicePageClient({ slug }: { slug: string }) {
             {data.title}
           </h1>
 
-          <p className="text-xl sm:text-2xl text-accent-blue font-semibold tracking-tight mb-8">
+          <p className="text-xl sm:text-2xl text-accent-green font-semibold tracking-tight mb-8">
             {data.tagline}
           </p>
 
@@ -276,19 +277,19 @@ export default function ServicePageClient({ slug }: { slug: string }) {
 
           <a 
             href="#booking-bay"
-            className="inline-flex items-center justify-center px-12 py-5 rounded-full text-xs font-bold uppercase tracking-wider bg-accent-blue text-white hover:bg-accent-blue/90 transition-all duration-300"
+            className="inline-flex items-center justify-center px-12 py-5 rounded-full text-xs font-bold uppercase tracking-wider bg-accent-green text-white hover:bg-accent-green/90 transition-all duration-300"
           >
             Request Diagnostics Slot
           </a>
         </div>
       </section>
 
-      {/* Why Choose iPhonix Section (Light Grey Canvas + Asymmetric Spacing) */}
-      <section className="relative z-10 w-full py-32 bg-bg-gray">
+      {/* Why Choose iPhonix Section */}
+      <section className="relative z-10 w-full py-32 bg-bg-light-grey">
         <div className="mx-auto max-w-7xl px-6 md:px-8">
           
           <div className="text-center max-w-3xl mx-auto mb-24">
-            <span className="text-xs uppercase font-bold tracking-widest text-accent-blue mb-4 block">Diagnostics Bay</span>
+            <span className="text-xs uppercase font-bold tracking-widest text-accent-green mb-4 block">Diagnostics Bay</span>
             <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-text-charcoal mb-6">Why Choose iPhonix</h2>
           </div>
 
@@ -299,7 +300,7 @@ export default function ServicePageClient({ slug }: { slug: string }) {
               { title: "90-Day Guarantee", desc: "Every component swap is backed by a complete replacement warranty card.", icon: Clock }
             ].map((card, idx) => (
               <div key={idx} className="apple-card-light p-10 cursor-default">
-                <div className="outline-icon-container mb-8 text-accent-blue">
+                <div className="outline-icon-container mb-8 text-accent-green">
                   <card.icon className="w-16 h-16" />
                 </div>
                 <h3 className="font-display text-2xl font-bold text-text-charcoal mb-4">{card.title}</h3>
@@ -311,12 +312,12 @@ export default function ServicePageClient({ slug }: { slug: string }) {
         </div>
       </section>
 
-      {/* Repair Process (Pro Black Block) */}
+      {/* Repair Process */}
       <section className="relative z-10 w-full py-32 bg-bg-dark text-white dark-mode-scrollbar">
         <div className="mx-auto max-w-7xl px-6 md:px-8">
           
           <div className="text-center max-w-3xl mx-auto mb-24">
-            <span className="text-xs uppercase font-bold tracking-widest text-accent-blue mb-4 block">Repair Pipeline</span>
+            <span className="text-xs uppercase font-bold tracking-widest text-accent-green mb-4 block">Repair Pipeline</span>
             <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-white mb-6">Our Process</h2>
           </div>
 
@@ -327,8 +328,8 @@ export default function ServicePageClient({ slug }: { slug: string }) {
               { step: "03", title: "Expert Repair", desc: "Repair conducted inside clean micro-repair enclosures." },
               { step: "04", title: "Quality Check & Delivery", desc: "Post-repair test verification and warranty card issue." }
             ].map((step, idx) => (
-              <div key={idx} className="apple-card-dark p-8 hover:border-accent-blue/20 transition-colors duration-300">
-                <div className="w-12 h-12 rounded-full bg-accent-blue/15 border border-accent-blue/30 flex items-center justify-center text-sm font-bold text-accent-blue font-display mb-8">
+              <div key={idx} className="apple-card-dark p-8 hover:border-accent-green/20 transition-colors duration-300">
+                <div className="w-12 h-12 rounded-full bg-accent-green/15 border border-accent-green/30 flex items-center justify-center text-sm font-bold text-accent-green font-display mb-8">
                   {step.step}
                 </div>
                 <h3 className="font-display text-xl font-bold text-white mb-2">{step.title}</h3>
@@ -340,18 +341,18 @@ export default function ServicePageClient({ slug }: { slug: string }) {
         </div>
       </section>
 
-      {/* Before & After Gallery (White Canvas) */}
+      {/* Before & After Gallery */}
       <section className="relative z-10 w-full py-32 bg-white">
         <div className="mx-auto max-w-7xl px-6 md:px-8">
           
           <div className="text-center max-w-3xl mx-auto mb-24">
-            <span className="text-xs uppercase font-bold tracking-widest text-accent-blue mb-4 block">Visual Evidence</span>
+            <span className="text-xs uppercase font-bold tracking-widest text-accent-green mb-4 block">Visual Evidence</span>
             <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-text-charcoal mb-6">Gallery Showcase</h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-12">
             {data.gallery.map((url, idx) => (
-              <div key={idx} className="relative overflow-hidden rounded-[32px] border border-black/5 group aspect-video cursor-pointer shadow-sm">
+              <div key={idx} className="relative overflow-hidden rounded-[32px] border border-black/5 group aspect-video cursor-pointer shadow-sm bg-white">
                 <Image 
                   src={url} 
                   alt="Repair gallery photo" 
@@ -360,7 +361,7 @@ export default function ServicePageClient({ slug }: { slug: string }) {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
-                  <Star className="w-8 h-8 text-accent-blue animate-pulse" />
+                  <Star className="w-8 h-8 text-accent-green animate-pulse" />
                 </div>
               </div>
             ))}
@@ -369,12 +370,12 @@ export default function ServicePageClient({ slug }: { slug: string }) {
         </div>
       </section>
 
-      {/* FAQ Accordion (Light Grey Canvas) */}
-      <section className="relative z-10 w-full py-32 bg-bg-gray">
+      {/* FAQ Accordion */}
+      <section className="relative z-10 w-full py-32 bg-bg-light-grey">
         <div className="mx-auto max-w-7xl px-6 md:px-8">
           
           <div className="text-center max-w-3xl mx-auto mb-24">
-            <span className="text-xs uppercase font-bold tracking-widest text-accent-blue mb-4 block">Faq</span>
+            <span className="text-xs uppercase font-bold tracking-widest text-accent-green mb-4 block">Faq</span>
             <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight text-text-charcoal mb-6">Common Questions</h2>
           </div>
 
@@ -388,7 +389,7 @@ export default function ServicePageClient({ slug }: { slug: string }) {
                     onClick={() => setOpenFaqIndex(isOpen ? null : index)}
                   >
                     <span className="font-display text-lg font-bold text-text-charcoal pr-4">{faq.q}</span>
-                    <ChevronDown className={`w-5 h-5 text-text-muted transition-transform duration-300 ${isOpen ? "rotate-180 text-accent-blue" : ""}`} />
+                    <ChevronDown className={`w-5 h-5 text-text-muted transition-transform duration-300 ${isOpen ? "rotate-180 text-accent-green" : ""}`} />
                   </button>
                   <div className={`transition-all duration-300 ease-in-out ${isOpen ? "max-h-[300px] border-t border-black/5 opacity-100" : "max-h-0 opacity-0 pointer-events-none"}`}>
                     <div className="px-8 py-6 text-sm text-text-muted leading-relaxed">{faq.a}</div>
@@ -401,13 +402,13 @@ export default function ServicePageClient({ slug }: { slug: string }) {
         </div>
       </section>
 
-      {/* Booking Form CTA (White Canvas) */}
+      {/* Booking Form CTA */}
       <section id="booking-bay" className="relative z-10 w-full py-32 bg-white">
         <div className="mx-auto max-w-7xl px-6 md:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             
             <div>
-              <span className="text-xs uppercase font-bold tracking-widest text-accent-blue mb-4 block">Service Area</span>
+              <span className="text-xs uppercase font-bold tracking-widest text-accent-green mb-4 block">Service Area</span>
               <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tight text-text-charcoal mb-6">Book Repair Slots</h2>
               <p className="text-text-muted leading-relaxed mb-12">
                 Send details of your device. Our micro-diagnostics team will reach out with pricing quotes within 5 to 10 minutes.
@@ -415,16 +416,16 @@ export default function ServicePageClient({ slug }: { slug: string }) {
               
               <div className="flex flex-col sm:flex-row gap-6">
                 <a 
-                  href="tel:+919962512345"
-                  className="inline-flex items-center justify-center gap-3 px-10 py-4.5 rounded-full text-xs font-bold uppercase tracking-wider bg-bg-gray border border-black/5 hover:border-accent-blue hover:text-accent-blue transition-colors duration-300 text-text-charcoal"
+                  href="tel:7306243424"
+                  className="inline-flex items-center justify-center gap-3 px-10 py-4.5 rounded-full text-xs font-bold uppercase tracking-wider bg-bg-light-grey border border-black/5 hover:border-accent-green hover:text-accent-green transition-colors duration-300 text-text-charcoal"
                 >
                   <Phone className="w-4 h-4" /> Call Direct
                 </a>
                 <a 
-                  href="https://wa.me/919962512345"
+                  href="https://wa.me/917306243424"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-3 px-10 py-4.5 rounded-full text-xs font-bold uppercase tracking-wider bg-bg-gray border border-black/5 hover:border-accent-green hover:text-accent-green transition-colors duration-300 text-text-charcoal"
+                  className="inline-flex items-center justify-center gap-3 px-10 py-4.5 rounded-full text-xs font-bold uppercase tracking-wider bg-bg-light-grey border border-black/5 hover:border-accent-green hover:text-accent-green transition-colors duration-300 text-text-charcoal"
                 >
                   <MessageCircle className="w-4 h-4" /> WhatsApp Chat
                 </a>
@@ -447,7 +448,7 @@ export default function ServicePageClient({ slug }: { slug: string }) {
                     <input 
                       type="text" 
                       placeholder="e.g. Aditya Verma" 
-                      className="px-4 py-3.5 rounded-xl bg-bg-gray border border-black/5 text-sm focus:outline-none focus:border-accent-blue text-text-charcoal placeholder-black/30 transition-all duration-300"
+                      className="px-4 py-3.5 rounded-xl bg-bg-light-grey border border-black/5 text-sm focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300"
                       {...register("name", { required: "Name is required" })}
                     />
                     {errors.name && <span className="text-xs text-red-500">{errors.name.message}</span>}
@@ -457,8 +458,8 @@ export default function ServicePageClient({ slug }: { slug: string }) {
                     <label className="text-xs font-bold uppercase tracking-wider text-text-muted">Phone Number</label>
                     <input 
                       type="tel" 
-                      placeholder="e.g. +91 99625 12345" 
-                      className="px-4 py-3.5 rounded-xl bg-bg-gray border border-black/5 text-sm focus:outline-none focus:border-accent-blue text-text-charcoal placeholder-black/30 transition-all duration-300"
+                      placeholder="e.g. +91 73062 43424" 
+                      className="px-4 py-3.5 rounded-xl bg-bg-light-grey border border-black/5 text-sm focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300"
                       {...register("phone", { required: "Phone is required" })}
                     />
                     {errors.phone && <span className="text-xs text-red-500">{errors.phone.message}</span>}
@@ -470,7 +471,7 @@ export default function ServicePageClient({ slug }: { slug: string }) {
                       type="text" 
                       value={data.title}
                       readOnly
-                      className="px-4 py-3.5 rounded-xl bg-bg-gray border border-black/5 text-sm text-text-muted outline-none select-none"
+                      className="px-4 py-3.5 rounded-xl bg-bg-light-grey border border-black/5 text-sm text-text-muted outline-none select-none"
                       {...register("deviceModel")}
                     />
                   </div>
@@ -480,7 +481,7 @@ export default function ServicePageClient({ slug }: { slug: string }) {
                     <textarea 
                       rows={3}
                       placeholder="Specify curved edges, battery degradation levels, or water contact durations." 
-                      className="px-4 py-3.5 rounded-xl bg-bg-gray border border-black/5 text-sm focus:outline-none focus:border-accent-blue text-text-charcoal placeholder-black/30 transition-all duration-300 resize-none"
+                      className="px-4 py-3.5 rounded-xl bg-bg-light-grey border border-black/5 text-sm focus:outline-none focus:border-accent-green text-text-charcoal placeholder-black/30 transition-all duration-300 resize-none"
                       {...register("problemDescription", { required: "Fault details are required" })}
                     />
                     {errors.problemDescription && <span className="text-xs text-red-500">{errors.problemDescription.message}</span>}
@@ -488,7 +489,7 @@ export default function ServicePageClient({ slug }: { slug: string }) {
 
                   <button 
                     type="submit"
-                    className="w-full py-4.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-accent-blue text-white hover:bg-accent-blue/95 transition-all duration-300"
+                    className="w-full py-4.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-accent-green text-white hover:bg-accent-green/95 transition-all duration-300"
                   >
                     Confirm Diagnostic Slot
                   </button>
@@ -509,10 +510,10 @@ export default function ServicePageClient({ slug }: { slug: string }) {
 
       {/* Floating CTA */}
       <a 
-        href="https://wa.me/919962512345"
+        href="https://wa.me/917306243424"
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-6 left-6 z-40 flex items-center justify-center w-14 h-14 rounded-full bg-accent-green text-white shadow-lg"
+        className="fixed bottom-6 left-6 z-40 flex items-center justify-center w-14 h-14 rounded-full bg-accent-green text-white shadow-lg animate-pulse-slow"
       >
         <MessageCircle className="w-5 h-5 fill-white text-accent-green" />
       </a>

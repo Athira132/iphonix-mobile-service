@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Inter } from "next/font/google";
+import { Plus_Jakarta_Sans, Poppins } from "next/font/google";
 import "./globals.css";
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+const plusJakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-plus-jakarta-sans",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700", "800"],
   display: "swap",
 });
 
-const inter = Inter({
-  variable: "--font-inter",
+const poppins = Poppins({
+  variable: "--font-poppins",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
   display: "swap",
 });
 
@@ -73,7 +73,7 @@ export default function RootLayout({
     "image": "https://iphonix.in/logo.png",
     "@id": "https://iphonix.in/#localbusiness",
     "url": "https://iphonix.in",
-    "telephone": "+919962512345",
+    "telephone": "+917306243424",
     "priceRange": "$$",
     "address": {
       "@type": "PostalAddress",
@@ -189,7 +189,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${inter.variable} scroll-smooth`}
+      className={`${plusJakartaSans.variable} ${poppins.variable} scroll-smooth`}
     >
       <head>
         <script
@@ -205,7 +205,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
       </head>
-      <body className="antialiased min-h-screen text-white bg-bg-primary selection:bg-accent-blue/30 selection:text-white flex flex-col font-sans">
+      <body className="antialiased min-h-screen text-text-charcoal bg-bg-light selection:bg-accent-green/20 selection:text-accent-green flex flex-col font-sans">
         {children}
       </body>
     </html>
